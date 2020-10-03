@@ -1,7 +1,7 @@
 
 const GET_STANDUPS = `
 query getStandups($creator_slack_id: String!){
-  standup(where: {creator_slack_id: {_eq: $creator_slack_id}}){
+  standup(order_by: {created_at: desc},where: {creator_slack_id: {_eq: $creator_slack_id}}){
     id
     name
     message
@@ -25,29 +25,29 @@ const GET_CHANNEL_MEMBERS = `
   }
  } 
 `;
-// export const INSERT_STANDUP = gql`
-//   mutation MyMutation(
-//     $channel: String!
-//     $creator_slack_id: String!
-//     $cron_text: String!
-//     $message: String!
-//     $name: String!
-//     $questions: [String!]!
-//     $timezone: String!
-//   ) {
-//     insertStandup(
-//       channel: $channel
-//       creator_slack_id: $creator_slack_id
-//       cron_text: $cron_text
-//       message: $message
-//       name: $name
-//       questions: $questions
-//       timezone: $timezone
-//     ) {
-//       id
-//     }
-//   }
-// `;
+const INSERT_STANDUP = `
+  mutation createStandup(
+    $channel: String!
+    $creator_slack_id: String!
+    $cron_text: String!
+    $message: String!
+    $name: String!
+    $questions: [String!]!
+    $timezone: String!
+  ) {
+    insertStandup(
+      channel: $channel
+      creator_slack_id: $creator_slack_id
+      cron_text: $cron_text
+      message: $message
+      name: $name
+      questions: $questions
+      timezone: $timezone
+    ) {
+      id
+    }
+  }
+`;
 
 // export const DELETE_STANDUP = gql`
 //   mutation MyMutation($standup_id: uuid!) {
@@ -76,4 +76,4 @@ const GET_CHANNEL_MEMBERS = `
 //     }
 //   }
 // `;
-export { GET_STANDUPS, GET_CHANNEL_MEMBERS }
+export { GET_STANDUPS, GET_CHANNEL_MEMBERS, INSERT_STANDUP }

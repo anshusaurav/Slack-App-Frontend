@@ -4,7 +4,7 @@ import { WebClient } from "@slack/web-api";
 import HomePage from "./pages/HomePage";
 import Dashboard from "./pages/Dashboard";
 import CreateStandup from "./components/CreateStandup";
-
+import SingleStandup from "./components/SingleStandup"
 
 class App extends React.Component {
   constructor(props) {
@@ -83,7 +83,7 @@ class App extends React.Component {
   };
 
   render() {
-    // console.log(this.state.userProfileInfo);
+    console.log(this.state.userProfileInfo);
     return (
 
       <Router>
@@ -103,8 +103,13 @@ class App extends React.Component {
         <Route exact path="/dashboard/create">
           <CreateStandup
             channels={this.state.channels}
-            user={this.state.slackUser}
+            slackUser={this.state.slackUser}
           />
+        </Route>
+        <Route exact path='/standups/:id'>
+          <SingleStandup
+            slackUser={this.state.userProfileInfo}>
+          </SingleStandup>
         </Route>
       </Router>
 

@@ -43,8 +43,6 @@ class MyStandups extends React.Component {
       })
       console.log('dssdds', results);
       this.setState({ channelsIDmembersMap: uMap });
-
-
     });
   }
 
@@ -60,7 +58,7 @@ class MyStandups extends React.Component {
     const { standups, channelsIDNameMap, channelsIDmembersMap } = this.state;
     return (
       <>
-        <HeaderMyStandups userProfileInfo={this.props.userProfileInfo} />
+        <HeaderMyStandups title="My standups" userProfileInfo={this.props.userProfileInfo} />
 
         <div v-for="row in rows">
           {
