@@ -1,9 +1,7 @@
 module.exports = {
   plugins: [require("tailwindcss"), require("autoprefixer")],
   theme: {
-    boxShadow: {
-      outline: '0 0 8px 0 rgba(0,0,0,.16)'
-    },
+
     inset: {
       '0': 0,
       auto: 'auto',
@@ -11,6 +9,9 @@ module.exports = {
       '44': '44px'
     },
     extend: {
+      boxShadow: {
+        newtype: '0 0 8px 0 rgba(0,0,0,.16)'
+      },
       strokeWidth: {
         '3': '3',
         '4': '4',
