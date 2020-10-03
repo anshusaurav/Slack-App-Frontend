@@ -18,140 +18,7 @@ const days = [
   { id: 6, day: "S" },
 ];
 class CreateStandup extends Component {
-  // const [state, setState] = useState({
-  //   standupName: "",
-  //   message: "",
-  //   questions: [{ id: uuid(), text: "" }],
-  //   selectedChannels: [],
-  //   options: [],
-  //   cronDays: [1, 2, 3, 4, 5],
-  //   cronTime: "10:00 AM",
-  // });
 
-  // const {
-  //   standupName,
-  //   message,
-  //   selectedChannels,
-  //   options,
-  //   cronDays,
-  //   cronTime,
-  //   questions,
-  // } = state;
-
-  // const { channels, user } = props;
-
-  // function convertToOptions(channels) {
-  //   return channels.reduce((options, channel) => {
-  //     const option = {
-  //       id: channel.id,
-  //       value: channel.name,
-  //       label: channel.name,
-  //     };
-  //     options.push(option);
-  //     return options;
-  //   }, []);
-  // }
-
-  // useEffect(() => {
-  //   if (channels.length) {
-  //     const options = convertToOptions(channels);
-  //     setState({ ...state, options });
-  //   }
-  // }, [channels]);
-
-  // const handleSelection = (value) => {
-  //   setState({ ...state, selectedChannels: value });
-  // };
-
-  // const handleChange = ({ target: { name, value } }) => {
-  //   setState({ ...state, [name]: value });
-  // };
-
-  // const handleCronDays = (day) => {
-  //   if (!cronDays.includes(day)) {
-  //     setState({ ...state, cronDays: cronDays.concat(day) });
-  //   } else {
-  //     let filtered = cronDays.filter((el) => el !== day);
-  //     setState({ ...state, cronDays: filtered });
-  //   }
-  // };
-
-  // // const [insertStandup] = useMutation(INSERT_STANDUP);
-  // let history = useHistory();
-
-  // const days = [
-  //   { id: 0, day: "S" },
-  //   { id: 1, day: "M" },
-  //   { id: 2, day: "T" },
-  //   { id: 3, day: "W" },
-  //   { id: 4, day: "T" },
-  //   { id: 5, day: "F" },
-  //   { id: 6, day: "S" },
-  // ];
-
-  // function handleQuestionsOnChange(e, id) {
-  //   e.preventDefault();
-  //   let filter = questions.map((ques) => {
-  //     if (ques.id === id) {
-  //       ques.text = e.target.value;
-  //     }
-  //     return ques;
-  //   });
-  //   // console.log(filter);
-  //   setState({ ...state, questions: filter });
-  // }
-
-  // function handleQuestionDelete(e, id) {
-  //   e.preventDefault();
-  //   if (questions.length > 1) {
-  //     let filteredQues = questions.filter((ques) => ques.id !== id);
-  //     setState({ ...state, questions: filteredQues });
-  //   }
-  // }
-
-  // function handleAddMoreQuestion(e) {
-  //   e.preventDefault();
-  //   let newQues = { id: uuid(), text: "" };
-  //   setState({ ...state, questions: [...questions, newQues] });
-  // }
-
-  // function handleTimeValidation(e) {
-  //   let inputTime = e.target.value;
-  //   let regexp = /^(0?[1-9]|1[012])(:[0-5]\d) [APap][mM]$/;
-  //   let isTimeValid = regexp.test(inputTime);
-  //   if (!isTimeValid) {
-  //     setState({ ...state, cronTime: "10:00 AM" });
-  //   }
-  // }
-
-  // function cronGenerate() {
-  //   let minutes = `${cronTime.charAt(3)}${cronTime.charAt(4)}`;
-  //   let days = `${cronDays.sort().join()}`;
-  //   let hour = `${cronTime.charAt(0)}${cronTime.charAt(1)}`;
-  //   if (cronTime.includes("PM")) {
-  //     hour = `${cronTime.charAt(0)}${cronTime.charAt(1)}`;
-  //     hour = +hour + 12;
-  //   }
-  //   let cron = `${minutes} ${hour} * * ${days}`;
-  //   return cron;
-  // }
-
-  // function handleFormSubmit(e) {
-  //   e.preventDefault();
-
-  //   let dataToSend = {
-  //     channel: selectedChannels.length ? selectedChannels[0].id : "",
-  //     creator_slack_id: user.authed_user.id,
-  //     cron_text: cronGenerate(),
-  //     message: message.trim(),
-  //     name: standupName.trim(),
-  //     questions: questions.filter((ques) => ques.text).map((ques) => ques.text),
-  //     timezone: "Asia/Kolkata",
-  //   };
-  //   // console.log(dataToSend);
-  //   // insertStandup({ variables: dataToSend });
-  //   history.push("/dashboard");
-  // }
   constructor(props) {
     super(props);
     this.state = {
@@ -327,10 +194,18 @@ class CreateStandup extends Component {
                     type="submit"
                     className="border-2 px-12 py-2 rounded-full border-teal-500 font-medium hover:bg-teal-500 text-teal-500  outline-none hover:text-white"
                   >
-                    {isLoading ? (<><svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg> Saving</>) : (<> <HiCheck className="inline-block text-xl m-1 text-teal-500 cursor-pointer" /> Save</>)}
+                    {isLoading ? (
+                      <>
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+
+                          </path>
+                        </svg> Saving</>) : (<> <HiCheck className="inline-block text-xl m-1 text-teal-500 cursor-pointer" /> Save</>)}
                   </button>
                 ) : (
                   <button

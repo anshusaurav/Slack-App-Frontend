@@ -108,7 +108,8 @@ class App extends React.Component {
         </Route>
         <Route exact path='/standups/:id'>
           <SingleStandup
-            slackUser={this.state.userProfileInfo}>
+            slackUser={this.state.slackUser}
+            userProfileInfo={this.state.userProfileInfo}>
           </SingleStandup>
         </Route>
       </Router>

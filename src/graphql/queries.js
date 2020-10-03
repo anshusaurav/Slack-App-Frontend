@@ -49,6 +49,32 @@ const INSERT_STANDUP = `
   }
 `;
 
+const GET_SINGLE_STANDUP = `
+query getStandup($standup_id: uuid!) {
+  standup_by_pk(id: $standup_id){
+    id
+      name
+      message
+      cron_text
+      channel
+      question{
+        id
+        body
+        archived
+        index
+      }
+      creator_slack_id
+      timezone
+      paused
+      archived
+      created_at
+      updated_at
+    
+  }
+}
+
+  `
+
 // export const DELETE_STANDUP = gql`
 //   mutation MyMutation($standup_id: uuid!) {
 //     deleteStandup(standup_id: $standup_id) {

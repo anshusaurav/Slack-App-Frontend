@@ -1,6 +1,6 @@
 import React from "react";
-import { Link, withRouter } from 'react-router-dom'
-import HeaderMyStandups from "../components/HeaderMyStandups";
+import { NavLink, withRouter } from 'react-router-dom'
+import { HiCog } from "react-icons/hi";
 import { GET_CHANNEL_MEMBERS, GET_STANDUPS } from "./../graphql/queries"
 import { executeOperation, getCronAsString } from "./../graphql/helpers"
 import { remove_duplicates } from "./../slack/helpers"
@@ -15,7 +15,7 @@ class SingleStandup extends React.Component {
     }
     fetchStandups = async () => {
         const standupId = this.props.match.params.id;
-        console.log(this.props);
+        console.log(standupId);
         const creator_slack_id = JSON.parse(localStorage["user-data"]).authed_user.id;
         let res1 = await executeOperation(
             { creator_slack_id },
@@ -58,118 +58,56 @@ class SingleStandup extends React.Component {
 
     render() {
 
-        const { standups, channelsIDNameMap, channelsIDmembersMap } = this.state;
+        // const { standups, channelsIDNameMap, channelsIDmembersMap } = this.state;
         return (
-            <>
-                <HeaderMyStandups title="Test Slack Blocks " userProfileInfo={this.props.slackUser} />
+            <div className="shadow-inner px-8 py-4" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
+                <div className="max-w-screen-xl mx-auto">
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <span className="text-gray-700 font-medium text-sm">
+                                Dashboard / Test Slack blocks
+                            </span>
+                            <h1 className="pt-4 text-gray-800 font-bold text-4xl">
+                                {"Test Slack blocks"}
+                            </h1>
+                        </div>
+                        <NavLink
+                            to="/dashboard/create"
+                            className="border-2 px-12 py-2 rounded-full border-teal-500 font-medium hover:bg-teal-500 text-teal-500  hover:text-white"
+                        >
+                            <HiCog className="inline-block text-xl mb-1 text-teal-500 hover:bg-teal-500 cursor-pointer" />
+                            Manage
+                        </NavLink>
 
-                <div v-for="row in rows" className="shadow-lg bg-gray-200 shadow-inner">
-                    {
-                        standups.length && standups.map((standup, index) => (
-                            <Link>
-                                <div className="py-8 odd:bg-white even:bg-gray-600" key={index}>
-                                    <div className="max-w-screen-xl mx-auto p-8 hover:bg-white hover:shadow-lg flex justify-between items-center">
-                                        <div className="w-9/12">
+                    </div>
 
-                                            <h4 className="pt-4 text-4xl text-gray-700 font-bold">
-                                                {standup.name}
-                                            </h4>
+                    <div class="box-outline p-4 border-lg hover:bg-white hover:shadow-lg mt-6" style={{ boxShadow: "0 0 8px 0 rgba(0,0,0,.16)" }}>
+                        <h4 className="pb-4 font-bold text-gray-800">
+                            Schedule
+                        </h4>
+                        Weekly from Monday to Friday at 14:44 in user's local timezone.
+                    </div>
 
-                                            <h4 className="pt-4 text-1xl text-gray-500 text-1xl">
-                                                {getCronAsString(standup.cron_text) + " in " + standup.timezone + " timezone"}
-                                            </h4>
+                    <div className="flex flex-wrap mt-6">
+                        <div className="w-3/5 flex-none py-2">
+                            <h4 className="pb-4 font-bold text-gray-800">
+                                Questions
+                            </h4>
+                            <p>Weekly from Monday to Friday at 14:44 in user's local timezone.</p>
+                        </div>
+                        <div className="w-2/5 flex-none py-2">
+                            <div class="text-gray-700 text-center bg-gray-400 p-2">2</div>
+                        </div>
 
-                                            <div className="flex overflow-hidden mt-4 mb-8" >
-                                                {
-                                                    channelsIDmembersMap.get(standup.channel) && channelsIDmembersMap.get(standup.channel).images.filter((image, ind) => ind < 10).map((image, imgI) => {
-                                                        return (
+                    </div>
 
-                                                            <img className={"inline-block h-20 w-20 border-white border-4 rounded-full text-white shadow-solid " + (imgI === 0 ? "" : "-ml-4")}
-                                                                src={image}
-                                                                alt=""
-                                                                title={channelsIDmembersMap.get(standup.channel).real_names[imgI]} />
-
-                                                        )
-                                                    })
-                                                }
-                                                {
-                                                    channelsIDmembersMap.get(standup.channel) && (channelsIDmembersMap.get(standup.channel).images.length > 10) &&
-                                                    (
-                                                        <div className="-ml-4 flex h-20 w-20 border-white border-4 rounded-full text-grey bg-gray-300 shadow-solid items-center justify-center text-lg text-gray-600 font-bold">
-                                                            {`+${channelsIDmembersMap.get(standup.channel).images.length - 10}`}
-                                                        </div>
-                                                    )
-                                                }
-                                            </div>
-
-
-                                            <span className="mt-4 text-gray-700 font-bold text-base border-solid border-2 border-gray-700 rounded-lg pl-4 pr-4">
-                                                {channelsIDNameMap.get(standup.channel)}
-                                            </span>
-                                        </div>
-                                        <div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link >
-                        ))
-
-                    }
                 </div>
-            </>
+            </div>
         )
     }
 }
-export default withRouter(SingleStandup);
+export default withRouter(SingleStandup)
 
+// transition: box-shadow .2s ease,-webkit-box-shadow .2s ease;
 
-
-// export default function MyStandups(props) {
-//   return (
-//     <>
-//       <HeaderMyStandups userProfileInfo={props.userProfileInfo} />
-//       <Standups slackUser={props.slackUser} />
-//     </>
-//   );
-// }
-
-// function Standups(props) {
-//   let data = [];
-//   return data.map((standup) => (
-//     <div className="py-8 border-2" key={uuid()}>
-//       <div className="max-w-screen-xl mx-auto p-8 hover:bg-white hover:shadow-lg flex justify-between items-center">
-//         <div className="w-9/12">
-//           <h4 className="pt-4 text-gray-700 font-bold text-1xl">
-//             Standup Id: {standup.id}
-//           </h4>
-//           <h4 className="pt-4 text-gray-700 font-bold text-1xl">
-//             Standup Name: {standup.name}
-//           </h4>
-//           <h4 className="pt-4 text-gray-700 font-bold text-1xl">
-//             Message: {standup.message}
-//           </h4>
-//           <h4 className="pt-4 text-gray-700 font-bold text-1xl">
-//             Channel: {standup.channel}
-//           </h4>
-//           <h4 className="pt-4 text-gray-700 font-bold text-1xl">
-//             Creatar Slack Id: {standup.creator_slack_id}
-//           </h4>
-//           <h4 className="pt-4 text-gray-700 font-bold text-1xl">
-//             Cron Text: {standup.cron_text}
-//           </h4>
-//         </div>
-//         <div>
-//           <button
-//             className="bg-blue-800 text-white rounded-full py-1 px-3 hover:bg-blue-700"
-//           >
-//             Delete
-//           </button>
-//           <button className="bg-blue-800 text-white rounded-full py-1 px-3 hover:bg-blue-700">
-//             Update
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   ));
-// }
+//box-shadow: 0 0 8px 0 rgba(0,0,0,.16);
