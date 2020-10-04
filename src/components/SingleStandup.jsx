@@ -2,13 +2,14 @@ import React from "react";
 import { NavLink, withRouter } from 'react-router-dom'
 import { HiCog } from "react-icons/hi";
 import { GoPrimitiveDot } from "react-icons/go"
-import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
-import NiceDatePicker from "./DatePicker"
-import { GET_CHANNEL_MEMBERS, GET_STANDUPS } from "./../graphql/queries"
+import stc from 'string-to-color'
+import { GET_SINGLE_STANDUP, GET_CHANNEL_MEMBERS } from "./../graphql/queries"
 import { executeOperation, getCronAsString } from "./../graphql/helpers"
 import { remove_duplicates } from "./../slack/helpers"
-import PieChart from "./PieChart"
-
+import Timeline from "./Timeline"
+import Insights from "./Insights"
+import Sidebar from "./Sidebar";
+import GMT from "./GMT";
 
 class SingleStandup extends React.Component {
     constructor(props) {
@@ -18,42 +19,41 @@ class SingleStandup extends React.Component {
             standups: [],
             channelsIDNameMap: new Map(),
             channelsIDmembersMap: new Map(),
-            data: [{ date: 0, value: 10 }, { date: 0, value: 90 }]
+            data: [{ date: 0, value: 50 }, { date: 0, value: 50 }]
         }
     }
-    fetchStandups = async () => {
-        const standupId = this.props.match.params.id;
-        console.log(standupId);
+    fetchStandup = async () => {
+        const standup_id = this.props.match.params.id;
+        // console.log(standupId);
         const creator_slack_id = JSON.parse(localStorage["user-data"]).authed_user.id;
         let res1 = await executeOperation(
-            { creator_slack_id },
-            GET_STANDUPS
+            { standup_id },
+            GET_SINGLE_STANDUP
         );
-        // this.setState({ standups: res1.data.standup });
+        console.log('dsada', res1);
         const channels = JSON.parse(localStorage.channels);
-        // console.log(res1, channels);
-        let map = new Map();
-        channels.forEach(channel => {
-            map.set(channel.id, channel.name);
-        })
-        this.setState({ channelsIDNameMap: map, standups: res1.data.standup }, async () => {
-            const uMap = new Map();
-            let arr = Array.from(this.state.standups.map(standup => standup.channel));
-            arr = remove_duplicates(arr);
-            let requests = arr.map(key => {
-                return (executeOperation(
-                    { channel: key },
-                    GET_CHANNEL_MEMBERS
-                ));
-            });
-            const results = await Promise.all(requests);
-            results.forEach((result, index) => {
-                if (result.data && result.data.getMembers)
-                    uMap.set(arr[index], result.data.getMembers);
-            })
-            console.log('dssdds', results);
-            this.setState({ channelsIDmembersMap: uMap });
-        });
+        // let map = new Map();
+        // channels.forEach(channel => {
+        //     map.set(channel.id, channel.name);
+        // })
+        // this.setState({ channelsIDNameMap: map, standups: res1.data.standup }, async () => {
+        //     const uMap = new Map();
+        //     let arr = Array.from(this.state.standups.map(standup => standup.channel));
+        //     arr = remove_duplicates(arr);
+        //     let requests = arr.map(key => {
+        //         return (executeOperation(
+        //             { channel: key },
+        //             GET_CHANNEL_MEMBERS
+        //         ));
+        //     });
+        //     const results = await Promise.all(requests);
+        //     results.forEach((result, index) => {
+        //         if (result.data && result.data.getMembers)
+        //             uMap.set(arr[index], result.data.getMembers);
+        //     })
+        //     console.log('dssdds', results);
+        //     this.setState({ channelsIDmembersMap: uMap });
+        // });
     }
 
     setOpenTab = (e) => {
@@ -63,8 +63,8 @@ class SingleStandup extends React.Component {
         this.setState({ openTab: toggleId })
     }
     componentDidMount() {
-        this.fetchStandups();
-        console.log(this.props);
+        this.fetchStandup();
+        // console.log(this.props);
     }
     componentDidUpdate(prevProps, prevState) {
 
@@ -75,6 +75,8 @@ class SingleStandup extends React.Component {
         // const { standups, channelsIDNameMap, channelsIDmembersMap } = this.state;
         return (
             <>
+                <Sidebar />
+
                 <div className="shadow-inner px-8 py-6" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
                     <div className="max-w-screen-xl mx-auto">
                         <div className="flex justify-between items-center">
@@ -90,7 +92,7 @@ class SingleStandup extends React.Component {
                                 to="/dashboard/create"
                                 className="border-2 px-12 py-2 rounded-full border-teal-500 font-medium hover:bg-teal-500 text-teal-500  hover:text-white hover:shadow-xl"
                             >
-                                <HiCog className="inline-block text-xl mb-1 text-teal-500 hover:bg-teal-500 cursor-pointer" />
+                                <HiCog className="inline-block text-xl mb-1 mr-2 cursor-pointer" />
                             Manage
                         </NavLink>
 
@@ -108,9 +110,9 @@ class SingleStandup extends React.Component {
                                 <h4 className="pb-4 font-bold text-gray-800">
                                     Questions
                             </h4>
-                                <p className="mb-2"><GoPrimitiveDot className="inline-block text-xl mb-1 text-teal-500 " />What did you do yesterday?</p>
-                                <p className="mb-2"><GoPrimitiveDot className="inline-block text-xl mb-1 text-teal-500 " />What are you planning to do today?</p>
-                                <p className="mb-2"><GoPrimitiveDot className="inline-block text-xl mb-1 text-teal-500 " />Is there anything blocking your progress?</p>
+                                <p className="mb-2"><GoPrimitiveDot className="inline-block text-xl mb-1 text-teal-500" style={{ color: stc("What did you do yesterday?") }}></GoPrimitiveDot> What did you do yesterday?</p>
+                                <p className="mb-2"><GoPrimitiveDot className="inline-block text-xl mb-1 text-teal-500 " style={{ color: stc("What are you planning to do today?") }} />What are you planning to do today?</p>
+                                <p className="mb-2"><GoPrimitiveDot className="inline-block text-xl mb-1 text-teal-500 " style={{ color: stc("Is there anything blocking your progress?") }} />Is there anything blocking your progress?</p>
                             </div>
                             <div className="flex-auto flex flex-col ">
                                 <div className="p-4 bg-white shadow-newtype mb-6 rounded-lg">
@@ -184,366 +186,9 @@ class SingleStandup extends React.Component {
                                         <div>
                                             {
                                                 openTab === 1 ? (
-                                                    <div className="bg-white">
-                                                        <div className="flex items-center justify-between">
-                                                            <div className="flex items-center">
-                                                                <div>
-                                                                    <button className="w-12 h-12 focus:outline-none  shadow-newtype rounded-full flex items-center justify-center">
-                                                                        <HiArrowLeft className="inline-block text-xl text-bold m-1 text-gray-500 cursor-pointer" />
-                                                                    </button>
-                                                                </div>
-                                                                <div className="mx-6  font-bold">
-                                                                    Thursday, Oct 1st
-                                                                </div>
-                                                                <div>
-                                                                    <button className="w-12 h-12 focus:outline-none  shadow-newtype rounded-full flex items-center justify-center">
-                                                                        <HiArrowRight className="inline-block text-xl text-bold m-1 text-gray-500 cursor-pointer" />
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex flex-wrap space-x-3 mt-4">
-                                                            <div className="flex-auto p-4 px-3">
-                                                                <div className="border-solid border border-gray-400 rounded-lg">
-                                                                    <div className="">
-                                                                        <div className="border-b border-gray-300 p-6">
-                                                                            <p className="font-bold text-xl tracking-wide">
-                                                                                <GoPrimitiveDot className="inline-block text-xl mb-1 text-teal-500 mr-2" />
-                                                                                What did you do yesterday?
-                                                                            </p>
-                                                                        </div>
-                                                                        <div className="pr-10 pl-4">
-                                                                            <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
-                                                                                <div className="flex py-4">
-                                                                                    <div className="flex flex-2">
-                                                                                        <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
-                                                                                    </div>
-                                                                                    <div className="w-full ml-2">
-                                                                                        <h4 className="leading-6 font-bold text-lg tracking-wide">Mark Taylor</h4>
-                                                                                        <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div className="flex py-4 border-t">
-                                                                                    <div className="flex flex-2">
-                                                                                        <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80" />
-                                                                                    </div>
-                                                                                    <div className="w-full ml-2 ">
-                                                                                        <h4 className="leading-6 font-bold text-lg tracking-wide">Mark Taylor</h4>
-                                                                                        <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div className="flex py-4 border-t">
-                                                                                    <div className="flex flex-2">
-                                                                                        <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
-                                                                                    </div>
-                                                                                    <div className="w-full ml-2 ">
-                                                                                        <h4 className="leading-6 font-bold text-lg tracking-wide">Mark Taylor</h4>
-                                                                                        <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="border-t flex justify-end p-6 text-gray-600 text-lg tracking-wide">
-                                                                            3 total responses
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="border-solid border border-gray-400 rounded-lg mt-2">
-                                                                    <div className="">
-                                                                        <div className="border-b border-gray-300 p-6">
-                                                                            <p className="font-bold text-xl tracking-wide">
-                                                                                <GoPrimitiveDot className="inline-block text-xl mb-1 text-teal-500 mr-2" />
-                                                                                What are you planning to do today?
-                                                                            </p>
-                                                                        </div>
-                                                                        <div className="pr-10 pl-4">
-                                                                            <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
-                                                                                <div className="flex py-4">
-                                                                                    <div className="flex flex-2">
-                                                                                        <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
-                                                                                    </div>
-                                                                                    <div className="w-full ml-2">
-                                                                                        <h4 className="leading-6 font-bold text-lg tracking-wide">Mark Taylor</h4>
-                                                                                        <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div className="flex py-4 border-t">
-                                                                                    <div className="flex flex-2">
-                                                                                        <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80" />
-                                                                                    </div>
-                                                                                    <div className="w-full ml-2 ">
-                                                                                        <h4 className="leading-6 font-bold text-lg tracking-wide">Mark Taylor</h4>
-                                                                                        <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div className="flex py-4 border-t">
-                                                                                    <div className="flex flex-2">
-                                                                                        <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
-                                                                                    </div>
-                                                                                    <div className="w-full ml-2 ">
-                                                                                        <h4 className="leading-6 font-bold text-lg tracking-wide">Mark Taylor</h4>
-                                                                                        <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="border-t flex justify-end p-6 text-gray-600 text-lg tracking-wide">
-                                                                            3 total responses
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="flex-auto p-4 px-3">
-                                                                <div className="border-solid border border-gray-400 rounded-lg p-6">
-                                                                    <h2 className="leading-6 font-bold text-xl tracking-wider mb-4">
-                                                                        Participation
-                                                                    </h2>
-                                                                    <div className="flex flex-col items-center">
-
-                                                                        <PieChart data={data}
-                                                                            width={240}
-                                                                            height={240}
-                                                                            innerRadius={96}
-                                                                            outerRadius={120}>
-
-                                                                        </PieChart>
-                                                                        <p className="mt-6 tracking-wider">Reported: <strong>2</strong> people out of <strong>8</strong></p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <Insights />
                                                 ) : (
-                                                        <div className="bg-white">
-                                                            {/* <div className="">
-                                                                <div className="relative m-0 p-0 clear-both text-center leading-4 text-base font-bold">
-                                                                    <div className="absolute border-solid border-t top-8 right-0 left-0 m-0">
-                                                                    </div>
-                                                                    <div className="bg-white inline-block relative px-4 py-1 mx-auto my-0">
-                                                                        Wednesday, September 30th
-                                                                    </div>
-                                                                </div>
-                                                            </div> */}
-
-                                                            <div className="flex flex-wrap space-x-3 mt-4">
-                                                                <div className="flex-auto p-4 px-3">
-                                                                    <div className="rounded-lg">
-                                                                        <div className="relative m-0 p-0 clear-both text-center leading-4 text-base font-bold">
-                                                                            <div className="absolute border-solid border-t border-gray-500 top-8 right-0 left-0 m-0">
-                                                                            </div>
-                                                                            <div className="bg-white inline-block relative px-4 py-1 mx-auto my-0">
-                                                                                Wednesday, September 30th
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="mb-2">
-                                                                            <div className="flex py-4 items-center">
-                                                                                <div className="flex flex-2">
-                                                                                    <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
-                                                                                </div>
-                                                                                <div className="w-full ml-2">
-                                                                                    <span className="leading-6 font-bold text-xl tracking-wide">Mark Taylor</span>
-                                                                                    <span className="inline-block text-lg tracking-wide mx-2">  11:53 PM </span>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="pr-10 pl-12">
-                                                                                <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
-                                                                                    <div className="relative my-4 px-3">
-                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
-
-                                                                                        </div>
-                                                                                        <div className="w-full ml-2">
-                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What did you accomplish yesterday</h4>
-                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="relative my-4 px-3">
-                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
-
-                                                                                        </div>
-                                                                                        <div className="w-full ml-2">
-                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What are you planning to do today?</h4>
-                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="relative my-4 px-3">
-                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
-
-                                                                                        </div>
-                                                                                        <div className="w-full ml-2">
-                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">Is there anything blocking your progress</h4>
-                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div className="mb-2">
-                                                                            <div className="flex py-4 items-center">
-                                                                                <div className="flex flex-2">
-                                                                                    <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
-                                                                                </div>
-                                                                                <div className="w-full ml-2">
-                                                                                    <span className="leading-6 font-bold text-xl tracking-wide">Mark Taylor</span>
-                                                                                    <span className="inline-block text-lg tracking-wide mx-2">  11:53 PM </span>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="pr-10 pl-12">
-                                                                                <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
-                                                                                    <div className="relative my-4 px-3">
-                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
-
-                                                                                        </div>
-                                                                                        <div className="w-full ml-2">
-                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What did you accomplish yesterday</h4>
-                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="relative my-4 px-3">
-                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
-
-                                                                                        </div>
-                                                                                        <div className="w-full ml-2">
-                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What are you planning to do today?</h4>
-                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="relative my-4 px-3">
-                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
-
-                                                                                        </div>
-                                                                                        <div className="w-full ml-2">
-                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">Is there anything blocking your progress</h4>
-                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="rounded-lg">
-                                                                        <div className="relative m-0 p-0 clear-both text-center leading-4 text-base font-bold">
-                                                                            <div className="absolute border-solid border-t border-gray-500 top-8 right-0 left-0 m-0">
-                                                                            </div>
-                                                                            <div className="bg-white inline-block relative px-4 py-1 mx-auto my-0">
-                                                                                Thursday, October 1st
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="mb-2">
-                                                                            <div className="flex py-4 items-center">
-                                                                                <div className="flex flex-2">
-                                                                                    <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
-                                                                                </div>
-                                                                                <div className="w-full ml-2">
-                                                                                    <span className="leading-6 font-bold text-xl tracking-wide">Mark Taylor</span>
-                                                                                    <span className="inline-block text-lg tracking-wide mx-2">  11:53 PM </span>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="pr-10 pl-12">
-                                                                                <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
-                                                                                    <div className="relative my-4 px-3">
-                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
-
-                                                                                        </div>
-                                                                                        <div className="w-full ml-2">
-                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What did you accomplish yesterday</h4>
-                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="relative my-4 px-3">
-                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
-
-                                                                                        </div>
-                                                                                        <div className="w-full ml-2">
-                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What are you planning to do today?</h4>
-                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="relative my-4 px-3">
-                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
-
-                                                                                        </div>
-                                                                                        <div className="w-full ml-2">
-                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">Is there anything blocking your progress</h4>
-                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div className="mb-2">
-                                                                            <div className="flex py-4 items-center">
-                                                                                <div className="flex flex-2">
-                                                                                    <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
-                                                                                </div>
-                                                                                <div className="w-full ml-2">
-                                                                                    <span className="leading-6 font-bold text-xl tracking-wide">Mark Taylor</span>
-                                                                                    <span className="inline-block text-lg tracking-wide mx-2">  11:53 PM </span>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="pr-10 pl-12">
-                                                                                <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
-                                                                                    <div className="relative my-4 px-3">
-                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
-
-                                                                                        </div>
-                                                                                        <div className="w-full ml-2">
-                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What did you accomplish yesterday</h4>
-                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="relative my-4 px-3">
-                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
-
-                                                                                        </div>
-                                                                                        <div className="w-full ml-2">
-                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What are you planning to do today?</h4>
-                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="relative my-4 px-3">
-                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
-
-                                                                                        </div>
-                                                                                        <div className="w-full ml-2">
-                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">Is there anything blocking your progress</h4>
-                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-                                                                <div className="flex-auto p-4 px-3" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
-                                                                    <div className=" rounded-lg p-6">
-                                                                        <h2 className="leading-6 font-bold text-xl tracking-wider mb-4">
-                                                                            Date Range
-                                                                        </h2>
-                                                                        <div className="flex flex-col">
-                                                                            <NiceDatePicker />
-                                                                        </div>
-
-                                                                        <h2 className="leading-6 font-bold text-xl tracking-wider mb-4">
-                                                                            Participants
-                                                                        </h2>
-                                                                        <div className="flex flex-col">
-
-                                                                        </div>
-                                                                        <h2 className="leading-6 font-bold text-xl tracking-wider mb-4">
-                                                                            Questions
-                                                                        </h2>
-                                                                        <div className="flex flex-col">
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        <Timeline />
                                                     )
                                             }
                                         </div>

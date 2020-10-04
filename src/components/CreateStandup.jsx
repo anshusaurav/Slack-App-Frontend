@@ -30,7 +30,7 @@ class CreateStandup extends Component {
       timezones: [],
       cronDays: [1, 2, 3, 4, 5],
       cronTime: "10:00 AM",
-      selectedTimezone: ["(GMT+05:30) Asia/Kolkata"],
+      selectedTimezone: [{ id: "(GMT+05:30) Asia/Kolkata", value: "(GMT+05:30) Asia/Kolkata", label: "(GMT+05:30) Asia/Kolkata" }],
       isLoading: false
     }
   }
@@ -246,9 +246,9 @@ class CreateStandup extends Component {
                   <DropDownSelect
                     name="selectedTimezone"
                     options={timezones}
-                    placeholder="Select Timezone..."
+                    placeholder={selectedTimezone.length ? selectedTimezone[0].id : ""}
                     onChange={this.handleSelectionTimezone}
-                    value={selectedTimezone}
+                    values={selectedTimezone[0].id}
                   />
                   <div className="flex items-center pb-1">
                     <h1 className="font-bold text-lg text-gray-700">Days</h1>
@@ -258,7 +258,7 @@ class CreateStandup extends Component {
                       return (
                         <button
                           key={uuid()}
-                          className="py-2 px-4 bg-blue-800 border-2 mx-1 rounded-full text-teal-500 font-bold"
+                          className="w-12 h-12 bg-blue-800 border-2 mx-1 rounded-circle text-teal-500 font-bold focus:outline-none hover:border-gray-300"
                           onClick={() => this.handleCronDays(btn.id)}
                           type="button"
                         >
@@ -269,7 +269,7 @@ class CreateStandup extends Component {
                       return (
                         <button
                           key={uuid()}
-                          className="py-2 px-4 bg-transparent border-2 mx-1 rounded-full text-black font-bold"
+                          className="w-12 h-12 bg-transparent border-2 mx-1 rounded-circle text-black font-bold focus:outline-none hover:border-gray-300"
                           onClick={() => this.handleCronDays(btn.id)}
                           type="button"
                         >
@@ -339,7 +339,8 @@ class CreateStandup extends Component {
             </div>
             <button
               onClick={this.handleAddMoreQuestion}
-              className="p-1 border-2 bg-gray-100 text-sm rounded-lg"
+
+              className="p-1 border-2 bg-gray-100 text-sm rounded-lg focus:outline-none hover:bg-white hover:border-gray-300"
             >
               + Add Question
           </button>

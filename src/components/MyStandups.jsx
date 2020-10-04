@@ -65,7 +65,7 @@ class MyStandups extends React.Component {
 
         <div v-for="row in rows">
           {
-            standups.length && standups.map((standup, index) => (
+            standups.length !== 0 && standups.map((standup, index) => (
               <Link to={"/standups/" + standup.id}>
                 <div className="py-8 odd:bg-white even:bg-gray-600" key={index}>
                   <div className="max-w-screen-xl mx-auto p-8 hover:bg-white hover:shadow-lg flex justify-between items-center">

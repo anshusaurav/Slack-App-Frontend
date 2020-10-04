@@ -34,6 +34,7 @@ class PieChart extends Component {
             .attr("font-weight", "700")
             .attr("fill", "gray")
             .text(num + "%");
+
         const group = svg
             .append("g")
             .attr("transform", `translate(${outerRadius} ${outerRadius})`);

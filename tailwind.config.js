@@ -10,16 +10,26 @@ module.exports = {
 
 
     extend: {
+      maxWidth: {
+        '3/4': '75%',
+      },
       inset: {
-        '0': 0,
+        '0': '0',
         auto: 'auto',
         '1/2': '50%',
         '44': '44px',
-        '8': '8px',
-        '24': '24px'
+        '1': '1rem',
+        '2': '2rem',
+        '6': '6rem',
+        '7': '7rem',
+        '8': '8rem',
+
+
+        '-192': '-192px'
       },
       flex: {
         '2': '1 0 auto',
+        '3': '0 0 auto'
       },
       borderRadius: {
         'circle': '50%',
@@ -66,9 +76,21 @@ module.exports = {
           "80%, 90%": {
             stroke: "#fff"
           },
+        },
+        fadesunnyin: {
+          "0%": {
+            opacity: "0"
+          },
+          // "50%": {
+          //   opacity: "0.5"
+          // },
+          "100%": {
+            opacity: "1"
+          }
         }
       },
       animation: {
+        fadesunnyin: "fadesunnyin 0.75s ease-in-out",
         wiggle: "wiggle 1s ease-in-out infinite",
         rotate: "rotate 2s linear infinite",
         dash: "dash 1.5s ease-in-out infinite, colorwhite 6s ease-in-out infinite"

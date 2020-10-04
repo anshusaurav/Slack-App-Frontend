@@ -57,7 +57,7 @@ query getStandup($standup_id: uuid!) {
       message
       cron_text
       channel
-      question{
+      questions{
         id
         body
         archived
@@ -102,4 +102,4 @@ query getStandup($standup_id: uuid!) {
 //     }
 //   }
 // `;
-export { GET_STANDUPS, GET_CHANNEL_MEMBERS, INSERT_STANDUP }
+export { GET_STANDUPS, GET_CHANNEL_MEMBERS, INSERT_STANDUP, GET_SINGLE_STANDUP }
