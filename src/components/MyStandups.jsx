@@ -4,6 +4,13 @@ import HeaderMyStandups from "../components/HeaderMyStandups";
 import { GET_CHANNEL_MEMBERS, GET_STANDUPS } from "./../graphql/queries"
 import { executeOperation, getCronAsString } from "./../graphql/helpers"
 import { remove_duplicates } from "./../slack/helpers"
+import Sidebar from "./Sidebar"
+import { NavLink, withRouter } from 'react-router-dom'
+import { HiCog } from "react-icons/hi";
+import { GoPrimitiveDot } from "react-icons/go"
+import stc from 'string-to-color'
+
+import GMT from "./GMT";
 class MyStandups extends React.Component {
   constructor(props) {
     super(props);
@@ -58,118 +65,78 @@ class MyStandups extends React.Component {
     const { standups, channelsIDNameMap, channelsIDmembersMap } = this.state;
     return (
       <>
-        <HeaderMyStandups title="My standups" userProfileInfo={this.props.userProfileInfo} />
+        <Sidebar />
+        <div className="shadow-inner py-6" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
+          <div className="max-w-screen-xl mx-auto">
+            <div className="flex justify-between items-center px-8">
+              <div>
+                <span className="text-gray-700 font-medium text-sm">
+                  Dashboard / Home
+                            </span>
+                <h1 className="pt-4 text-gray-800 font-bold text-4xl">
+                  {"My Standups"}
+                </h1>
+              </div>
+              <button
+                className="border-2 px-12 py-2 rounded-full border-teal-500 font-medium hover:bg-teal-500 text-teal-500  hover:text-white hover:shadow-xl"
+              >
+                <HiCog className="inline-block text-xl mb-1 mr-2 cursor-pointer" />
+                            New Standup
+              </button>
 
+            </div>
+            <div className="mt-8" v-for="item in itemList">
+              {
+                standups.length !== 0 && standups.map((standup, index) => (
+                  <Link className="w-full" to={"/standups/" + standup.id}>
 
+                    <div className="mx-8 p-8 hover:bg-white hover:shadow-newtype flex justify-between items-center">
+                      <div className="w-9/12">
 
+                        <h4 className="pt-4 text-4xl text-gray-700 font-bold">
+                          {standup.name}
+                        </h4>
+                        <h4 className="pt-4 text-1xl text-gray-500 text-1xl">
+                          {getCronAsString(standup.cron_text) + " in " + standup.timezone + " timezone"}
+                        </h4>
+                        <div className="flex overflow-hidden mt-4 mb-8" >
+                          {
+                            channelsIDmembersMap.get(standup.channel) && channelsIDmembersMap.get(standup.channel).images.filter((image, ind) => ind < 10).map((image, imgI) => {
+                              return (
 
-        <div v-for="row in rows">
-          {
-            standups.length !== 0 && standups.map((standup, index) => (
-              <Link to={"/standups/" + standup.id}>
-                <div className="py-8 odd:bg-white even:bg-gray-600" key={index}>
-                  <div className="max-w-screen-xl mx-auto p-8 hover:bg-white hover:shadow-lg flex justify-between items-center">
-                    <div className="w-9/12">
+                                <img className={"inline-block h-20 w-20 border-white border-4 rounded-full text-white shadow-solid " + (imgI === 0 ? "" : "-ml-4")}
+                                  src={image}
+                                  alt=""
+                                  title={channelsIDmembersMap.get(standup.channel).real_names[imgI]} />
 
-                      <h4 className="pt-4 text-4xl text-gray-700 font-bold">
-                        {standup.name}
-                      </h4>
-
-                      <h4 className="pt-4 text-1xl text-gray-500 text-1xl">
-                        {getCronAsString(standup.cron_text) + " in " + standup.timezone + " timezone"}
-                      </h4>
-
-                      <div className="flex overflow-hidden mt-4 mb-8" >
-                        {
-                          channelsIDmembersMap.get(standup.channel) && channelsIDmembersMap.get(standup.channel).images.filter((image, ind) => ind < 10).map((image, imgI) => {
-                            return (
-
-                              <img className={"inline-block h-20 w-20 border-white border-4 rounded-full text-white shadow-solid " + (imgI === 0 ? "" : "-ml-4")}
-                                src={image}
-                                alt=""
-                                title={channelsIDmembersMap.get(standup.channel).real_names[imgI]} />
-
+                              )
+                            })
+                          }
+                          {
+                            channelsIDmembersMap.get(standup.channel) && (channelsIDmembersMap.get(standup.channel).images.length > 10) &&
+                            (
+                              <div className="-ml-4 flex h-20 w-20 border-white border-4 rounded-full text-grey bg-gray-300 shadow-solid items-center justify-center text-lg text-gray-600 font-bold">
+                                {`+${channelsIDmembersMap.get(standup.channel).images.length - 10}`}
+                              </div>
                             )
-                          })
-                        }
-                        {
-                          channelsIDmembersMap.get(standup.channel) && (channelsIDmembersMap.get(standup.channel).images.length > 10) &&
-                          (
-                            <div className="-ml-4 flex h-20 w-20 border-white border-4 rounded-full text-grey bg-gray-300 shadow-solid items-center justify-center text-lg text-gray-600 font-bold">
-                              {`+${channelsIDmembersMap.get(standup.channel).images.length - 10}`}
-                            </div>
-                          )
-                        }
+                          }
+                        </div>
+                        <span className="mt-4 text-gray-700 font-bold text-base border-solid border-2 border-gray-700 rounded-lg pl-4 pr-4">
+                          {channelsIDNameMap.get(standup.channel)}
+                        </span>
                       </div>
+                      <div>
 
-
-                      <span className="mt-4 text-gray-700 font-bold text-base border-solid border-2 border-gray-700 rounded-lg pl-4 pr-4">
-                        {channelsIDNameMap.get(standup.channel)}
-                      </span>
+                      </div>
                     </div>
-                    <div>
-
-                    </div>
-                  </div>
-                </div>
-              </Link >
-            ))
-
-          }
+                  </Link >
+                ))
+              }
+            </div>
+          </div>
         </div>
       </>
     )
   }
 }
 export default MyStandups;
-
-
-
-// export default function MyStandups(props) {
-//   return (
-//     <>
-//       <HeaderMyStandups userProfileInfo={props.userProfileInfo} />
-//       <Standups slackUser={props.slackUser} />
-//     </>
-//   );
-// }
-
-// function Standups(props) {
-//   let data = [];
-//   return data.map((standup) => (
-//     <div className="py-8 border-2" key={uuid()}>
-//       <div className="max-w-screen-xl mx-auto p-8 hover:bg-white hover:shadow-lg flex justify-between items-center">
-//         <div className="w-9/12">
-//           <h4 className="pt-4 text-gray-700 font-bold text-1xl">
-//             Standup Id: {standup.id}
-//           </h4>
-//           <h4 className="pt-4 text-gray-700 font-bold text-1xl">
-//             Standup Name: {standup.name}
-//           </h4>
-//           <h4 className="pt-4 text-gray-700 font-bold text-1xl">
-//             Message: {standup.message}
-//           </h4>
-//           <h4 className="pt-4 text-gray-700 font-bold text-1xl">
-//             Channel: {standup.channel}
-//           </h4>
-//           <h4 className="pt-4 text-gray-700 font-bold text-1xl">
-//             Creatar Slack Id: {standup.creator_slack_id}
-//           </h4>
-//           <h4 className="pt-4 text-gray-700 font-bold text-1xl">
-//             Cron Text: {standup.cron_text}
-//           </h4>
-//         </div>
-//         <div>
-//           <button
-//             className="bg-blue-800 text-white rounded-full py-1 px-3 hover:bg-blue-700"
-//           >
-//             Delete
-//           </button>
-//           <button className="bg-blue-800 text-white rounded-full py-1 px-3 hover:bg-blue-700">
-//             Update
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   ));
-// }
