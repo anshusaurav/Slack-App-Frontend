@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.20.0",
     "d3": "^6.2.0",
+    "date-fns": "^2.16.1",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
     "qs": "^6.9.4",
@@ -20,6 +21,7 @@
     "react-https-redirect": "^1.1.0",
     "react-icons": "^3.11.0",
     "react-loader-spinner": "^3.1.14",
+    "react-nice-dates": "^3.0.7",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
     "uuid": "^8.3.0"

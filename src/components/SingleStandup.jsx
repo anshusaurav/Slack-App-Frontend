@@ -3,6 +3,7 @@ import { NavLink, withRouter } from 'react-router-dom'
 import { HiCog } from "react-icons/hi";
 import { GoPrimitiveDot } from "react-icons/go"
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
+import NiceDatePicker from "./DatePicker"
 import { GET_CHANNEL_MEMBERS, GET_STANDUPS } from "./../graphql/queries"
 import { executeOperation, getCronAsString } from "./../graphql/helpers"
 import { remove_duplicates } from "./../slack/helpers"
@@ -313,25 +314,246 @@ class SingleStandup extends React.Component {
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                        <p>
-                                                            Completely synergize resource taxing relationships via
-                                                            premier niche markets. Professionally cultivate one-to-one
-                                                            customer service with robust ideas.
-                                                            <br />
-                                                            <br />
-                                                            Dynamically innovate resource-leveling customer service for
-                                                            state of the art customer service.
-                                                        </p>
+                                                        <div className="bg-white">
+                                                            {/* <div className="">
+                                                                <div className="relative m-0 p-0 clear-both text-center leading-4 text-base font-bold">
+                                                                    <div className="absolute border-solid border-t top-8 right-0 left-0 m-0">
+                                                                    </div>
+                                                                    <div className="bg-white inline-block relative px-4 py-1 mx-auto my-0">
+                                                                        Wednesday, September 30th
+                                                                    </div>
+                                                                </div>
+                                                            </div> */}
+
+                                                            <div className="flex flex-wrap space-x-3 mt-4">
+                                                                <div className="flex-auto p-4 px-3">
+                                                                    <div className="rounded-lg">
+                                                                        <div className="relative m-0 p-0 clear-both text-center leading-4 text-base font-bold">
+                                                                            <div className="absolute border-solid border-t border-gray-500 top-8 right-0 left-0 m-0">
+                                                                            </div>
+                                                                            <div className="bg-white inline-block relative px-4 py-1 mx-auto my-0">
+                                                                                Wednesday, September 30th
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="mb-2">
+                                                                            <div className="flex py-4 items-center">
+                                                                                <div className="flex flex-2">
+                                                                                    <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
+                                                                                </div>
+                                                                                <div className="w-full ml-2">
+                                                                                    <span className="leading-6 font-bold text-xl tracking-wide">Mark Taylor</span>
+                                                                                    <span className="inline-block text-lg tracking-wide mx-2">  11:53 PM </span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="pr-10 pl-12">
+                                                                                <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
+                                                                                    <div className="relative my-4 px-3">
+                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
+
+                                                                                        </div>
+                                                                                        <div className="w-full ml-2">
+                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What did you accomplish yesterday</h4>
+                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="relative my-4 px-3">
+                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
+
+                                                                                        </div>
+                                                                                        <div className="w-full ml-2">
+                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What are you planning to do today?</h4>
+                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="relative my-4 px-3">
+                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
+
+                                                                                        </div>
+                                                                                        <div className="w-full ml-2">
+                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">Is there anything blocking your progress</h4>
+                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div className="mb-2">
+                                                                            <div className="flex py-4 items-center">
+                                                                                <div className="flex flex-2">
+                                                                                    <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
+                                                                                </div>
+                                                                                <div className="w-full ml-2">
+                                                                                    <span className="leading-6 font-bold text-xl tracking-wide">Mark Taylor</span>
+                                                                                    <span className="inline-block text-lg tracking-wide mx-2">  11:53 PM </span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="pr-10 pl-12">
+                                                                                <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
+                                                                                    <div className="relative my-4 px-3">
+                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
+
+                                                                                        </div>
+                                                                                        <div className="w-full ml-2">
+                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What did you accomplish yesterday</h4>
+                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="relative my-4 px-3">
+                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
+
+                                                                                        </div>
+                                                                                        <div className="w-full ml-2">
+                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What are you planning to do today?</h4>
+                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="relative my-4 px-3">
+                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
+
+                                                                                        </div>
+                                                                                        <div className="w-full ml-2">
+                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">Is there anything blocking your progress</h4>
+                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="rounded-lg">
+                                                                        <div className="relative m-0 p-0 clear-both text-center leading-4 text-base font-bold">
+                                                                            <div className="absolute border-solid border-t border-gray-500 top-8 right-0 left-0 m-0">
+                                                                            </div>
+                                                                            <div className="bg-white inline-block relative px-4 py-1 mx-auto my-0">
+                                                                                Thursday, October 1st
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="mb-2">
+                                                                            <div className="flex py-4 items-center">
+                                                                                <div className="flex flex-2">
+                                                                                    <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
+                                                                                </div>
+                                                                                <div className="w-full ml-2">
+                                                                                    <span className="leading-6 font-bold text-xl tracking-wide">Mark Taylor</span>
+                                                                                    <span className="inline-block text-lg tracking-wide mx-2">  11:53 PM </span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="pr-10 pl-12">
+                                                                                <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
+                                                                                    <div className="relative my-4 px-3">
+                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
+
+                                                                                        </div>
+                                                                                        <div className="w-full ml-2">
+                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What did you accomplish yesterday</h4>
+                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="relative my-4 px-3">
+                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
+
+                                                                                        </div>
+                                                                                        <div className="w-full ml-2">
+                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What are you planning to do today?</h4>
+                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="relative my-4 px-3">
+                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
+
+                                                                                        </div>
+                                                                                        <div className="w-full ml-2">
+                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">Is there anything blocking your progress</h4>
+                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div className="mb-2">
+                                                                            <div className="flex py-4 items-center">
+                                                                                <div className="flex flex-2">
+                                                                                    <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
+                                                                                </div>
+                                                                                <div className="w-full ml-2">
+                                                                                    <span className="leading-6 font-bold text-xl tracking-wide">Mark Taylor</span>
+                                                                                    <span className="inline-block text-lg tracking-wide mx-2">  11:53 PM </span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="pr-10 pl-12">
+                                                                                <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
+                                                                                    <div className="relative my-4 px-3">
+                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
+
+                                                                                        </div>
+                                                                                        <div className="w-full ml-2">
+                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What did you accomplish yesterday</h4>
+                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="relative my-4 px-3">
+                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
+
+                                                                                        </div>
+                                                                                        <div className="w-full ml-2">
+                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">What are you planning to do today?</h4>
+                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="relative my-4 px-3">
+                                                                                        <div className="bg-blue-400 absolute left-0 w-1 h-full rounded">
+
+                                                                                        </div>
+                                                                                        <div className="w-full ml-2">
+                                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">Is there anything blocking your progress</h4>
+                                                                                            <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div className="flex-auto p-4 px-3" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
+                                                                    <div className=" rounded-lg p-6">
+                                                                        <h2 className="leading-6 font-bold text-xl tracking-wider mb-4">
+                                                                            Date Range
+                                                                        </h2>
+                                                                        <div className="flex flex-col">
+                                                                            <NiceDatePicker />
+                                                                        </div>
+
+                                                                        <h2 className="leading-6 font-bold text-xl tracking-wider mb-4">
+                                                                            Participants
+                                                                        </h2>
+                                                                        <div className="flex flex-col">
+
+                                                                        </div>
+                                                                        <h2 className="leading-6 font-bold text-xl tracking-wider mb-4">
+                                                                            Questions
+                                                                        </h2>
+                                                                        <div className="flex flex-col">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     )
                                             }
                                         </div>
-                                    </div >
-                                </div >
-                            </div >
-                        </div >
-                    </div >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                </div >
+                </div>
             </>
         )
     }

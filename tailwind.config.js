@@ -8,13 +8,16 @@ module.exports = {
   plugins: [],
   theme: {
 
-    inset: {
-      '0': 0,
-      auto: 'auto',
-      '1/2': '50%',
-      '44': '44px'
-    },
+
     extend: {
+      inset: {
+        '0': 0,
+        auto: 'auto',
+        '1/2': '50%',
+        '44': '44px',
+        '8': '8px',
+        '24': '24px'
+      },
       flex: {
         '2': '1 0 auto',
       },
