@@ -60,6 +60,9 @@ class MyStandups extends React.Component {
       <>
         <HeaderMyStandups title="My standups" userProfileInfo={this.props.userProfileInfo} />
 
+
+
+
         <div v-for="row in rows">
           {
             standups.length && standups.map((standup, index) => (

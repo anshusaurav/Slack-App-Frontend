@@ -15,6 +15,12 @@ module.exports = {
       '44': '44px'
     },
     extend: {
+      flex: {
+        '2': '1 0 auto',
+      },
+      borderRadius: {
+        'circle': '50%',
+      },
       boxShadow: {
         newtype: '0 0 8px 0 rgba(0,0,0,.16)'
       },
@@ -64,7 +70,12 @@ module.exports = {
         rotate: "rotate 2s linear infinite",
         dash: "dash 1.5s ease-in-out infinite, colorwhite 6s ease-in-out infinite"
       }
-    }
+    },
+    fontFamily: {
+      'body': ['Lato']
+    },
+
+
   },
   variants: {
     backgroundColor: ['responsive', 'first', 'last', 'even', 'odd', 'hover', 'focus']

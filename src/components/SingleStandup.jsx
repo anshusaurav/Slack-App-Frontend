@@ -2,9 +2,13 @@ import React from "react";
 import { NavLink, withRouter } from 'react-router-dom'
 import { HiCog } from "react-icons/hi";
 import { GoPrimitiveDot } from "react-icons/go"
+import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 import { GET_CHANNEL_MEMBERS, GET_STANDUPS } from "./../graphql/queries"
 import { executeOperation, getCronAsString } from "./../graphql/helpers"
 import { remove_duplicates } from "./../slack/helpers"
+import PieChart from "./PieChart"
+
+
 class SingleStandup extends React.Component {
     constructor(props) {
         super(props);
@@ -13,6 +17,7 @@ class SingleStandup extends React.Component {
             standups: [],
             channelsIDNameMap: new Map(),
             channelsIDmembersMap: new Map(),
+            data: [{ date: 0, value: 10 }, { date: 0, value: 90 }]
         }
     }
     fetchStandups = async () => {
@@ -53,7 +58,7 @@ class SingleStandup extends React.Component {
     setOpenTab = (e) => {
         e.preventDefault();
         console.log(e.target.dataset.toggleId);
-        const toggleId = e.target.dataset.toggleId || 1;
+        const toggleId = +e.target.dataset.toggleId || 1;
         this.setState({ openTab: toggleId })
     }
     componentDidMount() {
@@ -65,7 +70,7 @@ class SingleStandup extends React.Component {
     }
 
     render() {
-        const { openTab } = this.state;
+        const { openTab, data } = this.state;
         // const { standups, channelsIDNameMap, channelsIDmembersMap } = this.state;
         return (
             <>
@@ -97,7 +102,7 @@ class SingleStandup extends React.Component {
                         Weekly from Monday to Friday at 14:44 in user's local timezone.
                     </div>
 
-                        <div className="flex flex-wrap mt-6 space-x-3">
+                        <div className="flex flex-wrap mt-6 space-x-6">
                             <div className="flex-auto p-4 bg-white shadow-newtype rounded-lg">
                                 <h4 className="pb-4 font-bold text-gray-800">
                                     Questions
@@ -107,7 +112,7 @@ class SingleStandup extends React.Component {
                                 <p className="mb-2"><GoPrimitiveDot className="inline-block text-xl mb-1 text-teal-500 " />Is there anything blocking your progress?</p>
                             </div>
                             <div className="flex-auto flex flex-col ">
-                                <div className="p-4 bg-white shadow-newtype mb-4 rounded-lg">
+                                <div className="p-4 bg-white shadow-newtype mb-6 rounded-lg">
                                     <h4 className="pb-4 font-bold text-gray-800">
                                         Participants
                                 </h4>
@@ -143,7 +148,7 @@ class SingleStandup extends React.Component {
                                 <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
                                     <button
                                         className={
-                                            "text-xl focus:underline font-bold  px-5 py-3 leading-normal "
+                                            "text-xl focus:outline-none font-bold  px-5 py-3 leading-normal "
                                         }
                                         onClick={
                                             this.setOpenTab}
@@ -151,34 +156,163 @@ class SingleStandup extends React.Component {
                                     >
                                         Insights
                                     </button>
+                                    {openTab === 1 && (<div className="h-1 w-auto bg-teal-500 -mt-2 rounded mx-4">
+
+                                    </div>)}
+
                                 </li>
                                 <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
                                     <button
                                         className={
-                                            "text-xl focus:underline font-bold  px-5 py-3 leading-normal "
+                                            "text-xl focus:outline-none font-bold  px-5 py-3 leading-normal "
                                         }
                                         onClick={
                                             this.setOpenTab}
                                         data-toggle-id={2}
                                     >Timeline
                                     </button>
+                                    {openTab === 2 && (<div className="h-1 w-auto bg-teal-500 -mt-2 rounded mx-4">
+
+                                    </div>)}
                                 </li>
 
                             </ul>
-                            <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+                            <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 rounded">
                                 <div className="px-4 py-5 flex-auto">
                                     <div className="tab-content tab-space">
                                         <div>
                                             {
                                                 openTab === 1 ? (
-                                                    <p>
-                                                        Collaboratively administrate empowered markets via
-                                                        plug-and-play networks. Dynamically procrastinate B2C users
-                                                        after installed base benefits.
-                                                        <br />
-                                                        <br /> Dramatically visualize customer directed convergence
-                                                            without revolutionary ROI.
-                                                    </p>) : (
+                                                    <div className="bg-white">
+                                                        <div className="flex items-center justify-between">
+                                                            <div className="flex items-center">
+                                                                <div>
+                                                                    <button className="w-12 h-12 focus:outline-none  shadow-newtype rounded-full flex items-center justify-center">
+                                                                        <HiArrowLeft className="inline-block text-xl text-bold m-1 text-gray-500 cursor-pointer" />
+                                                                    </button>
+                                                                </div>
+                                                                <div className="mx-6  font-bold">
+                                                                    Thursday, Oct 1st
+                                                                </div>
+                                                                <div>
+                                                                    <button className="w-12 h-12 focus:outline-none  shadow-newtype rounded-full flex items-center justify-center">
+                                                                        <HiArrowRight className="inline-block text-xl text-bold m-1 text-gray-500 cursor-pointer" />
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex flex-wrap space-x-3 mt-4">
+                                                            <div className="flex-auto p-4 px-3">
+                                                                <div className="border-solid border border-gray-400 rounded-lg">
+                                                                    <div className="">
+                                                                        <div className="border-b border-gray-300 p-6">
+                                                                            <p className="font-bold text-xl tracking-wide">
+                                                                                <GoPrimitiveDot className="inline-block text-xl mb-1 text-teal-500 mr-2" />
+                                                                                What did you do yesterday?
+                                                                            </p>
+                                                                        </div>
+                                                                        <div className="pr-10 pl-4">
+                                                                            <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
+                                                                                <div className="flex py-4">
+                                                                                    <div className="flex flex-2">
+                                                                                        <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
+                                                                                    </div>
+                                                                                    <div className="w-full ml-2">
+                                                                                        <h4 className="leading-6 font-bold text-lg tracking-wide">Mark Taylor</h4>
+                                                                                        <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex py-4 border-t">
+                                                                                    <div className="flex flex-2">
+                                                                                        <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80" />
+                                                                                    </div>
+                                                                                    <div className="w-full ml-2 ">
+                                                                                        <h4 className="leading-6 font-bold text-lg tracking-wide">Mark Taylor</h4>
+                                                                                        <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex py-4 border-t">
+                                                                                    <div className="flex flex-2">
+                                                                                        <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
+                                                                                    </div>
+                                                                                    <div className="w-full ml-2 ">
+                                                                                        <h4 className="leading-6 font-bold text-lg tracking-wide">Mark Taylor</h4>
+                                                                                        <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="border-t flex justify-end p-6 text-gray-600 text-lg tracking-wide">
+                                                                            3 total responses
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="border-solid border border-gray-400 rounded-lg mt-2">
+                                                                    <div className="">
+                                                                        <div className="border-b border-gray-300 p-6">
+                                                                            <p className="font-bold text-xl tracking-wide">
+                                                                                <GoPrimitiveDot className="inline-block text-xl mb-1 text-teal-500 mr-2" />
+                                                                                What are you planning to do today?
+                                                                            </p>
+                                                                        </div>
+                                                                        <div className="pr-10 pl-4">
+                                                                            <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
+                                                                                <div className="flex py-4">
+                                                                                    <div className="flex flex-2">
+                                                                                        <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
+                                                                                    </div>
+                                                                                    <div className="w-full ml-2">
+                                                                                        <h4 className="leading-6 font-bold text-lg tracking-wide">Mark Taylor</h4>
+                                                                                        <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex py-4 border-t">
+                                                                                    <div className="flex flex-2">
+                                                                                        <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80" />
+                                                                                    </div>
+                                                                                    <div className="w-full ml-2 ">
+                                                                                        <h4 className="leading-6 font-bold text-lg tracking-wide">Mark Taylor</h4>
+                                                                                        <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex py-4 border-t">
+                                                                                    <div className="flex flex-2">
+                                                                                        <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
+                                                                                    </div>
+                                                                                    <div className="w-full ml-2 ">
+                                                                                        <h4 className="leading-6 font-bold text-lg tracking-wide">Mark Taylor</h4>
+                                                                                        <p className="text-lg tracking-wide">Rce6 e5 yyfcu</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="border-t flex justify-end p-6 text-gray-600 text-lg tracking-wide">
+                                                                            3 total responses
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex-auto p-4 px-3">
+                                                                <div className="border-solid border border-gray-400 rounded-lg p-6">
+                                                                    <h2 className="leading-6 font-bold text-xl tracking-wider mb-4">
+                                                                        Participation
+                                                                    </h2>
+                                                                    <div className="flex flex-col items-center">
+
+                                                                        <PieChart data={data}
+                                                                            width={240}
+                                                                            height={240}
+                                                                            innerRadius={96}
+                                                                            outerRadius={120}>
+
+                                                                        </PieChart>
+                                                                        <p className="mt-6 tracking-wider">Reported: <strong>2</strong> people out of <strong>8</strong></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ) : (
                                                         <p>
                                                             Completely synergize resource taxing relationships via
                                                             premier niche markets. Professionally cultivate one-to-one
@@ -191,13 +325,13 @@ class SingleStandup extends React.Component {
                                                     )
                                             }
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                    </div >
+                                </div >
+                            </div >
+                        </div >
+                    </div >
 
-                </div>
+                </div >
             </>
         )
     }
