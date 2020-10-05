@@ -95,7 +95,7 @@ class MyStandups extends React.Component {
                 standups.map((standup, index) => (
                   <Link className="w-full" to={"/standups/" + standup.id}>
 
-                    <div className="mx-8 p-8 mb-4 border round-lg bg-white hover:shadow-newtype flex justify-between items-center">
+                    <div className="mx-8 p-8 mb-4 border round-lg bg-white hover:shadow-newtype flex flex-no-wrap justify-between items-center">
                       <div className="w-7/12 pr-2">
 
                         <h4 className="pt-4 text-4xl text-gray-700 font-bold">

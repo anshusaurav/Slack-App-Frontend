@@ -57,7 +57,7 @@ query getStandup($standup_id: uuid!) {
       message
       cron_text
       channel
-      questions{
+      questions(where: {archived: {_eq: false}}, order_by: {index: asc}){
         id
         body
         archived
@@ -72,9 +72,37 @@ query getStandup($standup_id: uuid!) {
     
   }
 }
-
-  `
-
+`
+const GET_STANDUP_RESPONSES = `
+query getResponses($standup_id:uuid!){
+  standup_by_pk(id: $standup_id) {
+    id
+    questions(where: {archived: {_eq: false}}, order_by: {index: asc}){
+      id
+      body
+      archived
+      index
+    }
+    standup_runs(order_by: {created_at: desc}) {
+      created_at
+      id
+      
+      responses(where: {body: {_is_null: false}, question: {archived: {_eq: false}}}) {
+        body
+        id
+        question_id
+        slackuser_id
+        created_at
+        question {
+          body
+          id
+          index
+        }
+      }
+    }
+  }
+}
+`
 // export const DELETE_STANDUP = gql`
 //   mutation MyMutation($standup_id: uuid!) {
 //     deleteStandup(standup_id: $standup_id) {
@@ -102,4 +130,7 @@ query getStandup($standup_id: uuid!) {
 //     }
 //   }
 // `;
-export { GET_STANDUPS, GET_CHANNEL_MEMBERS, INSERT_STANDUP, GET_SINGLE_STANDUP }
+export {
+  GET_STANDUPS, GET_CHANNEL_MEMBERS, INSERT_STANDUP, GET_SINGLE_STANDUP,
+  GET_STANDUP_RESPONSES
+}

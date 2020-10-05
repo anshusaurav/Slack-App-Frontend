@@ -5,12 +5,10 @@ import { GoPrimitiveDot } from "react-icons/go"
 import stc from 'string-to-color'
 import { GET_SINGLE_STANDUP, GET_CHANNEL_MEMBERS } from "./../graphql/queries"
 import { executeOperation, getCronAsString } from "./../graphql/helpers"
-import { remove_duplicates } from "./../slack/helpers"
 import { MainSectionLoader } from "./LoaderPage"
 import Timeline from "./Timeline"
 import Insights from "./Insights"
 import Sidebar from "./Sidebar";
-import GMT from "./GMT";
 
 class SingleStandup extends React.Component {
     constructor(props) {
@@ -26,25 +24,22 @@ class SingleStandup extends React.Component {
     }
     fetchStandup = async () => {
         const standup_id = this.props.match.params.id;
-        // console.log(standupId);
-        //const creator_slack_id = JSON.parse(localStorage["user-data"]).authed_user.id;
         let res1 = await executeOperation(
             { standup_id },
             GET_SINGLE_STANDUP
         );
-        // console.log(res1.data.standup_by_pk);
-        res1.data.standup_by_pk.questions.sort((a, b) => a.index - b.index);
-        // console.log('dsada', res1.data.standup_by_pk);
+        // res1.data.standup_by_pk.questions.sort((a, b) => a.index - b.index);
         let res2 = await executeOperation(
             { channel: res1.data.standup_by_pk.channel },
             GET_CHANNEL_MEMBERS
         );
-        // console.log(res2.data.getMembers);
+
         const channels = JSON.parse(localStorage.channels) || [];
         let channelsIDNameMap = new Map();
         channels.forEach(channel => {
             channelsIDNameMap.set(channel.id, channel.name);
         })
+
         this.setState({ standup: res1.data.standup_by_pk }, () => {
             const channelsIDmembersMap = new Map();
             channelsIDmembersMap.set(res1.data.standup_by_pk.channel, (res2.data && res2.data.getMembers))
@@ -63,7 +58,6 @@ class SingleStandup extends React.Component {
     }
     componentDidMount() {
         this.fetchStandup();
-        // console.log(this.props);
     }
     componentDidUpdate(prevProps, prevState) {
 
@@ -71,7 +65,6 @@ class SingleStandup extends React.Component {
 
     render() {
         const { openTab, standup, channelsIDmembersMap, channelsIDNameMap } = this.state;
-        // const { standups, channelsIDNameMap, channelsIDmembersMap } = this.state;
         return (
             <>
                 <Sidebar />
@@ -117,18 +110,7 @@ class SingleStandup extends React.Component {
                                                 </p>
                                             ))
                                         }
-                                        {/* <p className="mb-2"><GoPrimitiveDot
-                                            className="inline-block text-xl mb-1 text-teal-500"
-                                            style={{ color: stc("What did you do yesterday?") }}></GoPrimitiveDot>
-                                            What did you do yesterday?</p>
-                                        <p className="mb-2"><GoPrimitiveDot
-                                            className="inline-block text-xl mb-1 text-teal-500 "
-                                            style={{ color: stc("What are you planning to do today?") }} />
-                                            What are you planning to do today?</p>
-                                        <p className="mb-2"><GoPrimitiveDot
-                                            className="inline-block text-xl mb-1 text-teal-500 "
-                                            style={{ color: stc("Is there anything blocking your progress?") }} />
-                                            Is there anything blocking your progress?</p> */}
+
                                     </div>
                                     <div className="flex-auto flex flex-col ">
                                         <div className="p-4 bg-white shadow-newtype mb-6 rounded-lg">
@@ -157,21 +139,13 @@ class SingleStandup extends React.Component {
                                                         </div>
                                                     )
                                                 }
-                                                {/* <img className="inline-block h-10 w-10 rounded-full text-white shadow-solid"
-                                                    src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-                                                <img className="-ml-2 inline-block h-10 w-10 rounded-full text-white shadow-solid"
-                                                    src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-                                                <img className="-ml-2 inline-block h-10 w-10 rounded-full text-white shadow-solid"
-                                                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80" alt="" />
-                                                <img className="-ml-2 inline-block h-10 w-10 rounded-full text-white shadow-solid"
-                                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" /> */}
                                             </div>
                                         </div>
                                         <div className="p-4 bg-white shadow-newtype rounded-lg">
                                             <h4 className="pb-4 font-bold text-gray-800">
                                                 Channels
                                             </h4>
-                                            <span className="mt-4 text-gray-700 font-bold text-base border-solid border-2 border-gray-700 rounded-lg px-4 py-1 ">
+                                            <span className="mt-4 text-gray-700 font-bold text-base border-solid border border-gray-700 rounded-1 px-4 py-1 ">
                                                 <span className="text-gray-500 font-extrabold text-xl align-center">#</span> {channelsIDNameMap.get(standup.channel)}
                                             </span>
                                         </div>
@@ -226,9 +200,9 @@ class SingleStandup extends React.Component {
                                                 <div>
                                                     {
                                                         openTab === 1 ? (
-                                                            <Insights />
+                                                            <Insights standup_id={standup.id} />
                                                         ) : (
-                                                                <Timeline />
+                                                                <Timeline standup_id={standup.id} />
                                                             )
                                                     }
                                                 </div>

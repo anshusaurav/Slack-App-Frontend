@@ -28,7 +28,7 @@ class PieChart extends Component {
         //<text x="100" y="124" font-family="sans-serif" font-size="32px" font-weight="700" fill="gray">25%</text>
         svg.attr("class", "chart").attr("width", width).attr("height", height);
         svg.append("text")
-            .attr("x", "100")
+            .attr("x", "88")
             .attr("y", "128")
             .attr("font-size", "32px")
             .attr("font-weight", "700")
