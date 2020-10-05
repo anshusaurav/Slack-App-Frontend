@@ -23,8 +23,7 @@ module.exports = {
         '6': '6rem',
         '7': '7rem',
         '8': '8rem',
-
-
+        '12': '12rem',
         '-192': '-192px'
       },
       flex: {
@@ -33,6 +32,7 @@ module.exports = {
       },
       borderRadius: {
         'circle': '50%',
+        '1': '1rem'
       },
       boxShadow: {
         newtype: '0 0 8px 0 rgba(0,0,0,.16)'

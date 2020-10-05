@@ -11,6 +11,7 @@ import { GoPrimitiveDot } from "react-icons/go"
 import stc from 'string-to-color'
 
 import GMT from "./GMT";
+import MiniCalendar from "./MiniCalendar";
 class MyStandups extends React.Component {
   constructor(props) {
     super(props);
@@ -77,21 +78,21 @@ class MyStandups extends React.Component {
                   {"My Standups"}
                 </h1>
               </div>
-              <button
+              <Link to="/dashboard/create"
                 className="border-2 px-12 py-2 rounded-full border-teal-500 font-medium hover:bg-teal-500 text-teal-500  hover:text-white hover:shadow-xl"
               >
                 <HiCog className="inline-block text-xl mb-1 mr-2 cursor-pointer" />
                             New Standup
-              </button>
+              </Link>
 
             </div>
-            <div className="mt-8" v-for="item in itemList">
+            <div className="mt-12" v-for="item in itemList">
               {
                 standups.length !== 0 && standups.map((standup, index) => (
                   <Link className="w-full" to={"/standups/" + standup.id}>
 
-                    <div className="mx-8 p-8 hover:bg-white hover:shadow-newtype flex justify-between items-center">
-                      <div className="w-9/12">
+                    <div className="mx-8 p-8 mb-4 border round-lg bg-white hover:shadow-newtype flex justify-between items-center">
+                      <div className="w-7/12 pr-2">
 
                         <h4 className="pt-4 text-4xl text-gray-700 font-bold">
                           {standup.name}
@@ -121,15 +122,15 @@ class MyStandups extends React.Component {
                             )
                           }
                         </div>
-                        <span className="mt-4 text-gray-700 font-bold text-base border-solid border-2 border-gray-700 rounded-lg pl-4 pr-4">
+                        <span className="mt-4 text-gray-700 font-bold text-base border-solid border border-gray-400 rounded-1 px-4 py-2">
                           {channelsIDNameMap.get(standup.channel)}
                         </span>
                       </div>
-                      <div>
-
+                      <div className="w-5/12">
+                        <MiniCalendar cron_text={standup.cron_text} />
                       </div>
                     </div>
-                  </Link >
+                  </Link>
                 ))
               }
             </div>
