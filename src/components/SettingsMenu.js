@@ -2,9 +2,12 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
 class SettingsMenu extends Component {
-    handleLogout = () => {
-        localStorage.clear();
-        this.props.hisory.push('/');
+
+    handleLogout = (event) => {
+        event.preventDefault();
+        localStorage.removeItem('user-data');
+        localStorage.removeItem('userProfileInfo');
+        this.props.history.push('/');
     }
     render() {
         return (
@@ -17,7 +20,7 @@ class SettingsMenu extends Component {
                         Support</button>
                     <button className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">
                         License</button>
-                    <button type="submit" onClick={this.handleLogout} className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">
+                    <button onClick={this.handleLogout} className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">
                         Sign out
                     </button>
 

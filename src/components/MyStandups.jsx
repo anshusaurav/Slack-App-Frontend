@@ -5,6 +5,7 @@ import { GET_CHANNEL_MEMBERS, GET_STANDUPS } from "./../graphql/queries"
 import { executeOperation, getCronAsString } from "./../graphql/helpers"
 import { remove_duplicates } from "./../slack/helpers"
 import Sidebar from "./Sidebar"
+import { MainSectionLoader, AllStandupsLoader } from "./LoaderPage"
 import { NavLink, withRouter } from 'react-router-dom'
 import { HiCog } from "react-icons/hi";
 import { GoPrimitiveDot } from "react-icons/go"
@@ -69,7 +70,7 @@ class MyStandups extends React.Component {
         <Sidebar />
         <div className="shadow-inner py-6" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
           <div className="max-w-screen-xl mx-auto">
-            <div className="flex justify-between items-center px-8">
+            <div className="flex justify-between items-center px-8 pb-8">
               <div>
                 <span className="text-gray-700 font-medium text-sm">
                   Dashboard / Home
@@ -86,9 +87,12 @@ class MyStandups extends React.Component {
               </Link>
 
             </div>
+
+
             <div className="mt-12" v-for="item in itemList">
-              {
-                standups.length !== 0 && standups.map((standup, index) => (
+              {standups.length !== 0 ? (
+
+                standups.map((standup, index) => (
                   <Link className="w-full" to={"/standups/" + standup.id}>
 
                     <div className="mx-8 p-8 mb-4 border round-lg bg-white hover:shadow-newtype flex justify-between items-center">
@@ -131,9 +135,12 @@ class MyStandups extends React.Component {
                       </div>
                     </div>
                   </Link>
-                ))
+                ))) : (<div className="w-full"><AllStandupsLoader /></div>)
               }
             </div>
+
+
+
           </div>
         </div>
       </>

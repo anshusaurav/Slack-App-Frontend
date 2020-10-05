@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import MyStandups from "../components/MyStandups";
-import LoaderPage from "../components/LoaderPage";
+import { LoaderPage } from "../components/LoaderPage";
 
 export default class Dashboard extends Component {
   render() {
@@ -13,8 +13,8 @@ export default class Dashboard extends Component {
               slackUser={this.props.slackUser}
             />
           ) : (
-            <LoaderPage />
-          )}
+              <LoaderPage />
+            )}
         </div>
         ;
       </div>

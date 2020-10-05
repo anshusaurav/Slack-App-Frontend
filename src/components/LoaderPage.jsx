@@ -1,7 +1,7 @@
 import Loader from "react-loader-spinner";
 import React from "react";
 
-export default class LoaderPage extends React.Component {
+class LoaderPage extends React.Component {
   render() {
     return (
       <div
@@ -9,7 +9,7 @@ export default class LoaderPage extends React.Component {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "black",
+          backgroundColor: "#eee",
           height: "100vh",
           width: "100vw",
           position: "fixed",
@@ -18,6 +18,49 @@ export default class LoaderPage extends React.Component {
       >
         <Loader type="Puff" color="#00BFFF" height={100} width={100} />
       </div>
+    )
+  }
+}
+
+class MainSectionLoader extends React.Component {
+  render() {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#eee",
+          height: "100vh",
+          width: "100%",
+          position: "fixed",
+          zIndex: 0,
+        }}
+      >
+        <Loader type="Bars" color="#00BFFF" height={100} width={100} />
+      </div>
     );
   }
 }
+
+class AllStandupsLoader extends React.Component {
+  render() {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "rgb(238, 238, 238)",
+          zIndex: "0",
+          width: "100%",
+          height: "100vh"
+        }}
+      >
+        <Loader type="Bars" color="#00BFFF" />
+      </div>
+    )
+  }
+}
+
+export { LoaderPage, MainSectionLoader, AllStandupsLoader }
