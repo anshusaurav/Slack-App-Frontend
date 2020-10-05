@@ -7,10 +7,10 @@ export default class HomePage extends Component {
 
   render() {
     return (
-      <div className="bg-gray-800 px-4 py-5 text-blue-700 w-screen h-screen flex items-center justify-center">
+      <div className="bg-gray-100 px-4 py-5 text-blue-700 w-screen h-screen flex items-center justify-center">
         <div
           style={{ boxShadow: "9px -2px 43px -8px rgba(0,0,0,1)" }}
-          className="mx-auto flex flex-col justify-center items-center px-32  py-16"
+          className="mx-auto flex flex-col justify-center items-center px-32  bg-white py-16"
         >
           <h1 className="text-3xl text-white font-bold font-sans">Pup Bot</h1>
           <img

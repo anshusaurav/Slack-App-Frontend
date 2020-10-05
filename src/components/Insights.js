@@ -4,7 +4,8 @@ import PieChart from "./PieChart"
 import stc from "string-to-color"
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 import { GET_STANDUP_RESPONSES, GET_CHANNEL_MEMBERS } from "./../graphql/queries"
-import { executeOperation, } from "./../graphql/helpers"
+import { executeOperation } from "./../graphql/helpers"
+import { remove_duplicates } from "./../slack/helpers"
 import { InsightsLoader } from "./LoaderPage"
 import moment from "moment";
 class Insights extends Component {
@@ -12,13 +13,10 @@ class Insights extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [{ date: 0, value: 100 }, { date: 0, value: 0 }],
             memberProfileMap: new Map(),
             standupRuns: null,
             questions: null,
-            currentStanduprun: {},
             currentStandupIndex: 0,
-            questionResponseMap: new Map(),
 
         }
     }
@@ -27,8 +25,14 @@ class Insights extends Component {
         const srObj = standupRuns.find(standupRun => standupRun.id === standupRunId)
         return (srObj && srObj.responses.filter(response => response.question_id === questionId)) || [];
     }
-
-
+    getDataForChart = (standupRunId) => {
+        const { standupRuns, memberProfileMap } = this.state;
+        const srObj = standupRuns.find(standupRun => standupRun.id === standupRunId);
+        const v1 = remove_duplicates(srObj.responses.map(response => response.slackuser_id)).length || 0;
+        const v2 = memberProfileMap.size || 1;
+        return [{ date: 0, value: v1 }, { date: 1, value: v2 }]
+        // return (srObj && srObj.responses.filter(response => response.question_id === questionId)) || [];
+    }
     fetchStandupRuns = async () => {
         const { standup_id } = this.props;
         // console.log('dasd', standup_id)
@@ -50,8 +54,7 @@ class Insights extends Component {
                     responses: standup_run.responses
                 }
             }),
-            questions: res1.data.standup_by_pk.questions,
-            currentStanduprun: res1.data.standup_by_pk.standup_runs[0]
+            questions: res1.data.standup_by_pk.questions
         }, () => {
             let memberProfileMap = new Map();
             // console.log(res2);
@@ -85,10 +88,11 @@ class Insights extends Component {
         this.fetchStandupRuns();
     }
     render() {
-        const { questions, standupRuns, data,
+        const { questions, standupRuns,
             currentStandupIndex, memberProfileMap } = this.state;
+
         if (standupRuns)
-            this.getResponseForRunAndQuestion("d990a1f3-3383-40f6-affa-ddac1a46a38a")
+            console.log('a', this.getDataForChart(standupRuns[currentStandupIndex].id));
         return (
             <>
                 {
@@ -99,7 +103,7 @@ class Insights extends Component {
                                 <div className="flex items-center select-none">
                                     {
                                         currentStandupIndex !== standupRuns.length - 1 && (<div>
-                                            <button onClick={this.goToPrevRun} className="w-12 h-12 focus:outline-none  shadow-newtype rounded-full flex items-center justify-center">
+                                            <button onClick={this.goToPrevRun} className="w-12 h-12 focus:outline-none shadow-newtype rounded-full flex items-center justify-center">
                                                 <HiArrowLeft className="inline-block text-xl text-bold m-1 text-gray-500 cursor-pointer" />
                                             </button>
                                         </div>)
@@ -113,7 +117,8 @@ class Insights extends Component {
                                     </div>
                                     {
                                         currentStandupIndex !== 0 && (<div>
-                                            <button onClick={this.goToNextrun} className="w-12 h-12 focus:outline-none  shadow-newtype rounded-full flex items-center justify-center">
+                                            <button onClick={this.goToNextrun}
+                                                className="w-12 h-12 focus:outline-none  shadow-newtype rounded-full flex items-center justify-center">
                                                 <HiArrowRight className="inline-block text-xl text-bold m-1 text-gray-500 cursor-pointer" />
                                             </button>
                                         </div>)
@@ -140,11 +145,15 @@ class Insights extends Component {
                                                                 this.getResponseForRunAndQuestion(standupRuns[currentStandupIndex].id, question.id).map(response => (
                                                                     <div className="flex py-4">
                                                                         <div className="flex flex-2">
-                                                                            <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma"
-                                                                                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
+                                                                            <img className="w-16 h-16 m-0 rounded-circle"
+                                                                                alt={memberProfileMap.get(response.slackuser_id).real_name}
+                                                                                title={memberProfileMap.get(response.slackuser_id).real_name}
+                                                                                src={memberProfileMap.get(response.slackuser_id).image} />
                                                                         </div>
                                                                         <div className="w-full ml-2">
-                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">{response.slackuser_id}</h4>
+                                                                            <h4 className="leading-6 font-bold text-lg tracking-wide">
+                                                                                {memberProfileMap.get(response.slackuser_id).real_name}
+                                                                            </h4>
                                                                             <p className="text-lg tracking-wide">{response.body}</p>
                                                                         </div>
                                                                     </div>
@@ -170,14 +179,19 @@ class Insights extends Component {
                                                                     </h2>
                                         <div className="flex flex-col items-center">
 
-                                            <PieChart data={data}
+                                            <PieChart data={this.getDataForChart(standupRuns[currentStandupIndex].id)}
                                                 width={240}
                                                 height={240}
                                                 innerRadius={96}
                                                 outerRadius={120}>
 
                                             </PieChart>
-                                            <p className="mt-6 tracking-wider">Reported: <strong>2</strong> people out of <strong>8</strong></p>
+                                            <p className="mt-6 tracking-wider">Reported:
+                                                <strong>
+                                                    {this.getDataForChart(standupRuns[currentStandupIndex].id)[0].value}
+                                                </strong> people out of <strong>
+                                                    {this.getDataForChart(standupRuns[currentStandupIndex].id)[1].value}</strong>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

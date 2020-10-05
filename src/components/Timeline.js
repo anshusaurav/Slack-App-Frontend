@@ -1,11 +1,58 @@
 import React, { Component } from 'react'
 import { GoPrimitiveDot } from "react-icons/go"
 import NiceDatePicker from "./DatePicker"
+import { GET_STANDUP_RESPONSES, GET_CHANNEL_MEMBERS } from "./../graphql/queries"
+import { executeOperation } from "./../graphql/helpers"
+
 class Timeline extends Component {
-
-
     constructor(props) {
         super(props);
+        this.state = {
+            memberProfileMap: new Map(),
+            standupRuns: null,
+            questions: null,
+            currentStandupIndex: 0,
+
+        }
+    }
+    fetchStandupRuns = async () => {
+        const { standup_id } = this.props;
+        // console.log('dasd', standup_id)
+        let res1 = await executeOperation(
+            { standup_id },
+            GET_STANDUP_RESPONSES
+        );
+        console.log(res1);
+        let res2 = await executeOperation(
+            { channel: res1.data.standup_by_pk.channel },
+            GET_CHANNEL_MEMBERS
+        );
+        console.log(res2)
+        // console.log(res2.data.getMembers);
+        this.setState({
+            standupRuns: res1.data.standup_by_pk.standup_runs.map(standup_run => {
+                return {
+                    id: standup_run.id, created_at: standup_run.created_at,
+                    responses: standup_run.responses
+                }
+            }),
+            questions: res1.data.standup_by_pk.questions
+        }, () => {
+            let memberProfileMap = new Map();
+            // console.log(res2);
+            const { ids, images, real_names } = res2.data.getMembers;
+
+            ids.forEach((id, index) => {
+                memberProfileMap.set(id, {
+                    id, image: images[index],
+                    real_name: real_names[index]
+                })
+            })
+            this.setState({ memberProfileMap })
+        });
+    }
+    componentDidMount() {
+        this.fetchStandupRuns();
     }
     render() {
         return (

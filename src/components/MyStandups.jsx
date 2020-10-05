@@ -1,17 +1,11 @@
 import React from "react";
 import { Link } from 'react-router-dom'
-import HeaderMyStandups from "../components/HeaderMyStandups";
 import { GET_CHANNEL_MEMBERS, GET_STANDUPS } from "./../graphql/queries"
 import { executeOperation, getCronAsString } from "./../graphql/helpers"
 import { remove_duplicates } from "./../slack/helpers"
 import Sidebar from "./Sidebar"
-import { MainSectionLoader, AllStandupsLoader } from "./LoaderPage"
-import { NavLink, withRouter } from 'react-router-dom'
+import { AllStandupsLoader } from "./LoaderPage"
 import { HiCog } from "react-icons/hi";
-import { GoPrimitiveDot } from "react-icons/go"
-import stc from 'string-to-color'
-
-import GMT from "./GMT";
 import MiniCalendar from "./MiniCalendar";
 class MyStandups extends React.Component {
   constructor(props) {
