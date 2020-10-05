@@ -14,8 +14,7 @@ class LoaderPage extends React.Component {
           width: "100vw",
           position: "fixed",
           zIndex: 99,
-        }}
-      >
+        }}>
         <Loader type="Puff" color="#00BFFF" height={100} width={100} />
       </div>
     )
@@ -63,4 +62,24 @@ class AllStandupsLoader extends React.Component {
   }
 }
 
-export { LoaderPage, MainSectionLoader, AllStandupsLoader }
+class InsightsLoader extends React.Component {
+  render() {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "rgb(238, 238, 238)",
+          zIndex: "0",
+          width: "100%",
+          height: "60vh"
+        }}
+      >
+        <Loader type="Bars" color="#00BFFF" />
+      </div>
+    )
+  }
+}
+
+export { LoaderPage, MainSectionLoader, AllStandupsLoader, InsightsLoader }

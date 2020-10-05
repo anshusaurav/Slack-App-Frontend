@@ -22,6 +22,7 @@ const GET_CHANNEL_MEMBERS = `
   getMembers(channel: $channel){
     images
     real_names
+    ids
   }
  } 
 `;
@@ -77,6 +78,7 @@ const GET_STANDUP_RESPONSES = `
 query getResponses($standup_id:uuid!){
   standup_by_pk(id: $standup_id) {
     id
+    channel
     questions(where: {archived: {_eq: false}}, order_by: {index: asc}){
       id
       body
