@@ -41,13 +41,10 @@ class Insights extends Component {
             { standup_id },
             GET_STANDUP_RESPONSES
         );
-        console.log(res1);
         let res2 = await executeOperation(
             { channel: res1.data.standup_by_pk.channel },
             GET_CHANNEL_MEMBERS
         );
-        console.log(res2)
-        // console.log(res2.data.getMembers);
         this.setState({
             standupRuns: res1.data.standup_by_pk.standup_runs.map(standup_run => {
                 return {
@@ -60,7 +57,7 @@ class Insights extends Component {
             let memberProfileMap = new Map();
             // console.log(res2);
             const { ids, images, real_names } = res2.data.getMembers;
-
+            console.log('here', ids, images, real_names)
             ids.forEach((id, index) => {
                 memberProfileMap.set(id, {
                     id, image: images[index],
@@ -91,6 +88,7 @@ class Insights extends Component {
     render() {
         const { questions, standupRuns,
             currentStandupIndex, memberProfileMap } = this.state;
+        console.log(memberProfileMap)
         return (
             <>
                 {
@@ -104,13 +102,17 @@ class Insights extends Component {
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center select-none">
                                                 {
-                                                    currentStandupIndex !== standupRuns.length - 1 && (<div>
-                                                        <button onClick={this.goToPrevRun} className="w-12 h-12 focus:outline-none shadow-newtype rounded-full flex items-center justify-center">
-                                                            <HiArrowLeft className="inline-block text-xl text-bold m-1 text-gray-500 cursor-pointer" />
-                                                        </button>
-                                                    </div>)
+                                                    currentStandupIndex !== standupRuns.length - 1 && (
+                                                        <div>
+                                                            <button onClick={this.goToPrevRun}
+                                                                className="w-12 h-12 focus:outline-none shadow-newtype 
+                                                                rounded-full flex items-center justify-center">
+                                                                <HiArrowLeft className="inline-block text-xl text-bold 
+                                                                m-1 text-gray-500 cursor-pointer" />
+                                                            </button>
+                                                        </div>)
                                                 }
-                                                <div className="mx-6  font-bold">
+                                                <div className="mx-6 font-bold text-gray-700">
                                                     {
                                                         /* moment("2020-10-02T13:48:00.696962+00:00").format("dddd") +
                                                         ", " + */
@@ -120,8 +122,10 @@ class Insights extends Component {
                                                 {
                                                     currentStandupIndex !== 0 && (<div>
                                                         <button onClick={this.goToNextrun}
-                                                            className="w-12 h-12 focus:outline-none  shadow-newtype rounded-full flex items-center justify-center">
-                                                            <HiArrowRight className="inline-block text-xl text-bold m-1 text-gray-500 cursor-pointer" />
+                                                            className="w-12 h-12 focus:outline-none  shadow-newtype rounded-full flex 
+                                                            items-center justify-center">
+                                                            <HiArrowRight className="inline-block text-xl text-bold m-1 
+                                                            text-gray-500 cursor-pointer" />
                                                         </button>
                                                     </div>)
                                                 }
@@ -131,10 +135,10 @@ class Insights extends Component {
                                             <div className="flex-auto p-4 px-3">
                                                 {
                                                     questions && questions.map(question => (
-                                                        <div className="border-solid border border-gray-400 rounded-lg mb-2">
+                                                        <div className="border-solid border border-gray-400 rounded-lg mb-2" key={question.index}>
                                                             <div className="">
                                                                 <div className="border-b border-gray-300 p-6">
-                                                                    <p className="font-bold text-xl tracking-wide">
+                                                                    <p className="font-bold text-xl text-gray-700">
                                                                         <GoPrimitiveDot className="inline-block text-xl mb-1 mr-2"
                                                                             style={{ color: stc(question.body) }} />
                                                                         {question.body}
@@ -144,22 +148,24 @@ class Insights extends Component {
                                                                     <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
 
                                                                         {
-                                                                            this.getResponseForRunAndQuestion(standupRuns[currentStandupIndex].id, question.id).map(response => (
-                                                                                <div className="flex py-4">
-                                                                                    <div className="flex flex-2">
-                                                                                        <img className="w-16 h-16 m-0 rounded-circle"
-                                                                                            alt={memberProfileMap.get(response.slackuser_id).real_name}
-                                                                                            title={memberProfileMap.get(response.slackuser_id).real_name}
-                                                                                            src={memberProfileMap.get(response.slackuser_id).image} />
+                                                                            memberProfileMap.size &&
+                                                                            this.getResponseForRunAndQuestion(standupRuns[currentStandupIndex].id, question.id)
+                                                                                .map((response, resI) => (
+                                                                                    <div className="flex py-4" key={resI}>
+                                                                                        <div className="flex flex-2">
+                                                                                            <img className="w-16 h-16 m-0 rounded-circle"
+                                                                                                alt={memberProfileMap.get(response.slackuser_id).real_name}
+                                                                                                title={memberProfileMap.get(response.slackuser_id).real_name}
+                                                                                                src={memberProfileMap.get(response.slackuser_id).image} />
+                                                                                        </div>
+                                                                                        <div className="w-full ml-2">
+                                                                                            <h4 className="leading-6 font-bold text-lg text-gray-600">
+                                                                                                {memberProfileMap.get(response.slackuser_id).real_name}
+                                                                                            </h4>
+                                                                                            <p className="text-lg text-gray-600">{response.body}</p>
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <div className="w-full ml-2">
-                                                                                        <h4 className="leading-6 font-bold text-lg tracking-wide">
-                                                                                            {memberProfileMap.get(response.slackuser_id).real_name}
-                                                                                        </h4>
-                                                                                        <p className="text-lg tracking-wide">{response.body}</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            ))
+                                                                                ))
                                                                         }
 
                                                                     </div>
@@ -176,7 +182,7 @@ class Insights extends Component {
                                             </div>
                                             <div className="flex-auto p-4 px-3">
                                                 <div className="border-solid border border-gray-400 rounded-lg p-6">
-                                                    <h2 className="leading-6 font-bold text-xl tracking-wider mb-4">
+                                                    <h2 className="leading-6 font-bold text-xl text-gray-700 mb-4">
                                                         Participation
                                                                     </h2>
                                                     <div className="flex flex-col items-center">
@@ -188,7 +194,7 @@ class Insights extends Component {
                                                             outerRadius={120}>
 
                                                         </PieChart>
-                                                        <p className="mt-6 tracking-wider">Reported:
+                                                        <p className="mt-6 tracking-wider text-gray-600">Reported:
                                                 <strong>
                                                                 {this.getDataForChart(standupRuns[currentStandupIndex].id)[0].value}
                                                             </strong> people out of <strong>

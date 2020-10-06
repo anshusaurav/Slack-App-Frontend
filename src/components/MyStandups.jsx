@@ -11,7 +11,7 @@ class MyStandups extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      standups: [],
+      standups: null,
       channelsIDNameMap: new Map(),
       channelsIDmembersMap: new Map(),
     }
@@ -85,8 +85,7 @@ class MyStandups extends React.Component {
               </Link>
             </div>
             <div className="mt-12" v-for="item in itemList">
-              {standups ? standups.length !== 0 ? (
-
+              {standups && standups.length !== 0 && (
                 standups.map((standup, index) => (
                   <Link className="w-full" to={"/standups/" + standup.id} key={index}>
 
@@ -94,10 +93,19 @@ class MyStandups extends React.Component {
                     hover:shadow-newtype flex flex-no-wrap justify-between 
                     items-center">
                       <div className="w-7/12 pr-2">
+                        <div className="flex flex-wrap items-end leading-8">
+                          <h4 className="pt-4 text-4xl text-gray-700 font-bold">
+                            {standup.name}
+                          </h4>
+                          {
+                            standup.paused && (
+                              <div className="ml-4">
+                                <span className="bg-orange-500 text-white font-bold px-1 py-2 rounded-lg">PAUSED</span>
+                              </div>
+                            )
+                          }
 
-                        <h4 className="pt-4 text-4xl text-gray-700 font-bold">
-                          {standup.name}
-                        </h4>
+                        </div>
                         <h4 className="pt-4 text-1xl text-gray-500 text-1xl">
                           {getCronAsString(standup.cron_text) + " in " +
                             standup.timezone + " timezone"}
@@ -141,13 +149,20 @@ class MyStandups extends React.Component {
                       </div>
                     </div>
                   </Link>
-                )))
-                : (<></>)
-                : (
+                )
+                ))
+              }
+              {
+                standups && standups.length === 0 && (<></>)
+              }
+              {
+
+                !standups && (
                   <div className="w-full">
                     <AllStandupsLoader />
                   </div>)
               }
+
             </div>
           </div>
         </div>

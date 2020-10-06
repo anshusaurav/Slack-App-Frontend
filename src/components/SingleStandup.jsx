@@ -16,7 +16,7 @@ class SingleStandup extends React.Component {
         this.state = {
             loading: false,
             error: false,
-            openTab: 1,
+            openTab: 2,
             standup: null,
             channelsIDNameMap: new Map(),
             channelsIDmembersMap: new Map()
@@ -121,15 +121,14 @@ class SingleStandup extends React.Component {
                                             <div className="flex overflow-hidden">
                                                 {
                                                     channelsIDmembersMap.get(standup.channel) && channelsIDmembersMap
-                                                        .get(standup.channel).images
+                                                        .get(standup.channel)
+                                                        .images
                                                         .filter((image, ind) => ind < 10).map((image, imgI) => (
-
-
-                                                            <img className={"inline-block h-12 w-12 border-white border-4 rounded-full text-white shadow-solid " + (imgI === 0 ? "" : "-ml-4")}
+                                                            <img className={`inline-block h-12 w-12 border-white border-4
+                                                             rounded-full text-white shadow-solid ${imgI === 0 ? "" : "-ml-4"}`}
                                                                 src={image}
                                                                 alt=""
                                                                 title={channelsIDmembersMap.get(standup.channel).real_names[imgI]}
-
                                                                 key={imgI} />
 
                                                         )

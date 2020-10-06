@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import GMT from "./GMT";
+import StandupSidebar from "./StandupSidebar";
 import { RiBarChartHorizontalLine } from "react-icons/ri"
 import SettingsMenu from "./SettingsMenu"
 
@@ -45,7 +45,7 @@ class Sidebar extends React.Component {
                 <nav onMouseEnter={e => this.setCollapseShow(true)}
                     onMouseLeave={e => this.setCollapseShow(false)}
                     className={` transition-all duration-500 ease-in-out md:block md:fixed md:top-0 md:bottom-0 bg-gray-200 md:overflow-y-auto md:flex-row md:flex-no-wrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10   ${this.state.isVisible ? "left-6" : "-left-192"}`}>
-                    <GMT />
+                    <StandupSidebar />
                 </nav>
             </>
         )

@@ -17,7 +17,9 @@ class Timeline extends Component {
             questionsMap: new Map(),
             questions: null,
             currentStandupIndex: 0,
-            allChecked: true
+            allChecked: true,
+            selectedQuestions: null,
+            checkQuestions: null,
         }
     }
 
@@ -75,7 +77,9 @@ class Timeline extends Component {
                     responses: standup_run.responses
                 }
             }),
-            questions: res1.data.standup_by_pk.questions
+            questions: res1.data.standup_by_pk.questions,
+            selectedQuestions: res1.data.standup_by_pk.questions.map(question => question.id),
+            checkQuestons: Array(res1.data.standup_by_pk.questions.length).fill(true)
         }, () => {
             let memberProfileMap = new Map();
             let memberProfiles = [];
@@ -95,11 +99,43 @@ class Timeline extends Component {
             this.setState({ memberProfileMap, memberProfiles })
         });
     }
+    toggleQuestion = (event) => {
+        const questionId = event.target.dataset.questionId;
+        if (!questionId)
+            return;
+        let selectedQuestions = this.state.selectedQuestions;
+        const { questions } = this.state;
+        console.log(questionId);
+
+        let zInd = 0;
+        questions.forEach((question, index) => {
+            if (question.id === questionId)
+                zInd = index;
+        })
+
+        if (selectedQuestions.includes(questionId)) {
+            let z = selectedQuestions.indexOf(questionId)
+            this.setState({
+                selectedQuestions: selectedQuestions.splice(z, 1), checkQuestions: this.state.checkQuestions.map((q, ind) => {
+                    return ind === z ? q : false
+                })
+            })
+        }
+        else {
+            this.setState({
+                selectedQuestions: selectedQuestions.concat([questionId]), checkQuestions: this.state.checkQuestions.map((q, ind) => {
+                    return ind === zInd ? q : true
+                })
+            });
+        }
+    }
+
     componentDidMount() {
         this.fetchStandupRuns();
     }
     render() {
-        const { questions, memberProfileMap, memberProfiles, standupRuns } = this.state;
+        const { questions, memberProfileMap, memberProfiles, standupRuns,
+            selectedQuestions, checkQuestons } = this.state;
 
         return (
             <>
@@ -111,13 +147,14 @@ class Timeline extends Component {
 
                                     {
                                         standupRuns.filter(standupRun => standupRun.responses.length !== 0).map(standupRun => (
-                                            <div className="rounded-lg my-2">
-                                                <div className="relative m-0 p-0 clear-both text-center leading-4 text-base font-bold">
+                                            <div className="rounded-lg my-2" key={standupRun.id}>
+                                                <div className="relative m-0 p-0 clear-both text-center leading-4  
+                                                text-gray-700 text-base font-bold">
 
                                                     <div className="bg-white inline-block relative px-4 py-1 mx-auto mt-1">
                                                         {
-                                                            /* moment("2020-10-02T13:48:00.696962+00:00").format("dddd") +
-                                            ", " + */
+                                                            moment(standupRun.created_at || Date.now()).format("dddd") +
+                                                            ", " +
 
                                                             moment(standupRun.created_at || Date.now()).format("LL")
                                                         }
@@ -127,28 +164,39 @@ class Timeline extends Component {
                                                     memberProfiles
                                                         .filter(memberProfile => this.isResponseSubmitted(standupRun.id, memberProfile.id))
                                                         .map(memberProfile => (
-                                                            <div className="mb-2">
+                                                            <div className="mb-2" key={memberProfile.id}>
                                                                 <div className="flex py-4 items-center">
                                                                     <div className="flex flex-2">
-                                                                        <img className="w-16 h-16 m-0 rounded-circle" alt="Deepak Sharma"
+                                                                        <img className="w-16 h-16 m-0 rounded-circle"
+                                                                            alt={memberProfile.real_name}
+                                                                            title={memberProfile.real_name}
                                                                             src={memberProfile.image} />
                                                                     </div>
                                                                     <div className="w-full ml-2">
-                                                                        <span className="leading-6 font-bold text-xl tracking-wide">{memberProfile.real_name}</span>
-                                                                        <span className="inline-block text-lg tracking-wide mx-2">  11:53 PM </span>
+                                                                        <span className="leading-6 font-bold text-xl  
+                                                                        text-gray-700">{memberProfile.real_name}
+                                                                        </span>
                                                                     </div>
                                                                 </div>
                                                                 <div className="pr-10 pl-12">
                                                                     <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
                                                                         {
-                                                                            questions.map(question => (
-                                                                                <div className="relative my-4 px-3">
-                                                                                    <div className="absolute left-0 w-1 h-full rounded" style={{ backgroundColor: stc(question.body) }} >
+                                                                            questions.filter(question => selectedQuestions.includes(question.id)).map(question => (
+                                                                                <div className="relative my-4 px-3" key={question.index}>
+                                                                                    <div className="absolute left-0 w-1 h-full rounded"
+                                                                                        style={{ backgroundColor: stc(question.body) }} >
 
                                                                                     </div>
                                                                                     <div className="w-full ml-2">
-                                                                                        <h4 className="leading-6 font-bold text-lg tracking-wide">{question.body}</h4>
-                                                                                        <p className="text-lg tracking-wide">{this.getResponseSubmittedForQuestion(standupRun.id, question.id, memberProfile.id).length ? this.getResponseSubmittedForQuestion(standupRun.id, question.id, memberProfile.id)[0].body : 'No response submitted'}</p>
+                                                                                        <h4 className="leading-6 font-bold text-lg  text-gray-700">
+                                                                                            {question.body}
+                                                                                        </h4>
+                                                                                        <p className="text-lg text-gray-600">
+                                                                                            {this.getResponseSubmittedForQuestion(standupRun.id,
+                                                                                                question.id, memberProfile.id).length ?
+                                                                                                this.getResponseSubmittedForQuestion(standupRun.id, question.id, memberProfile.id)[0].body :
+                                                                                                'No response submitted'}
+                                                                                        </p>
                                                                                     </div>
                                                                                 </div>
                                                                             )
@@ -171,7 +219,7 @@ class Timeline extends Component {
                                 </div>
                                 <div className="flex-auto p-4 px-3" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
                                     <div className=" rounded-lg p-6 mb-8">
-                                        <h2 className="leading-6 font-bold text-xl tracking-wider mb-4 text-gray-700">
+                                        <h2 className="leading-6 font-bold text-xl mb-4 text-gray-700">
                                             Date Range
                                         </h2>
                                         <div className="flex flex-col mb-8">
@@ -180,26 +228,25 @@ class Timeline extends Component {
 
                                         <div className="mb-8">
                                             <div className="flex items-baseline justify-between">
-                                                <h2 className="leading-6 font-bold text-xl tracking-wider mb-4 text-gray-700">
+                                                <h2 className="leading-6 font-bold text-xl  mb-4 text-gray-700">
                                                     Participants
                                                 </h2>
                                                 <div class="flex items-center">
-                                                    <label htmlFor="remember_me" class="mr-2 block text-sm leading-5 text-gray-900">
+                                                    <label htmlFor="remember_me" className="mr-2 block text-sm leading-5 text-gray-900">
                                                         All
                                                     </label>
-                                                    <input id="remember_me"
+                                                    <input
                                                         defaultChecked={true}
                                                         type="checkbox"
-                                                        class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
+                                                        classNAme="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
 
                                                 </div>
                                             </div>
                                             <div className="flex flex-col">
                                                 {
                                                     memberProfiles.map(memberProfile => (
-                                                        <div className="flex items-center text-sm mb-2">
+                                                        <div className="flex items-center text-sm mb-2" key={memberProfile.id}>
                                                             <div className="mr-2 flex-3">
-                                                                {/* <img class="c-members-filter__avatar a-avatar a-avatar--sm" alt="Anshu" src="https://avatars.slack-edge.com/2020-08-01/1274642144997_f123c44ea88ca4600e8e_192.jpg"></img> */}
                                                                 <img className="w-8 h-8 m-0 rounded-circle"
                                                                     alt={memberProfile.real_name}
                                                                     title={memberProfile.real_name}
@@ -210,10 +257,11 @@ class Timeline extends Component {
                                                             </div>
                                                             <div class="flex items-center">
 
-                                                                <input id="remember_me"
+                                                                <input
                                                                     defaultChecked={true}
                                                                     type="checkbox"
-                                                                    class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
+                                                                    class="form-checkbox h-4 w-4 text-teal-500 
+                                                                    transition duration-150 ease-in-out" />
 
                                                             </div>
                                                         </div>
@@ -225,24 +273,27 @@ class Timeline extends Component {
 
                                         <div className="mb-8">
                                             <div className="flex items-baseline justify-between">
-                                                <h2 className="leading-6 font-bold text-xl tracking-wider mb-4 text-gray-700">
+                                                <h2 className="leading-6 font-bold text-xl mb-4 text-gray-700">
                                                     Questions
                                                 </h2>
                                                 <div class="flex items-center">
-                                                    <label htmlFor="remember_me" class="mr-2 block text-sm leading-5 text-gray-900">
+                                                    <label htmlFor="remember_me" class="mr-2 block 
+                                                    text-sm leading-5 text-gray-900">
                                                         All
                                                     </label>
-                                                    <input id="remember_me"
+                                                    <input
                                                         type="checkbox"
                                                         defaultChecked={true}
-                                                        class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
+                                                        class="form-checkbox h-4 w-4 text-teal-500 transition 
+                                                        duration-150 ease-in-out" />
 
                                                 </div>
                                             </div>
                                             <div className="flex flex-col">
                                                 {
-                                                    questions.map(question => (
-                                                        <div className="flex items-center text-sm mb-2">
+                                                    questions.map((question, index) => (
+                                                        <div className="flex items-center text-sm mb-2"
+                                                            key={question.id}>
                                                             <div className="flex-auto flex-wrap font-bold text-gray-600">
                                                                 <GoPrimitiveDot
                                                                     className="inline-block mb-1 mr-2"
@@ -250,11 +301,14 @@ class Timeline extends Component {
                                                                 {question.body}
                                                             </div>
                                                             <div class="flex items-center">
-                                                                <input id="remember_me"
+                                                                <input
                                                                     data-question-id={question.id}
-                                                                    defaultChecked={true}
+                                                                    data-question-index={index}
+                                                                    onChange={this.toggleQuestion}
+                                                                    checked={checkQuestons[index]}
                                                                     type="checkbox"
-                                                                    class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
+                                                                    class="form-checkbox h-4 w-4 text-teal-500 
+                                                                    transition duration-150 ease-in-out" />
                                                             </div>
                                                         </div>
                                                     ))
