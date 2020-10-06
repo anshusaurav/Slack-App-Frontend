@@ -88,7 +88,7 @@ class MyStandups extends React.Component {
               {standups ? standups.length !== 0 ? (
 
                 standups.map((standup, index) => (
-                  <Link className="w-full" to={"/standups/" + standup.id}>
+                  <Link className="w-full" to={"/standups/" + standup.id} key={index}>
 
                     <div className="mx-8 p-8 mb-4 border round-lg bg-white 
                     hover:shadow-newtype flex flex-no-wrap justify-between 

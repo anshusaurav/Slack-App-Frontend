@@ -89,8 +89,8 @@ class SingleStandup extends React.Component {
                                         Manage
                                     </NavLink>
                                 </div>
-                                <div className="p-4 border-lg text-lg bg-white mt-6 shadow-newtype rounded-lg">
-                                    <h4 className="pb-4 font-bold text-gray-800">
+                                <div className="p-4 border-lg text-lg bg-white mt-6 shadow-newtype rounded-lg text-gray-600">
+                                    <h4 className="pb-4 font-bold text-gray-700">
                                         Schedule
                                     </h4>
                                     {getCronAsString(standup.cron_text) + " in " + standup.timezone + " timezone"}
@@ -98,13 +98,13 @@ class SingleStandup extends React.Component {
 
                                 <div className="flex flex-wrap text-lg mt-6 space-x-6">
                                     <div className="flex-auto p-4 bg-white shadow-newtype rounded-lg">
-                                        <h4 className="pb-4 font-bold text-gray-800">
+                                        <h4 className="pb-4 font-bold text-gray-700">
                                             Questions
                                         </h4>
                                         {
                                             standup.questions && standup.questions.map(question => (
-                                                <p className="mb-2" key={question.index}><GoPrimitiveDot
-                                                    className="inline-block text-xl mb-1 text-teal-500"
+                                                <p className="mb-2 text-gray-600" key={question.index}><GoPrimitiveDot
+                                                    className="inline-block text-xl mb-1 text-teal-500 "
                                                     style={{ color: stc(question.body) }}></GoPrimitiveDot>
                                                     {question.body}
                                                 </p>
@@ -114,22 +114,26 @@ class SingleStandup extends React.Component {
                                     </div>
                                     <div className="flex-auto flex flex-col ">
                                         <div className="p-4 bg-white shadow-newtype mb-6 rounded-lg">
-                                            <h4 className="pb-4 font-bold text-gray-800">
+                                            <h4 className="pb-4 font-bold text-gray-700">
                                                 Participants
                                             </h4>
 
                                             <div className="flex overflow-hidden">
                                                 {
-                                                    channelsIDmembersMap.get(standup.channel) && channelsIDmembersMap.get(standup.channel).images.filter((image, ind) => ind < 10).map((image, imgI) => {
-                                                        return (
+                                                    channelsIDmembersMap.get(standup.channel) && channelsIDmembersMap
+                                                        .get(standup.channel).images
+                                                        .filter((image, ind) => ind < 10).map((image, imgI) => (
+
 
                                                             <img className={"inline-block h-12 w-12 border-white border-4 rounded-full text-white shadow-solid " + (imgI === 0 ? "" : "-ml-4")}
                                                                 src={image}
                                                                 alt=""
-                                                                title={channelsIDmembersMap.get(standup.channel).real_names[imgI]} />
+                                                                title={channelsIDmembersMap.get(standup.channel).real_names[imgI]}
+
+                                                                key={imgI} />
 
                                                         )
-                                                    })
+                                                        )
                                                 }
                                                 {
                                                     channelsIDmembersMap.get(standup.channel) && (channelsIDmembersMap.get(standup.channel).images.length > 10) &&
@@ -142,10 +146,10 @@ class SingleStandup extends React.Component {
                                             </div>
                                         </div>
                                         <div className="p-4 bg-white shadow-newtype rounded-lg">
-                                            <h4 className="pb-4 font-bold text-gray-800">
+                                            <h4 className="pb-4 font-bold text-gray-700">
                                                 Channels
                                             </h4>
-                                            <span className="mt-4 text-gray-700 font-bold text-base border-solid border border-gray-700 rounded-1 px-4 py-1 ">
+                                            <span className="mt-4 text-gray-600 font-bold text-base border-solid border border-gray-700 rounded-1 px-4 py-1 ">
                                                 <span className="text-gray-500 font-extrabold text-xl align-center">#</span> {channelsIDNameMap.get(standup.channel)}
                                             </span>
                                         </div>
@@ -165,14 +169,15 @@ class SingleStandup extends React.Component {
                                         <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
                                             <button
                                                 className={
-                                                    "text-xl focus:outline-none font-bold  px-5 py-3 leading-normal "
+                                                    `text-xl focus:outline-none font-bold  px-5 py-3 leading-normal 
+                                                    ${openTab === 1 ? "text-gray-800" : "text-gray-600"}`
                                                 }
                                                 onClick={
                                                     this.setOpenTab}
                                                 data-toggle-id={1}
                                             >
                                                 Insights
-                                    </button>
+                                            </button>
                                             {openTab === 1 && (<div className="h-1 w-auto bg-teal-500 -mt-2 rounded mx-4">
 
                                             </div>)}
@@ -181,13 +186,14 @@ class SingleStandup extends React.Component {
                                         <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
                                             <button
                                                 className={
-                                                    "text-xl focus:outline-none font-bold  px-5 py-3 leading-normal "
+                                                    `text-xl focus:outline-none font-bold px-5 py-3 leading-normal  
+                                                    ${openTab === 2 ? "text-gray-800" : "text-gray-600"}`
                                                 }
                                                 onClick={
                                                     this.setOpenTab}
                                                 data-toggle-id={2}
                                             >Timeline
-                                    </button>
+                                            </button>
                                             {openTab === 2 && (<div className="h-1 w-auto bg-teal-500 -mt-2 rounded mx-4">
 
                                             </div>)}

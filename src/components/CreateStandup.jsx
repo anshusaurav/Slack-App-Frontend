@@ -6,6 +6,7 @@ import { INSERT_STANDUP } from "./../graphql/queries"
 import { executeOperation, } from "./../graphql/helpers"
 import { timeZoneList } from "./../slack/timezones"
 import Sidebar from "./Sidebar"
+import Loader from "react-loader-spinner";
 // import { INSERT_STANDUP } from "../graphql/queries";
 import { NavLink, withRouter } from "react-router-dom";
 
@@ -67,11 +68,6 @@ class CreateStandup extends Component {
 
   handleAddMoreQuestion = (e) => {
     e.preventDefault();
-    // let cntUnfilled = this.state.questions.reduce((acc, question) => {
-    //   return question.text.trim().length === 0 ? acc : acc + 1;
-    // }, 0)
-    // if (cntUnfilled <= 1)
-    //   return;
     let newQues = { id: uuid(), text: "" };
     this.setState({ questions: this.state.questions.concat(newQues) });
   }
@@ -197,32 +193,33 @@ class CreateStandup extends Component {
                   selectedChannels.length ? (
                     <button
                       type="submit"
-                      className="border-2 px-12 py-2 rounded-full border-teal-500 
-                      font-medium hover:bg-teal-500 text-teal-500  hover:text-white hover:shadow-xl"
+                      className="border-2 px-12 py-4 rounded-full border-teal-500 
+                      font-medium hover:bg-teal-500 text-teal-500  
+                      hover:text-white hover:shadow-xl focus:outline-none flex items-center"
+                      disabled={isLoading}
                     >
                       {isLoading ? (
                         <>
-                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 
-                              5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-
-                            </path>
-                          </svg> Saving</>) : (<> <HiCheck className="inline-block text-xl m-1  cursor-pointer" />
-                           Save</>
+                          <Loader type="Puff"
+                            height={24} width={24}
+                            style={{ display: "inline-block", marginRight: 12 }} />
+                          Saving
+                        </>
+                      ) : (
+                          <>
+                            <HiCheck className="inline-block
+                           text-xl m-1  cursor-pointer" />
+                           Save
+                          </>
                         )
                       }
                     </button>
                   ) : (
                     <button
                       type="button"
-                      className="border-2 px-12 py-2 rounded-full border-teal-500 font-medium text-teal-500 opacity-50 focus:outline-none cursor-not-allowed"
+                      className="border-2 px-12 py-4 rounded-full border-teal-500
+                       font-medium text-teal-500 opacity-50 focus:outline-none 
+                       cursor-not-allowed"
                     ><HiCheck className="inline-block text-xl m-1  cursor-pointer" />
                     Save
                     </button>
@@ -320,8 +317,7 @@ class CreateStandup extends Component {
                     <textarea
                       name="message"
                       rows="3"
-                      className="border-2 p-2 resize-none w-full  rounded-lg"
-                      // style={{ resize: "none" }}
+                      className="border-2 p-2 resize-none w-full rounded-lg"
                       onChange={this.handleChange}
                       value={message}
                     ></textarea>
@@ -364,8 +360,8 @@ class CreateStandup extends Component {
               </div>
               <button
                 onClick={this.handleAddMoreQuestion}
-
-                className="p-1 border-2 bg-gray-100 text-sm rounded-lg focus:outline-none hover:bg-white hover:border-gray-300"
+                className="p-1 border-2 bg-gray-100 text-sm rounded-lg 
+                focus:outline-none hover:bg-white hover:border-gray-300"
               >
                 + Add Question
           </button>
@@ -399,7 +395,10 @@ class CreateStandup extends Component {
 function DropDownSelect(props) {
   return (
     <Select
-      style={{ borderRadius: "8px", fontFamily: "inherit", fontSize: 18, fontWeight: 400, border: "2px solid #e2e8f0", height: 44 }}
+      style={{
+        borderRadius: "8px", fontFamily: "inherit", fontSize: 18,
+        fontWeight: 400, border: "2px solid #e2e8f0", height: 44
+      }}
       backspaceDelete={true}
       closeOnSelect={true}
       keepSelectedInList={false}

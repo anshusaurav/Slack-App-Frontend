@@ -100,16 +100,14 @@ class Timeline extends Component {
     }
     render() {
         const { questions, memberProfileMap, memberProfiles, standupRuns } = this.state;
-        // if (standupRuns)
-        //     console.log('b', this.isResponseSubmitted("0bf30c3f-eb9c-4a6c-a558-935b068cd3eb", "UTWLKG02K"))
+
         return (
             <>
                 {
                     standupRuns && memberProfiles && memberProfileMap && questions ? (
-
                         <div className="bg-white animate-fadesunnyin">
                             <div className="flex flex-wrap space-x-3 mt-4">
-                                <div className="flex-auto p-4 px-3">
+                                <div className="flex-auto p-4 px-3 min-w-3/5">
 
                                     {
                                         standupRuns.filter(standupRun => standupRun.responses.length !== 0).map(standupRun => (
@@ -173,7 +171,7 @@ class Timeline extends Component {
                                 </div>
                                 <div className="flex-auto p-4 px-3" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
                                     <div className=" rounded-lg p-6 mb-8">
-                                        <h2 className="leading-6 font-bold text-xl tracking-wider mb-4">
+                                        <h2 className="leading-6 font-bold text-xl tracking-wider mb-4 text-gray-700">
                                             Date Range
                                         </h2>
                                         <div className="flex flex-col mb-8">
@@ -182,7 +180,7 @@ class Timeline extends Component {
 
                                         <div className="mb-8">
                                             <div className="flex items-baseline justify-between">
-                                                <h2 className="leading-6 font-bold text-xl tracking-wider mb-4">
+                                                <h2 className="leading-6 font-bold text-xl tracking-wider mb-4 text-gray-700">
                                                     Participants
                                                 </h2>
                                                 <div class="flex items-center">
@@ -207,7 +205,7 @@ class Timeline extends Component {
                                                                     title={memberProfile.real_name}
                                                                     src={memberProfile.image} />
                                                             </div>
-                                                            <div className="flex-auto flex-wrap font-bold">
+                                                            <div className="flex-auto flex-wrap font-bold text-gray-600">
                                                                 {"@" + memberProfile.real_name}
                                                             </div>
                                                             <div class="flex items-center">
@@ -227,7 +225,7 @@ class Timeline extends Component {
 
                                         <div className="mb-8">
                                             <div className="flex items-baseline justify-between">
-                                                <h2 className="leading-6 font-bold text-xl tracking-wider mb-4">
+                                                <h2 className="leading-6 font-bold text-xl tracking-wider mb-4 text-gray-700">
                                                     Questions
                                                 </h2>
                                                 <div class="flex items-center">
@@ -245,7 +243,7 @@ class Timeline extends Component {
                                                 {
                                                     questions.map(question => (
                                                         <div className="flex items-center text-sm mb-2">
-                                                            <div className="flex-auto flex-wrap font-bold">
+                                                            <div className="flex-auto flex-wrap font-bold text-gray-600">
                                                                 <GoPrimitiveDot
                                                                     className="inline-block mb-1 mr-2"
                                                                     style={{ color: stc(question.body) }} />
