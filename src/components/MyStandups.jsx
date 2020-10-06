@@ -100,7 +100,7 @@ class MyStandups extends React.Component {
                           {
                             standup.paused && (
                               <div className="ml-4">
-                                <span className="bg-orange-500 text-white font-bold px-1 py-2 rounded-lg">PAUSED</span>
+                                <span className="bg-orange-500 text-sm text-white font-bold px-1 py-2 rounded-lg">PAUSED</span>
                               </div>
                             )
                           }
