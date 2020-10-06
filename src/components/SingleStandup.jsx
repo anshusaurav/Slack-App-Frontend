@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { HiCog } from "react-icons/hi";
 import { GoPrimitiveDot } from "react-icons/go"
 import stc from 'string-to-color'
@@ -75,19 +75,20 @@ class SingleStandup extends React.Component {
                                 <div className="flex justify-between items-center">
                                     <div>
                                         <span className="text-gray-700 font-medium text-sm">
-                                            {`Dashboard / ${standup.name || ''}`}
+                                            <Link to="/dashboard">Dashboard</Link> /
+                                            {' ' + standup.name || ''}
                                         </span>
                                         <h1 className="pt-4 text-gray-800 font-bold text-4xl">
                                             {standup.name || ''}
                                         </h1>
                                     </div>
-                                    <NavLink
+                                    <Link
                                         to={`/standups/${standup.id}/edit`}
                                         className="border-2 px-12 py-2 rounded-full border-teal-500 font-medium hover:bg-teal-500 text-teal-500  hover:text-white hover:shadow-xl"
                                     >
                                         <HiCog className="inline-block text-xl mb-1 mr-2 cursor-pointer" />
                                         Manage
-                                    </NavLink>
+                                    </Link>
                                 </div>
                                 <div className="p-4 border-lg text-lg bg-white mt-6 shadow-newtype rounded-lg text-gray-600">
                                     <h4 className="pb-4 font-bold text-gray-700">
@@ -149,7 +150,8 @@ class SingleStandup extends React.Component {
                                                 Channels
                                             </h4>
                                             <span className="mt-4 text-gray-600 font-bold text-base border-solid border border-gray-700 rounded-1 px-4 py-1 ">
-                                                <span className="text-gray-500 font-extrabold text-xl align-center">#</span> {channelsIDNameMap.get(standup.channel)}
+                                                <span className="text-gray-500 font-extrabold text-xl align-center">#
+                                                </span> {channelsIDNameMap.get(standup.channel)}
                                             </span>
                                         </div>
 

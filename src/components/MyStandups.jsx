@@ -110,6 +110,7 @@ class MyStandups extends React.Component {
                           {getCronAsString(standup.cron_text) + " in " +
                             standup.timezone + " timezone"}
                         </h4>
+
                         <div className="flex overflow-hidden mt-4 mb-8" >
                           {
                             channelsIDmembersMap.get(standup.channel) &&
@@ -138,6 +139,18 @@ class MyStandups extends React.Component {
                               </div>
                             )
                           }
+                          {/* {
+                            !channelsIDmembersMap && (
+                              <div className="col spinner_item p-5" title="ThreeDots">
+                                <Loader
+                                  type="ThreeDots"
+                                  color="#00BFFF"
+                                  height={100}
+                                  width={100}
+                                />
+                              </div>
+                            )
+                          } */}
                         </div>
                         <span className="mt-4 text-gray-700 font-bold text-base 
                         border-solid border border-gray-400 rounded-1 px-4 py-2">

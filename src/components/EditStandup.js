@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Loader from "react-loader-spinner";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { HiOutlinePause, HiOutlinePlay } from "react-icons/hi"
 import { RiDeleteBin4Line } from "react-icons/ri"
 import { GET_SINGLE_STANDUP, PAUSE_STANDUP, UNPAUSE_STANDUP } from "./../graphql/queries"
@@ -70,7 +70,7 @@ class EditStandup extends Component {
         }
     }
     render() {
-        const { standup, paused, isLoading } = this.state;
+        const { standup, isLoading } = this.state;
         return (
             <>
                 <Sidebar />
@@ -82,7 +82,11 @@ class EditStandup extends Component {
                                 <div className="flex justify-between items-center">
                                     <div>
                                         <span className="text-gray-700 font-medium text-sm">
-                                            {`Dashboard / ${standup.name || ''}`}
+                                            <span className="text-gray-700 font-medium text-sm">
+                                                <Link to="/dashboard">Dashboard</Link>/
+                                                <Link to={`/dashboard/${standup.id}`}>{standup.name || ''}</Link>/Edit
+
+                                            </span>
                                         </span>
                                         <h1 className="pt-4 text-gray-800 font-bold text-4xl">
                                             {standup.name || ''}

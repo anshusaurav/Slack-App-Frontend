@@ -238,7 +238,7 @@ class Timeline extends Component {
                                                     <input
                                                         defaultChecked={true}
                                                         type="checkbox"
-                                                        classNAme="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
+                                                        className="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
 
                                                 </div>
                                             </div>
@@ -255,12 +255,12 @@ class Timeline extends Component {
                                                             <div className="flex-auto flex-wrap font-bold text-gray-600">
                                                                 {"@" + memberProfile.real_name}
                                                             </div>
-                                                            <div class="flex items-center">
+                                                            <div className="flex items-center">
 
                                                                 <input
                                                                     defaultChecked={true}
                                                                     type="checkbox"
-                                                                    class="form-checkbox h-4 w-4 text-teal-500 
+                                                                    className="form-checkbox h-4 w-4 text-teal-500 
                                                                     transition duration-150 ease-in-out" />
 
                                                             </div>
@@ -277,14 +277,14 @@ class Timeline extends Component {
                                                     Questions
                                                 </h2>
                                                 <div class="flex items-center">
-                                                    <label htmlFor="remember_me" class="mr-2 block 
+                                                    <label htmlFor="remember_me" className="mr-2 block 
                                                     text-sm leading-5 text-gray-900">
                                                         All
                                                     </label>
                                                     <input
                                                         type="checkbox"
                                                         defaultChecked={true}
-                                                        class="form-checkbox h-4 w-4 text-teal-500 transition 
+                                                        className="form-checkbox h-4 w-4 text-teal-500 transition 
                                                         duration-150 ease-in-out" />
 
                                                 </div>
@@ -300,14 +300,14 @@ class Timeline extends Component {
                                                                     style={{ color: stc(question.body) }} />
                                                                 {question.body}
                                                             </div>
-                                                            <div class="flex items-center">
+                                                            <div className="flex items-center">
                                                                 <input
                                                                     data-question-id={question.id}
                                                                     data-question-index={index}
                                                                     onChange={this.toggleQuestion}
                                                                     checked={checkQuestons[index]}
                                                                     type="checkbox"
-                                                                    class="form-checkbox h-4 w-4 text-teal-500 
+                                                                    className="form-checkbox h-4 w-4 text-teal-500 
                                                                     transition duration-150 ease-in-out" />
                                                             </div>
                                                         </div>

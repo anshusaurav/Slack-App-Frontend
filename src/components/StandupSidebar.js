@@ -40,10 +40,10 @@ class StandupSidebar extends React.Component {
                             border-solid border border-gray-400 rounded-1 px-2 py-2">New Standup</button>
                         </div>
                         {
-                            standups && standups.map(standup => (
-                                <div className="mt-4 whitespace-no-wrap">
+                            standups && standups.map((standup, index) => (
+                                <div className="mt-4 truncate" key={index}>
                                     <Link to={`/standups/${standup.id}`}
-                                        className="text-lg text-gray-600 cursor-pointer">
+                                        className="text-lg text-gray-600 cursor-pointer ">
                                         {standup.name}
                                     </Link>
                                 </div>
