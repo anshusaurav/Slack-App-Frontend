@@ -105,34 +105,41 @@ query getResponses($standup_id:uuid!){
   }
 }
 `
-// export const DELETE_STANDUP = gql`
-//   mutation MyMutation($standup_id: uuid!) {
-//     deleteStandup(standup_id: $standup_id) {
-//       affected_rows
-//     }
-//   }
-// `;
 
-// export const UPDATE_STANDUP = gql`
-//   mutation MyMutation(
-//     $channel: String!
-//     $cron_text: String!
-//     $message: String!
-//     $name: String!
-//     $standup_id: String!
-//   ) {
-//     updateStandup(
-//       channel: $channel
-//       cron_text: $cron_text
-//       message: $message
-//       name: $message
-//       standup_id: $standup_id
-//     ) {
-//       affected_rows
-//     }
-//   }
-// `;
+const PAUSE_STANDUP = `
+mutation stopStandup($standup_id: uuid!) {
+  pauseStandup(standup_id: $standup_id){
+    id
+    name
+    message
+    cron_text
+    channel
+    creator_slack_id
+    paused
+    archived
+    created_at
+    updated_at 
+  }
+}
+`
+const UNPAUSE_STANDUP = `
+mutation resumeStandup($standup_id: uuid!) {
+  unpauseStandup(standup_id: $standup_id){
+    id
+    name
+    message
+    cron_text
+    channel
+    creator_slack_id
+    paused
+    archived
+    created_at
+    updated_at 
+  }
+}
+`
+
 export {
   GET_STANDUPS, GET_CHANNEL_MEMBERS, INSERT_STANDUP, GET_SINGLE_STANDUP,
-  GET_STANDUP_RESPONSES
+  GET_STANDUP_RESPONSES, PAUSE_STANDUP, UNPAUSE_STANDUP
 }

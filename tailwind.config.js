@@ -12,6 +12,7 @@ module.exports = {
     extend: {
       maxWidth: {
         '3/4': '75%',
+        '1/2': '50%',
         '16': '16rem'
       },
       inset: {

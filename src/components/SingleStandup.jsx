@@ -82,7 +82,7 @@ class SingleStandup extends React.Component {
                                         </h1>
                                     </div>
                                     <NavLink
-                                        to="/dashboard/create"
+                                        to={`/standups/${standup.id}/edit`}
                                         className="border-2 px-12 py-2 rounded-full border-teal-500 font-medium hover:bg-teal-500 text-teal-500  hover:text-white hover:shadow-xl"
                                     >
                                         <HiCog className="inline-block text-xl mb-1 mr-2 cursor-pointer" />

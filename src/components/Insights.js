@@ -114,7 +114,7 @@ class Insights extends Component {
                                                     {
                                                         /* moment("2020-10-02T13:48:00.696962+00:00").format("dddd") +
                                                         ", " + */
-                                                        moment(standupRuns[currentStandupIndex].created_at || Date.now()).format("LLLL")
+                                                        moment(standupRuns[currentStandupIndex].created_at || Date.now()).format("LL")
                                                     }
                                                 </div>
                                                 {

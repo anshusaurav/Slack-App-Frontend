@@ -71,3 +71,18 @@ export const getCronAsString = (string) => {
     }
     return ('0' + hour).slice(-2) + ':' + ('0' + min).slice(-2) + " on " + dayStr;
 }
+
+export const getCronAsCronDays = (string) => {
+    const tokens = string.split(' ');
+    const dayTokens = tokens[4].split(',').map(elem => +elem);
+    dayTokens.sort((a, b) => a - b);
+    return dayTokens;
+
+}
+
+export const getCronAsCronTime = (string) => {
+    const tokens = string.split(' ');
+    const min = +tokens[0];
+    let hour = +tokens[1];
+    return ('0' + (hour >= 12 ? hour % 12 : hour)).slice(-2) + ':' + ('0' + min).slice(-2) + (hour >= 12 ? " PM" : " AM");
+}

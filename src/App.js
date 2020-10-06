@@ -5,7 +5,7 @@ import HomePage from "./pages/HomePage";
 import Dashboard from "./pages/Dashboard";
 import CreateStandup from "./components/CreateStandup";
 import SingleStandup from "./components/SingleStandup"
-
+import EditStandup from "./components/EditStandup"
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -111,6 +111,12 @@ class App extends React.Component {
             slackUser={this.state.slackUser}
             userProfileInfo={this.state.userProfileInfo}>
           </SingleStandup>
+        </Route>
+        <Route exact path='/standups/:id/edit'>
+          <EditStandup
+            slackUser={this.state.slackUser}
+            userProfileInfo={this.state.userProfileInfo}>
+          </EditStandup>
         </Route>
       </Router>
 

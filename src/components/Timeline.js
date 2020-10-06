@@ -121,7 +121,7 @@ class Timeline extends Component {
                                                             /* moment("2020-10-02T13:48:00.696962+00:00").format("dddd") +
                                             ", " + */
 
-                                                            moment(standupRun.created_at || Date.now()).format("LLLL")
+                                                            moment(standupRun.created_at || Date.now()).format("LL")
                                                         }
                                                     </div>
                                                 </div>
@@ -189,40 +189,39 @@ class Timeline extends Component {
                                                     <label htmlFor="remember_me" class="mr-2 block text-sm leading-5 text-gray-900">
                                                         All
                                                     </label>
-                                                    <input id="remember_me" type="checkbox" class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
+                                                    <input id="remember_me"
+                                                        defaultChecked={true}
+                                                        type="checkbox"
+                                                        class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
 
                                                 </div>
                                             </div>
                                             <div className="flex flex-col">
+                                                {
+                                                    memberProfiles.map(memberProfile => (
+                                                        <div className="flex items-center text-sm mb-2">
+                                                            <div className="mr-2 flex-3">
+                                                                {/* <img class="c-members-filter__avatar a-avatar a-avatar--sm" alt="Anshu" src="https://avatars.slack-edge.com/2020-08-01/1274642144997_f123c44ea88ca4600e8e_192.jpg"></img> */}
+                                                                <img className="w-8 h-8 m-0 rounded-circle"
+                                                                    alt={memberProfile.real_name}
+                                                                    title={memberProfile.real_name}
+                                                                    src={memberProfile.image} />
+                                                            </div>
+                                                            <div className="flex-auto flex-wrap font-bold">
+                                                                {"@" + memberProfile.real_name}
+                                                            </div>
+                                                            <div class="flex items-center">
 
-                                                <div className="flex items-center text-sm mb-2">
-                                                    <div className="mr-2 flex-3">
-                                                        {/* <img class="c-members-filter__avatar a-avatar a-avatar--sm" alt="Anshu" src="https://avatars.slack-edge.com/2020-08-01/1274642144997_f123c44ea88ca4600e8e_192.jpg"></img> */}
-                                                        <img className="w-8 h-8 m-0 rounded-circle" alt="Anshu" src="https://avatars.slack-edge.com/2020-08-01/1274642144997_f123c44ea88ca4600e8e_192.jpg" />
-                                                    </div>
-                                                    <div className="flex-auto flex-wrap font-bold">
-                                                        @Anshu Saurabh
-                                        </div>
-                                                    <div class="flex items-center">
+                                                                <input id="remember_me"
+                                                                    defaultChecked={true}
+                                                                    type="checkbox"
+                                                                    class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
 
-                                                        <input id="remember_me" type="checkbox" class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
+                                                            </div>
+                                                        </div>
+                                                    ))
+                                                }
 
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-center  text-sm mb-2">
-                                                    <div className="mr-2 flex-3">
-                                                        {/* <img class="c-members-filter__avatar a-avatar a-avatar--sm" alt="Anshu" src="https://avatars.slack-edge.com/2020-08-01/1274642144997_f123c44ea88ca4600e8e_192.jpg"></img> */}
-                                                        <img className="w-8 h-8 m-0 rounded-circle" alt="Anshu" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
-                                                    </div>
-                                                    <div className="flex-auto flex-wrap font-bold">
-                                                        @Brenda Samuels
-                                    </div>
-                                                    <div class="flex items-center">
-
-                                                        <input id="remember_me" type="checkbox" class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
-
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
 
@@ -230,43 +229,39 @@ class Timeline extends Component {
                                             <div className="flex items-baseline justify-between">
                                                 <h2 className="leading-6 font-bold text-xl tracking-wider mb-4">
                                                     Questions
-                                </h2>
+                                                </h2>
                                                 <div class="flex items-center">
                                                     <label htmlFor="remember_me" class="mr-2 block text-sm leading-5 text-gray-900">
                                                         All
-                                        </label>
-                                                    <input id="remember_me" type="checkbox" class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
+                                                    </label>
+                                                    <input id="remember_me"
+                                                        type="checkbox"
+                                                        defaultChecked={true}
+                                                        class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
 
                                                 </div>
                                             </div>
                                             <div className="flex flex-col">
-                                                <div className="flex items-center text-sm mb-2">
-                                                    <div className="flex-auto flex-wrap font-bold">
-                                                        <GoPrimitiveDot className="inline-block mb-1 text-teal-500 mr-2" />
-                                        What did you accomplish yesterday?
-                                    </div>
-                                                    <div class="flex items-center">
-                                                        <input id="remember_me" type="checkbox" class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-center  text-sm mb-2">
-                                                    <div className="flex-auto flex-wrap font-bold">
-                                                        <GoPrimitiveDot className="inline-block  mb-1 text-teal-500 mr-2" />
-                                        What are you planning to do today?
-                                    </div>
-                                                    <div class="flex items-center">
-                                                        <input id="remember_me" type="checkbox" class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-center  text-sm mb-2">
-                                                    <div className="flex-auto flex-wrap font-bold">
-                                                        <GoPrimitiveDot className="inline-block  mb-1 text-teal-500 mr-2" />
-                                        Is there anything blocking your progress?
-                                    </div>
-                                                    <div class="flex items-center">
-                                                        <input id="remember_me" type="checkbox" class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
-                                                    </div>
-                                                </div>
+                                                {
+                                                    questions.map(question => (
+                                                        <div className="flex items-center text-sm mb-2">
+                                                            <div className="flex-auto flex-wrap font-bold">
+                                                                <GoPrimitiveDot
+                                                                    className="inline-block mb-1 mr-2"
+                                                                    style={{ color: stc(question.body) }} />
+                                                                {question.body}
+                                                            </div>
+                                                            <div class="flex items-center">
+                                                                <input id="remember_me"
+                                                                    data-question-id={question.id}
+                                                                    defaultChecked={true}
+                                                                    type="checkbox"
+                                                                    class="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
+                                                            </div>
+                                                        </div>
+                                                    ))
+                                                }
+
                                             </div>
                                         </div>
 

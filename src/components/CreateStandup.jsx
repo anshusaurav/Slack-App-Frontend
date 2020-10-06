@@ -168,21 +168,23 @@ class CreateStandup extends Component {
     this.init();
   }
   render() {
-    const { standupName, message, questions, selectedChannels, options, cronDays, cronTime, selectedTimezone, timezones, isLoading } = this.state;
+    const { standupName, message, questions, selectedChannels, options,
+      cronDays, cronTime, selectedTimezone, timezones, isLoading } = this.state;
     return (
       <>
         <Sidebar />
         <form onSubmit={this.handleFormSubmit}>
-          <div className="bg-gray-300 px-8 py-4 mb-8">
+          <div className="bg-gray-100 px-8 py-4 mb-8">
             <div className="max-w-screen-xl mx-auto">
-              <div className="flex justify-between border-2 items-center">
+              <div className="flex justify-between items-center">
                 <div>
                   <p className="text-gray-700 font-medium text-sm">
                     <NavLink to="/dashboard">Dashboard</NavLink>/Create Standup
-              </p>
+                  </p>
                   <input
                     type="text"
-                    className="px-4 py-2 text-2xl mt-4 mb-2 outline-none border-2 border-gray-500 rounded-lg w-100%"
+                    className="px-4 py-2 text-2xl mt-4 mb-2 outline-none border-2 
+                    border-gray-500 rounded-lg w-full"
                     placeholder="Enter a name"
                     name="standupName"
                     onChange={this.handleChange}
@@ -195,7 +197,8 @@ class CreateStandup extends Component {
                   selectedChannels.length ? (
                     <button
                       type="submit"
-                      className="border-2 px-12 py-2 rounded-full border-teal-500 font-medium hover:bg-teal-500 text-teal-500  outline-none hover:text-white"
+                      className="border-2 px-12 py-2 rounded-full border-teal-500 
+                      font-medium hover:bg-teal-500 text-teal-500  hover:text-white hover:shadow-xl"
                     >
                       {isLoading ? (
                         <>
@@ -203,18 +206,24 @@ class CreateStandup extends Component {
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <circle className="opacity-25" cx="12" cy="12" r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"></circle>
                             <path className="opacity-75" fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 
+                              5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
 
                             </path>
-                          </svg> Saving</>) : (<> <HiCheck className="inline-block text-xl m-1 text-teal-500 cursor-pointer" /> Save</>)}
+                          </svg> Saving</>) : (<> <HiCheck className="inline-block text-xl m-1  cursor-pointer" />
+                           Save</>
+                        )
+                      }
                     </button>
                   ) : (
                     <button
                       type="button"
-                      className="border-2 px-12 py-2 rounded-full border-teal-500 font-medium text-teal-500 opacity-50 cursor-not-allowed"
-                    ><HiCheck className="inline-block text-xl m-1 text-teal-500 cursor-pointer" />
+                      className="border-2 px-12 py-2 rounded-full border-teal-500 font-medium text-teal-500 opacity-50 focus:outline-none cursor-not-allowed"
+                    ><HiCheck className="inline-block text-xl m-1  cursor-pointer" />
                     Save
                     </button>
                   )}
@@ -228,22 +237,61 @@ class CreateStandup extends Component {
                   <div className="flex items-center pb-1">
                     <h1 className="font-bold text-lg text-gray-700">Schedule</h1>
 
-                    <HiQuestionMarkCircle className="text-xl m-1 text-gray-600 cursor-pointer" />
+                    <HiQuestionMarkCircle className="text-xl m-1 text-gray-600 cursor-pointer"
+                      title="Choose the period, days and time of reports." />
                   </div>
-                  <div className="flex items-center pb-1">
-                    <h1 className="font-bold text-lg text-gray-700">Time</h1>
+                  <div className="w-full grid grid-cols-2 justify-start">
+
+                    <div className="p-1">
+                      <div className="flex items-center pb-2">
+                        <h1 className="font-bold text-lg text-gray-700">Time</h1>
+                      </div>
+                      <input
+                        type="text"
+                        name="cronTime"
+                        placeholder="10:00 AM"
+                        onChange={this.handleChange}
+                        onPointerLeave={(e) => this.handleTimeValidation(e)}
+                        value={cronTime}
+                        className="border-2 p-2 mr-4 rounded-lg"
+                      />
+                    </div>
+                    <div >
+                      <div className="flex items-center pb-2 pl-2">
+                        <h1 className="font-bold text-lg text-gray-700">Days</h1>
+                      </div>
+                      {days.map((btn, index) => {
+                        if (cronDays.includes(btn.id)) {
+                          return (
+                            <button
+                              key={index}
+                              className="w-12 h-12 bg-blue-800 border-2 mx-1 rounded-circle 
+                              text-teal-500 font-bold focus:outline-none hover:border-gray-600"
+                              onClick={() => this.handleCronDays(btn.id)}
+                              type="button"
+                            >
+                              {btn.day}
+                            </button>
+                          );
+                        } else {
+                          return (
+                            <button
+                              key={index}
+                              className="w-12 h-12 bg-transparent border-2 mx-1 rounded-circle 
+                              text-black font-bold focus:outline-none hover:border-gray-600"
+                              onClick={() => this.handleCronDays(btn.id)}
+                              type="button"
+                            >
+                              {btn.day}
+                            </button>
+                          );
+                        }
+                      })}
+                    </div>
+
                   </div>
-                  <div className="p-1">
-                    <input
-                      type="text"
-                      name="cronTime"
-                      placeholder="10:00 AM"
-                      onChange={this.handleChange}
-                      onPointerLeave={(e) => this.handleTimeValidation(e)}
-                      value={cronTime}
-                      className="border-2 p-2 mr-4 rounded-lg"
-                    />
-                    <div className="flex items-center pb-1">
+                  <div className="pt-4  ">
+                    <div className="flex items-center pb-2">
                       <h1 className="font-bold text-lg text-gray-700">Timezone</h1>
                     </div>
                     <DropDownSelect
@@ -253,35 +301,8 @@ class CreateStandup extends Component {
                       onChange={this.handleSelectionTimezone}
                       values={selectedTimezone[0].id}
                     />
-                    <div className="flex items-center pb-1">
-                      <h1 className="font-bold text-lg text-gray-700">Days</h1>
-                    </div>
-                    {days.map((btn) => {
-                      if (cronDays.includes(btn.id)) {
-                        return (
-                          <button
-                            key={uuid()}
-                            className="w-12 h-12 bg-blue-800 border-2 mx-1 rounded-circle text-teal-500 font-bold focus:outline-none hover:border-gray-300"
-                            onClick={() => this.handleCronDays(btn.id)}
-                            type="button"
-                          >
-                            {btn.day}
-                          </button>
-                        );
-                      } else {
-                        return (
-                          <button
-                            key={uuid()}
-                            className="w-12 h-12 bg-transparent border-2 mx-1 rounded-circle text-black font-bold focus:outline-none hover:border-gray-300"
-                            onClick={() => this.handleCronDays(btn.id)}
-                            type="button"
-                          >
-                            {btn.day}
-                          </button>
-                        );
-                      }
-                    })}
                   </div>
+
                 </div>
               </div>
             </div>
@@ -292,7 +313,8 @@ class CreateStandup extends Component {
                 <div>
                   <div className="flex items-center pb-1">
                     <h1 className="font-bold text-lg text-gray-700">Message</h1>
-                    <HiQuestionMarkCircle className="text-xl m-1 text-gray-600 cursor-pointer" />
+                    <HiQuestionMarkCircle className="text-xl m-1 text-gray-600 cursor-pointer"
+                      title="Personalize Pupbot’s intro message. Use a more personal note." />
                   </div>
                   <div className="items-center pb-1 w-full">
                     <textarea
@@ -377,7 +399,7 @@ class CreateStandup extends Component {
 function DropDownSelect(props) {
   return (
     <Select
-      style={{ borderRadius: "8px", fontFamily: "inherit", fontSize: 18, fontWeight: 500, border: "2px solid #e2e8f0", height: 44 }}
+      style={{ borderRadius: "8px", fontFamily: "inherit", fontSize: 18, fontWeight: 400, border: "2px solid #e2e8f0", height: 44 }}
       backspaceDelete={true}
       closeOnSelect={true}
       keepSelectedInList={false}
