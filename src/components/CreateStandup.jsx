@@ -137,7 +137,7 @@ class CreateStandup extends Component {
         message: message.trim(),
         name: standupName.trim(),
         questions: questions.filter((ques) => ques.text).map((ques) => ques.text),
-        timezone: selectedTimezone.length ? selectedTimezone[0].id : "",
+        timezone: selectedTimezone.length ? selectedTimezone[0].id.split(' ')[1] : "",
       };
       let res1 = await executeOperation(
         dataToSend,

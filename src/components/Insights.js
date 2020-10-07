@@ -4,7 +4,7 @@ import PieChart from "./PieChart"
 import stc from "string-to-color"
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 import { RiCloudOffLine } from "react-icons/ri"
-import { GET_STANDUP_RESPONSES, GET_CHANNEL_MEMBERS } from "./../graphql/queries"
+import { GET_STANDUP_RESPONSES } from "./../graphql/queries"
 import { executeOperation } from "./../graphql/helpers"
 import { remove_duplicates } from "./../slack/helpers"
 import { InsightsLoader } from "./LoaderPage"
@@ -14,7 +14,8 @@ class Insights extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            memberProfileMap: new Map(),
+            // memberProfileMap: new Map(),
+            standup: null,
             standupRuns: null,
             questions: null,
             currentStandupIndex: 0,
@@ -27,10 +28,11 @@ class Insights extends Component {
         return (srObj && srObj.responses.filter(response => response.question_id === questionId)) || [];
     }
     getDataForChart = (standupRunId) => {
-        const { standupRuns, memberProfileMap } = this.state;
+        const { standupRuns, standup } = this.state;
+        const { channelsIDmembersMap } = this.props;
         const srObj = standupRuns.find(standupRun => standupRun.id === standupRunId);
         const v1 = remove_duplicates(srObj.responses.map(response => response.slackuser_id)).length || 0;
-        const v2 = memberProfileMap.size || 1;
+        const v2 = channelsIDmembersMap.get(standup.channel).map(e => e).length || 1;
         return [{ date: 0, value: v1 }, { date: 1, value: v2 }]
         // return (srObj && srObj.responses.filter(response => response.question_id === questionId)) || [];
     }
@@ -41,11 +43,9 @@ class Insights extends Component {
             { standup_id },
             GET_STANDUP_RESPONSES
         );
-        let res2 = await executeOperation(
-            { channel: res1.data.standup_by_pk.channel },
-            GET_CHANNEL_MEMBERS
-        );
+
         this.setState({
+            standup: res1.data.standup_by_pk,
             standupRuns: res1.data.standup_by_pk.standup_runs.map(standup_run => {
                 return {
                     id: standup_run.id, created_at: standup_run.created_at,
@@ -53,18 +53,6 @@ class Insights extends Component {
                 }
             }),
             questions: res1.data.standup_by_pk.questions
-        }, () => {
-            let memberProfileMap = new Map();
-            // console.log(res2);
-            const { ids, images, real_names } = res2.data.getMembers;
-            console.log('here', ids, images, real_names)
-            ids.forEach((id, index) => {
-                memberProfileMap.set(id, {
-                    id, image: images[index],
-                    real_name: real_names[index]
-                })
-            })
-            this.setState({ memberProfileMap })
         });
     }
     goToPrevRun = () => {
@@ -88,6 +76,7 @@ class Insights extends Component {
     render() {
         const { questions, standupRuns,
             currentStandupIndex, memberProfileMap } = this.state;
+        const { membersMap } = this.props;
         console.log(memberProfileMap)
         return (
             <>
@@ -148,19 +137,19 @@ class Insights extends Component {
                                                                     <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
 
                                                                         {
-                                                                            memberProfileMap.size &&
+                                                                            membersMap.size &&
                                                                             this.getResponseForRunAndQuestion(standupRuns[currentStandupIndex].id, question.id)
                                                                                 .map((response, resI) => (
                                                                                     <div className="flex py-4" key={resI}>
                                                                                         <div className="flex flex-2">
                                                                                             <img className="w-16 h-16 m-0 rounded-circle"
-                                                                                                alt={memberProfileMap.get(response.slackuser_id).real_name}
-                                                                                                title={memberProfileMap.get(response.slackuser_id).real_name}
-                                                                                                src={memberProfileMap.get(response.slackuser_id).image} />
+                                                                                                alt={membersMap.get(response.slackuser_id).profile.real_name}
+                                                                                                title={membersMap.get(response.slackuser_id).profile.real_name}
+                                                                                                src={membersMap.get(response.slackuser_id).profile.image_72} />
                                                                                         </div>
                                                                                         <div className="w-full ml-2">
                                                                                             <h4 className="leading-6 font-bold text-lg text-gray-600">
-                                                                                                {memberProfileMap.get(response.slackuser_id).real_name}
+                                                                                                {membersMap.get(response.slackuser_id).profile.real_name}
                                                                                             </h4>
                                                                                             <p className="text-lg text-gray-600">{response.body}</p>
                                                                                         </div>

@@ -14,68 +14,6 @@ import {
 class App extends React.Component {
 
 
-  // accessToken = async () => {
-  //   let currentURL = document.location.search;
-  //   let code = await currentURL.slice(6, -7);
-  //   var result;
-  //   try {
-  //     result = await new WebClient().oauth.v2.access({
-  //       code,
-  //       client_id: process.env.REACT_APP_CLIENT_ID,
-  //       client_secret: process.env.REACT_APP_CLIENT_SECRET,
-  //     });
-  //     if (result.ok) {
-  //       this.setState({ slackUser: result });
-  //       localStorage.setItem("user-data", JSON.stringify(result));
-  //       return this.setState({ slackUser: result }, () => this.accessData());
-  //     }
-  //   } catch (err) {
-  //     return this.setState(
-  //       {
-  //         slackUser: JSON.parse(localStorage.getItem("user-data")),
-  //       },
-  //       () => this.accessData()
-  //     );
-  //   }
-  // };
-
-  // accessData = () => {
-  //   const accessUser = async () => {
-  //     try {
-  //       const result = await new WebClient().users.info({
-  //         token: this.state.slackUser.access_token,
-  //         user: this.state.slackUser.authed_user.id,
-  //       });
-  //       this.setState({ userProfileInfo: result.user });
-  //       return localStorage.setItem(
-  //         "userProfileInfo",
-  //         JSON.stringify(result.user)
-  //       );
-  //     } catch (error) {
-  //       return this.setState({
-  //         userProfileInfo: JSON.parse(localStorage.getItem("userProfileInfo")),
-  //       });
-  //     }
-  //   };
-
-  //   const accessChannels = async () => {
-  //     try {
-  //       new WebClient(this.state.slackUser.access_token).conversations
-  //         .list()
-  //         .then((res) => {
-  //           this.setState({ channels: res.channels });
-  //           localStorage.setItem("channels", JSON.stringify(res.channels));
-  //         });
-  //     } catch (err) {
-  //       return this.setState({
-  //         channels: JSON.parse(localStorage.getItem("channels")),
-  //       });
-  //     }
-  //   };
-  //   accessUser();
-  //   accessChannels();
-  // };
-
   state = {
     slackUser: null,
     channels: [],
@@ -126,10 +64,6 @@ class App extends React.Component {
           let channels = await getChannelsUsingCursor(token);
 
           channels = channels.filter(channel => !channel.is_archived)
-          // let channelIDChannelMap = new Map();
-
-          // channels.forEach(channel => channelIDChannelMap
-          //   .set(channel.id, channel));
           const channelMapRequests = channels
             .map(channel => getAllMembersUsingCursor(token, channel.id));
           const channelMapResults = await Promise.all(channelMapRequests);
@@ -148,16 +82,7 @@ class App extends React.Component {
 
 
           const members = await Promise.all(MemberRequests);
-          // let memberIDMemberMap = new Map();
-          // members.forEach(member => {
-          //   memberIDMemberMap.set(member.id, member);
-          // })
-          // console.log('Mmeber map:', memberIDMemberMap)
-          // let channelIDMembersMap = new Map();
-          // channels.forEach((channel, index) => channelIDMembersMap
-          //   .set(channel.id, channelMapResults[index]
-          //     .map(member => memberIDMemberMap.get(member)))
-          // )
+
           console.log(members, channels, channelMembers)
           this.setState({
             slackUser, userProfile, members, channelMembers,
@@ -186,7 +111,8 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLoggedIn, channels, members, channelMembers, slackUser, userProfile } = this.state;
+    const { isLoggedIn, channels, members, channelMembers,
+      slackUser, userProfile } = this.state;
 
     return (
 

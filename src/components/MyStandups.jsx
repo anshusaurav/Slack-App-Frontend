@@ -61,7 +61,7 @@ class MyStandups extends React.Component {
         <Sidebar toggleLoggedIn={toggleLoggedIn}
           slackUser={slackUser}
           userProfile={userProfile} />
-        <div className="shadow-inner py-6"
+        <div className="shadow-inner py-6 min-h-screen"
           style={{ backgroundColor: "rgb(250, 250, 250)" }}>
           <div className="max-w-screen-xl mx-auto">
             <div className="flex justify-between items-center px-8 pb-8">

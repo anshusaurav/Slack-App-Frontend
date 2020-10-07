@@ -16,37 +16,39 @@ class SingleStandup extends React.Component {
         this.state = {
             loading: false,
             error: false,
-            openTab: 2,
+            openTab: 1,
             standup: null,
-            channelsIDNameMap: new Map(),
-            channelsIDmembersMap: new Map()
+            channelsIDmembersMap: new Map(),
+            channelsMap: null,
+            membersMap: null,
         }
     }
     fetchStandup = async () => {
         const standup_id = this.props.match.params.id;
+        const { slackUser, channels, members, channelMembers } = this.props;
         let res1 = await executeOperation(
             { standup_id },
             GET_SINGLE_STANDUP
         );
-        // res1.data.standup_by_pk.questions.sort((a, b) => a.index - b.index);
-        let res2 = await executeOperation(
-            { channel: res1.data.standup_by_pk.channel },
-            GET_CHANNEL_MEMBERS
-        );
+        const standup = res1.data.standup_by_pk;
 
-        const channels = JSON.parse(localStorage.channels) || [];
-        let channelsIDNameMap = new Map();
+        let channelsMap = new Map();
         channels.forEach(channel => {
-            channelsIDNameMap.set(channel.id, channel.name);
+            channelsMap.set(channel.id, channel);
         })
-
-        this.setState({ standup: res1.data.standup_by_pk }, () => {
-            const channelsIDmembersMap = new Map();
-            channelsIDmembersMap.set(res1.data.standup_by_pk.channel, (res2.data && res2.data.getMembers))
-            this.setState({ channelsIDmembersMap }, () => {
-                this.setState({ channelsIDNameMap });
-            })
+        let membersMap = new Map();
+        members.forEach(member => {
+            membersMap.set(member.id, member);
         })
+        let channelsIDmembersMap = new Map();
+        channelMembers.forEach(channel => {
+            channelsIDmembersMap.set(channel.id, channel.members
+                .filter((member, index) => !membersMap.get(member).is_bot)
+                .map(member => membersMap.get(member)));
+        })
+        this.setState({
+            standup, channelsMap, membersMap, channelsIDmembersMap
+        });
 
     }
 
@@ -64,10 +66,13 @@ class SingleStandup extends React.Component {
     }
 
     render() {
-        const { openTab, standup, channelsIDmembersMap, channelsIDNameMap } = this.state;
+        const { openTab, standup, channelsIDmembersMap, channelsMap, membersMap } = this.state;
+        const { toggleLoggedIn, slackUser, userProfile, channels, members, channelMembers } = this.props;
         return (
             <>
-                <Sidebar />
+                <Sidebar toggleLoggedIn={toggleLoggedIn}
+                    slackUser={slackUser}
+                    userProfile={userProfile} />
                 {standup ? (
                     <>
                         <div className="shadow-inner px-8 py-6" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
@@ -121,25 +126,27 @@ class SingleStandup extends React.Component {
 
                                             <div className="flex overflow-hidden">
                                                 {
-                                                    channelsIDmembersMap.get(standup.channel) && channelsIDmembersMap
-                                                        .get(standup.channel)
-                                                        .images
-                                                        .filter((image, ind) => ind < 10).map((image, imgI) => (
-                                                            <img className={`inline-block h-12 w-12 border-white border-4
-                                                             rounded-full text-white shadow-solid ${imgI === 0 ? "" : "-ml-4"}`}
-                                                                src={image}
-                                                                alt=""
-                                                                title={channelsIDmembersMap.get(standup.channel).real_names[imgI]}
-                                                                key={imgI} />
+                                                    channelsIDmembersMap.get(standup.channel).filter((member, ind) => ind < 8)
+                                                        .map((member, imgI) => {
+                                                            return (
 
-                                                        )
-                                                        )
+                                                                <img className={"inline-block h-12 w-12 border-white border-4 rounded-full text-white shadow-solid "
+                                                                    + (imgI === 0 ? "" : "-ml-4")}
+                                                                    src={member.profile.image_72}
+                                                                    alt=""
+                                                                    title={member.profile.real_name} />
+
+                                                            )
+                                                        })
                                                 }
                                                 {
-                                                    channelsIDmembersMap.get(standup.channel) && (channelsIDmembersMap.get(standup.channel).images.length > 10) &&
+                                                    channelsIDmembersMap.get(standup.channel) &&
+                                                    (channelsIDmembersMap.get(standup.channel).map(e => e).length > 8) &&
                                                     (
-                                                        <div className="-ml-2 flex h-12 w-12 border-white border-4 rounded-full text-white bg-gray-300 shadow-solid items-center justify-center text-lg text-gray-600 font-bold">
-                                                            {`+${channelsIDmembersMap.get(standup.channel).images.length - 10}`}
+                                                        <div className="-ml-4 flex h-12 w-12 border-white border-4 
+                              rounded-full text-grey bg-gray-300 shadow-solid items-center 
+                              justify-center text-lg text-gray-600 font-bold">
+                                                            {`+${channelsIDmembersMap.get(standup.channel).map(e => e).length - 8}`}
                                                         </div>
                                                     )
                                                 }
@@ -151,7 +158,7 @@ class SingleStandup extends React.Component {
                                             </h4>
                                             <span className="mt-4 text-gray-600 font-bold text-base border-solid border border-gray-700 rounded-1 px-4 py-1 ">
                                                 <span className="text-gray-500 font-extrabold text-xl align-center">#
-                                                </span> {channelsIDNameMap.get(standup.channel)}
+                                                </span> {channelsMap.get(standup.channel).name}
                                             </span>
                                         </div>
 
@@ -207,9 +214,27 @@ class SingleStandup extends React.Component {
                                                 <div>
                                                     {
                                                         openTab === 1 ? (
-                                                            <Insights standup_id={standup.id} />
+                                                            <Insights standup_id={standup.id}
+                                                                slackUser={slackUser}
+                                                                userProfile={userProfile}
+                                                                channels={channels}
+                                                                members={members}
+                                                                channelMembers={channelMembers}
+                                                                channelsMap={channelsMap}
+                                                                membersMap={membersMap}
+                                                                channelsIDmembersMap={channelsIDmembersMap}
+                                                            />
                                                         ) : (
-                                                                <Timeline standup_id={standup.id} />
+                                                                <Timeline standup_id={standup.id}
+                                                                    slackUser={slackUser}
+                                                                    userProfile={userProfile}
+                                                                    channels={channels}
+                                                                    members={members}
+                                                                    channelMembers={channelMembers}
+                                                                    channelsMap={channelsMap}
+                                                                    membersMap={membersMap}
+                                                                    channelsIDmembersMap={channelsIDmembersMap}
+                                                                />
                                                             )
                                                     }
                                                 </div>

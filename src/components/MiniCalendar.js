@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react'
-
+const dayArr = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 export default class MiniCalendar extends Component {
     state = {
         activeDays: []
@@ -22,27 +22,16 @@ export default class MiniCalendar extends Component {
             <div>
                 <svg class="punch-card" width="392" height="196">
                     <g class="punch-card__xAxis">
-                        <text className="relative font-extrabold text-gray-400 text-base" style={{ fill: 'gray' }} textAnchor="middle" dy="12" dx="88">
-                            M
-                        </text>
-                        <text className="relative font-extrabold text-gray-400 text-base" style={{ fill: 'gray' }} textAnchor="middle" dy="12" dx="136">
-                            T
-                        </text>
-                        <text className="relative font-extrabold text-gray-400 text-base" style={{ fill: 'gray' }} textAnchor="middle" dy="12" dx="184">
-                            W
-                        </text>
-                        <text className="relative font-extrabold text-gray-400 text-base" style={{ fill: 'gray' }} textAnchor="middle" dy="12" dx="232">
-                            T
-                        </text>
-                        <text className="relative font-extrabold text-gray-400 text-base" style={{ fill: 'gray' }} textAnchor="middle" dy="12" dx="280">
-                            F
-                        </text>
-                        <text className="relative font-extrabold text-gray-400 text-base" style={{ fill: 'gray' }} text-anchor="middle" dy="12" dx="328">
-                            S
-                        </text>
-                        <text className="relative font-extrabold text-gray-400 text-base" style={{ fill: 'gray' }} text-anchor="middle" dy="12" dx="376">
-                            S
-                        </text>
+                        {
+                            dayArr.map((day, index) => (
+                                <text className="relative font-extrabold text-gray-400 text-base"
+                                    style={{ fill: 'gray' }}
+                                    textAnchor="middle" dy="12" dx={88 + 48 * index}>
+                                    {day}
+                                </text>
+                            ))
+                        }
+
                     </g>
 
                     <g class="punch-card__data">
