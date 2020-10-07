@@ -8,16 +8,14 @@ class StandupSidebar extends React.Component {
     state = { standups: null };
 
     fetchStandups = async () => {
-        if (localStorage.getItem("userProfileInfo") !== null) {
-            const slackUser = JSON.parse(localStorage.userProfileInfo);
-            const creator_slack_id = slackUser.id;
-            let res1 = await executeOperation(
-                { creator_slack_id },
-                GET_STANDUPS
-            );
-            this.setState({ standups: res1.data.standup })
-        }
-
+        const { slackUser } = this.props;
+        const creator_slack_id = slackUser.id;
+        let res1 = await executeOperation(
+            { creator_slack_id },
+            GET_STANDUPS
+        );
+        const standups = res1.data.standup;
+        this.setState({ standups });
     }
 
     componentDidMount() {

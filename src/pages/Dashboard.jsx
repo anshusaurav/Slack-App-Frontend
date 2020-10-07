@@ -9,8 +9,12 @@ export default class Dashboard extends Component {
         <div>
           {this.props.slackUser ? (
             <MyStandups
-              userProfileInfo={this.props.userProfileInfo}
+              channels={this.props.channels}
+              members={this.props.members}
               slackUser={this.props.slackUser}
+              userProfile={this.props.userProfile}
+              toggleLoggedIn={this.props.toggleLoggedIn}
+              channelMembers={this.props.channelMembers}
             />
           ) : (
               <LoaderPage />

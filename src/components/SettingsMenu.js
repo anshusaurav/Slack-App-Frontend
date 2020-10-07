@@ -5,8 +5,8 @@ class SettingsMenu extends Component {
 
     handleLogout = (event) => {
         event.preventDefault();
-        localStorage.removeItem('user-data');
-        localStorage.removeItem('userProfileInfo');
+        localStorage.clear();
+        this.props.toggleLoggedIn();
         this.props.history.push('/');
     }
     render() {

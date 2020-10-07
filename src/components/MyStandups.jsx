@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom'
-import { GET_CHANNEL_MEMBERS, GET_STANDUPS } from "./../graphql/queries"
+import { GET_STANDUPS } from "./../graphql/queries"
 import { executeOperation, getCronAsString } from "./../graphql/helpers"
-import { remove_duplicates } from "./../slack/helpers"
 import Sidebar from "./Sidebar"
 import { AllStandupsLoader } from "./LoaderPage"
 import { RiAddLine } from "react-icons/ri"
@@ -12,57 +11,56 @@ class MyStandups extends React.Component {
     super(props);
     this.state = {
       standups: null,
-      channelsIDNameMap: new Map(),
-      channelsIDmembersMap: new Map(),
+      channelsIDmembersMap: null,
+      channelsMap: null,
+      membersMap: null,
+
     }
   }
   fetchStandups = async () => {
-    const creator_slack_id = this.props.slackUser.authed_user.id;
+    console.log(this.props);
+    const { slackUser, channels, members, channelMembers } = this.props;
+    const creator_slack_id = slackUser.id;
     let res1 = await executeOperation(
       { creator_slack_id },
       GET_STANDUPS
     );
-    const channels = JSON.parse(localStorage.channels);
-    let map = new Map();
+    console.log(res1);
+    // console.log(localStorage)
+    const standups = res1.data.standup;
+    let channelsMap = new Map();
     channels.forEach(channel => {
-      map.set(channel.id, channel.name);
+      channelsMap.set(channel.id, channel);
+    })
+    let membersMap = new Map();
+    members.forEach(member => {
+      membersMap.set(member.id, member);
+    })
+    let channelsIDmembersMap = new Map();
+    channelMembers.forEach(channel => {
+      channelsIDmembersMap.set(channel.id, channel.members
+        .filter((member, index) => !membersMap.get(member).is_bot)
+        .map(member => membersMap.get(member)));
     })
     this.setState({
-      channelsIDNameMap: map, standups: res1.data.standup
-        || null
-    }, async () => {
-      const uMap = new Map();
-      let arr = Array.from(this.state.standups.map(standup => standup.channel));
-      arr = remove_duplicates(arr);
-      let requests = arr.map(key => {
-        return (executeOperation(
-          { channel: key },
-          GET_CHANNEL_MEMBERS
-        ));
-      });
-      const results = await Promise.all(requests);
-      results.forEach((result, index) => {
-        if (result.data && result.data.getMembers)
-          uMap.set(arr[index], result.data.getMembers);
-      })
-      console.log('dssdds', results);
-      this.setState({ channelsIDmembersMap: uMap });
+      standups, channelsMap, membersMap, channelsIDmembersMap
     });
   }
 
   componentDidMount() {
     this.fetchStandups();
-    console.log(this.props);
   }
-  componentDidUpdate(prevProps, prevState) {
 
-  }
 
   render() {
-    const { standups, channelsIDNameMap, channelsIDmembersMap } = this.state;
+    const { standups, channelsMap, channelsIDmembersMap } = this.state;
+    const { toggleLoggedIn, slackUser, userProfile } = this.props;
+    // console.log('Render: ', this.state);
     return (
       <>
-        <Sidebar />
+        <Sidebar toggleLoggedIn={toggleLoggedIn}
+          slackUser={slackUser}
+          userProfile={userProfile} />
         <div className="shadow-inner py-6"
           style={{ backgroundColor: "rgb(250, 250, 250)" }}>
           <div className="max-w-screen-xl mx-auto">
@@ -70,7 +68,7 @@ class MyStandups extends React.Component {
               <div>
                 <span className="text-gray-700 font-medium text-sm">
                   Dashboard / Home
-                            </span>
+                </span>
                 <h1 className="pt-4 text-gray-800 font-bold text-4xl">
                   {"My Standups"}
                 </h1>
@@ -112,49 +110,37 @@ class MyStandups extends React.Component {
                         </h4>
 
                         <div className="flex overflow-hidden mt-4 mb-8" >
+
                           {
-                            channelsIDmembersMap.get(standup.channel) &&
-                            channelsIDmembersMap.get(standup.channel)
-                              .images.filter((image, ind) => ind < 10)
-                              .map((image, imgI) => {
+                            channelsIDmembersMap.get(standup.channel).filter((member, ind) => ind < 8)
+                              .map((member, imgI) => {
                                 return (
 
                                   <img className={"inline-block h-20 w-20 border-white border-4 rounded-full text-white shadow-solid "
                                     + (imgI === 0 ? "" : "-ml-4")}
-                                    src={image}
+                                    src={member.profile.image_72}
                                     alt=""
-                                    title={channelsIDmembersMap.get(standup.channel).real_names[imgI]} />
+                                    title={member.profile.real_name} />
 
                                 )
                               })
                           }
                           {
                             channelsIDmembersMap.get(standup.channel) &&
-                            (channelsIDmembersMap.get(standup.channel).images.length > 10) &&
+                            (channelsIDmembersMap.get(standup.channel).map(e => e).length > 8) &&
                             (
                               <div className="-ml-4 flex h-20 w-20 border-white border-4 
                               rounded-full text-grey bg-gray-300 shadow-solid items-center 
                               justify-center text-lg text-gray-600 font-bold">
-                                {`+${channelsIDmembersMap.get(standup.channel).images.length - 10}`}
+                                {`+${channelsIDmembersMap.get(standup.channel).map(e => e).length - 8}`}
                               </div>
                             )
                           }
-                          {/* {
-                            !channelsIDmembersMap && (
-                              <div className="col spinner_item p-5" title="ThreeDots">
-                                <Loader
-                                  type="ThreeDots"
-                                  color="#00BFFF"
-                                  height={100}
-                                  width={100}
-                                />
-                              </div>
-                            )
-                          } */}
+
                         </div>
                         <span className="mt-4 text-gray-700 font-bold text-base 
                         border-solid border border-gray-400 rounded-1 px-4 py-2">
-                          {channelsIDNameMap.get(standup.channel)}
+                          {channelsMap.get(standup.channel).name}
                         </span>
                       </div>
                       <div className="w-5/12">
