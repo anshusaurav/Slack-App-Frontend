@@ -71,9 +71,13 @@ class EditStandup extends Component {
     }
     render() {
         const { standup, isLoading } = this.state;
+        const { toggleLoggedIn, slackUser, userProfile } = this.props;
+
         return (
             <>
-                <Sidebar />
+                <Sidebar toggleLoggedIn={toggleLoggedIn}
+                    slackUser={slackUser}
+                    userProfile={userProfile} />
 
                 {
                     standup ? (<>

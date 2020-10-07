@@ -129,7 +129,7 @@ class CreateStandup extends Component {
     e.preventDefault();
     this.setState({ isLoading: true }, async () => {
       const { selectedChannels, message, standupName, questions, selectedTimezone } = this.state;
-      const creator_slack_id = this.props.slackUser.authed_user.id;
+      const creator_slack_id = this.props.slackUser.id;
       let dataToSend = {
         channel: selectedChannels.length ? selectedChannels[0].id : "",
         creator_slack_id,
@@ -166,9 +166,12 @@ class CreateStandup extends Component {
   render() {
     const { standupName, message, questions, selectedChannels, options,
       cronDays, cronTime, selectedTimezone, timezones, isLoading } = this.state;
+    const { toggleLoggedIn, slackUser, userProfile } = this.props;
     return (
       <>
-        <Sidebar />
+        <Sidebar toggleLoggedIn={toggleLoggedIn}
+          slackUser={slackUser}
+          userProfile={userProfile} />
         <form onSubmit={this.handleFormSubmit}>
           <div className="bg-gray-100 px-8 py-4 mb-8">
             <div className="max-w-screen-xl mx-auto">
