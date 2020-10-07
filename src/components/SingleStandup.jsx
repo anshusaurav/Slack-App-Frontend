@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom'
 import { HiCog } from "react-icons/hi";
 import { GoPrimitiveDot } from "react-icons/go"
 import stc from 'string-to-color'
-import { GET_SINGLE_STANDUP, GET_CHANNEL_MEMBERS } from "./../graphql/queries"
+import { GET_SINGLE_STANDUP } from "./../graphql/queries"
 import { executeOperation, getCronAsString } from "./../graphql/helpers"
 import { MainSectionLoader } from "./LoaderPage"
 import Timeline from "./Timeline"
@@ -16,7 +16,7 @@ class SingleStandup extends React.Component {
         this.state = {
             loading: false,
             error: false,
-            openTab: 1,
+            openTab: 2,
             standup: null,
             channelsIDmembersMap: new Map(),
             channelsMap: null,

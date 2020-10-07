@@ -25,7 +25,8 @@ class Timeline extends Component {
 
     isResponseSubmitted = (standupRunId, slackUserId) => {
         const { standupRuns } = this.state;
-        const srObj = standupRuns.find(standupRun => standupRun.id === standupRunId)
+        const srObj = standupRuns
+            .find(standupRun => standupRun.id === standupRunId)
         if (!srObj)
             return false;
         const res = (srObj && srObj.responses
@@ -35,7 +36,8 @@ class Timeline extends Component {
     }
     isResponseSubmittedForQuestion = (standupRunId, questionId, slackUserId) => {
         const { standupRuns } = this.state;
-        const srObj = standupRuns.find(standupRun => standupRun.id === standupRunId)
+        const srObj = standupRuns
+            .find(standupRun => standupRun.id === standupRunId)
         if (!srObj)
             return false;
         const res = (srObj && srObj.responses
@@ -46,7 +48,8 @@ class Timeline extends Component {
 
     getResponseSubmittedForQuestion = (standupRunId, questionId, slackUserId) => {
         const { standupRuns } = this.state;
-        const srObj = standupRuns.find(standupRun => standupRun.id === standupRunId)
+        const srObj = standupRuns
+            .find(standupRun => standupRun.id === standupRunId)
         if (!srObj)
             return false;
         const res = (srObj && srObj.responses
@@ -63,23 +66,24 @@ class Timeline extends Component {
             { standup_id },
             GET_STANDUP_RESPONSES
         );
-        console.log(res1);
         let res2 = await executeOperation(
             { channel: res1.data.standup_by_pk.channel },
             GET_CHANNEL_MEMBERS
         );
-        console.log(res2)
         // console.log(res2.data.getMembers);
         this.setState({
-            standupRuns: res1.data.standup_by_pk.standup_runs.map(standup_run => {
-                return {
-                    id: standup_run.id, created_at: standup_run.created_at,
-                    responses: standup_run.responses
-                }
-            }),
+            standupRuns: res1.data.standup_by_pk.standup_runs
+                .map(standup_run => {
+                    return {
+                        id: standup_run.id, created_at: standup_run.created_at,
+                        responses: standup_run.responses
+                    }
+                }),
             questions: res1.data.standup_by_pk.questions,
-            selectedQuestions: res1.data.standup_by_pk.questions.map(question => question.id),
-            checkQuestons: Array(res1.data.standup_by_pk.questions.length).fill(true)
+            selectedQuestions: res1.data.standup_by_pk.questions
+                .map(question => question.id),
+            checkQuestons: Array(res1.data.standup_by_pk.questions.length)
+                .fill(true)
         }, () => {
             let memberProfileMap = new Map();
             let memberProfiles = [];
@@ -99,36 +103,36 @@ class Timeline extends Component {
             this.setState({ memberProfileMap, memberProfiles })
         });
     }
-    toggleQuestion = (event) => {
-        const questionId = event.target.dataset.questionId;
-        if (!questionId)
-            return;
-        let selectedQuestions = this.state.selectedQuestions;
-        const { questions } = this.state;
-        console.log(questionId);
+    // toggleQuestion = (event) => {
+    //     const questionId = event.target.dataset.questionId;
+    //     if (!questionId)
+    //         return;
+    //     let selectedQuestions = this.state.selectedQuestions;
+    //     const { questions } = this.state;
+    //     console.log(questionId);
 
-        let zInd = 0;
-        questions.forEach((question, index) => {
-            if (question.id === questionId)
-                zInd = index;
-        })
+    //     let zInd = 0;
+    //     questions.forEach((question, index) => {
+    //         if (question.id === questionId)
+    //             zInd = index;
+    //     })
 
-        if (selectedQuestions.includes(questionId)) {
-            let z = selectedQuestions.indexOf(questionId)
-            this.setState({
-                selectedQuestions: selectedQuestions.splice(z, 1), checkQuestions: this.state.checkQuestions.map((q, ind) => {
-                    return ind === z ? q : false
-                })
-            })
-        }
-        else {
-            this.setState({
-                selectedQuestions: selectedQuestions.concat([questionId]), checkQuestions: this.state.checkQuestions.map((q, ind) => {
-                    return ind === zInd ? q : true
-                })
-            });
-        }
-    }
+    //     if (selectedQuestions.includes(questionId)) {
+    //         let z = selectedQuestions.indexOf(questionId)
+    //         this.setState({
+    //             selectedQuestions: selectedQuestions.splice(z, 1), checkQuestions: this.state.checkQuestions.map((q, ind) => {
+    //                 return ind === z ? q : false
+    //             })
+    //         })
+    //     }
+    //     else {
+    //         this.setState({
+    //             selectedQuestions: selectedQuestions.concat([questionId]), checkQuestions: this.state.checkQuestions.map((q, ind) => {
+    //                 return ind === zInd ? q : true
+    //             })
+    //         });
+    //     }
+    // }
 
     componentDidMount() {
         this.fetchStandupRuns();

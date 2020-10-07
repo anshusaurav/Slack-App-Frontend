@@ -36,7 +36,7 @@ class Sidebar extends React.Component {
                         <div className="w-full"
                             onMouseEnter={e => this.setMenuShow(true)}
                             onMouseLeave={e => this.setMenuShow(false)}>
-                            <div className="w-12 h-12 mb-8 flex items-center justify-center overflow-hidden rounded-circle mx-auto"
+                            <div className="w-12 h-12 mb-8 flex items-center justify-center overflow-hidden rounded-circle mx-auto cursor-pointer"
                             >
                                 <img src={`${userProfile.profile.image_72}`}
                                     alt={userProfile.profile.real_name} />

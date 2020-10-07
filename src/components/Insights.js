@@ -24,15 +24,20 @@ class Insights extends Component {
     }
     getResponseForRunAndQuestion = (standupRunId, questionId) => {
         const { standupRuns } = this.state;
-        const srObj = standupRuns.find(standupRun => standupRun.id === standupRunId)
-        return (srObj && srObj.responses.filter(response => response.question_id === questionId)) || [];
+        const srObj = standupRuns
+            .find(standupRun => standupRun.id === standupRunId)
+        return (srObj && srObj.responses
+            .filter(response => response.question_id === questionId)) || [];
     }
     getDataForChart = (standupRunId) => {
         const { standupRuns, standup } = this.state;
         const { channelsIDmembersMap } = this.props;
-        const srObj = standupRuns.find(standupRun => standupRun.id === standupRunId);
-        const v1 = remove_duplicates(srObj.responses.map(response => response.slackuser_id)).length || 0;
-        const v2 = channelsIDmembersMap.get(standup.channel).map(e => e).length || 1;
+        const srObj = standupRuns
+            .find(standupRun => standupRun.id === standupRunId);
+        const v1 = remove_duplicates(srObj.responses
+            .map(response => response.slackuser_id)).length || 0;
+        const v2 = channelsIDmembersMap.get(standup.channel)
+            .map(e => e).length || 1;
         return [{ date: 0, value: v1 }, { date: 1, value: v2 }]
         // return (srObj && srObj.responses.filter(response => response.question_id === questionId)) || [];
     }
@@ -62,7 +67,7 @@ class Insights extends Component {
                 currentStandupIndex : currentStandupIndex + 1
         })
     }
-    goToNextrun = () => {
+    goToNextRun = () => {
         const { standupRuns, currentStandupIndex } = this.state;
         console.log(standupRuns)
         this.setState({
@@ -110,7 +115,7 @@ class Insights extends Component {
                                                 </div>
                                                 {
                                                     currentStandupIndex !== 0 && (<div>
-                                                        <button onClick={this.goToNextrun}
+                                                        <button onClick={this.goToNextRun}
                                                             className="w-12 h-12 focus:outline-none  shadow-newtype rounded-full flex 
                                                             items-center justify-center">
                                                             <HiArrowRight className="inline-block text-xl text-bold m-1 

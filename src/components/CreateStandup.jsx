@@ -41,7 +41,7 @@ class CreateStandup extends Component {
   };
   handleTimeValidation = (e) => {
     let inputTime = e.target.value;
-    let regexp = /^(0?[1-9]|1[012])(:[0-5]\d) [APap][mM]$/;
+    let regexp = /^(0?[0-9]|1[012])(:[0-5]\d) [APap][mM]$/;
     let isTimeValid = regexp.test(inputTime);
     if (!isTimeValid) {
       this.setState({ cronTime: "10:00 AM" });

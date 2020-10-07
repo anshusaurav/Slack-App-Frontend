@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import CreateStandup from "./components/CreateStandup";
 import SingleStandup from "./components/SingleStandup"
 import EditStandup from "./components/EditStandup"
+import { LoaderPage } from "./components/LoaderPage"
 import {
   getChannelsUsingCursor, getAllMembersUsingCursor,
   remove_duplicates, getMemberInfo
@@ -20,10 +21,12 @@ class App extends React.Component {
     members: [],
     channelMembers: [],
     userProfile: null,
-    isLoggedIn: false
+    isLoggedIn: false,
+    isProcessing: false,
   };
 
   fetchUserAndChannels = async () => {
+
     if (
       localStorage.getItem('slackUser') &&
       localStorage.getItem('channels') &&
@@ -37,20 +40,25 @@ class App extends React.Component {
         members: JSON.parse(localStorage.getItem('members')),
         userProfile: JSON.parse(localStorage.getItem('userProfile')),
         channelMembers: JSON.parse(localStorage.getItem('channelMembers')),
-        isLoggedIn: true
+        isLoggedIn: true,
+        // isProcessing: true,
       });
     }
     else {
+      // this.setState({ isProcessing: true })
       const currentURL = document.location.search;
       const code = await currentURL.slice(6, -7);
       console.log(code);
 
       try {
+        // this.setState({ isProcessing: true });
+        console.log('-1')
         const result = await new WebClient().oauth.v2.access({
           code,
           client_id: process.env.REACT_APP_CLIENT_ID,
           client_secret: process.env.REACT_APP_CLIENT_SECRET,
         });
+        console.log('0')
         localStorage.setItem('code', code);
         if (result.ok) {
           const slackUser = result.authed_user;
@@ -62,15 +70,17 @@ class App extends React.Component {
           });
           const userProfile = userProfileResult.user;
           let channels = await getChannelsUsingCursor(token);
-
+          console.log('1');
           channels = channels.filter(channel => !channel.is_archived)
           const channelMapRequests = channels
             .map(channel => getAllMembersUsingCursor(token, channel.id));
           const channelMapResults = await Promise.all(channelMapRequests);
+          console.log('w');
           console.log('dasdasdwqeqweqw', channelMapResults);
           const channelMembers = channels.map((channel, index) => (
             { id: channel.id, members: channelMapResults[index].filter(member => !member.is_bot) }
           ))
+          console.log('3');
           let membersArr = [];
 
           channelMapResults.forEach(channelMapResult => {
@@ -79,14 +89,14 @@ class App extends React.Component {
           membersArr = remove_duplicates(membersArr);
           const MemberRequests = membersArr
             .map(user => getMemberInfo(token, user));
-
+          console.log('4');
 
           const members = await Promise.all(MemberRequests);
 
           console.log(members, channels, channelMembers)
           this.setState({
             slackUser, userProfile, members, channelMembers,
-            channels, isLoggedIn: true
+            channels, isLoggedIn: true, isProcessing: false
           }, () => {
             console.log('Setteed state');
             localStorage.setItem('slackUser', JSON.stringify(slackUser))
@@ -94,6 +104,7 @@ class App extends React.Component {
             localStorage.setItem('members', JSON.stringify(members))
             localStorage.setItem('channels', JSON.stringify(channels))
             localStorage.setItem('channelMembers', JSON.stringify(channelMembers))
+
           });
 
 
@@ -112,7 +123,7 @@ class App extends React.Component {
 
   render() {
     const { isLoggedIn, channels, members, channelMembers,
-      slackUser, userProfile } = this.state;
+      slackUser, userProfile, isProcessing } = this.state;
 
     return (
 
@@ -127,8 +138,8 @@ class App extends React.Component {
               userProfile={userProfile}
               toggleLoggedIn={this.toggleLoggedIn}
             />
-          ) : (
-              <HomePage isLoggedIn={isLoggedIn} />
+          ) : (isProcessing && !isLoggedIn ? (<LoaderPage />) : (
+            <HomePage isLoggedIn={isLoggedIn} />)
             )}
         </Route>
         <Route exact path="/dashboard">
