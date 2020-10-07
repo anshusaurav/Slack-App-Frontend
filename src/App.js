@@ -68,6 +68,7 @@ class App extends React.Component {
             token,
             user
           });
+          console.log('KILL', userProfileResult)
           const userProfile = userProfileResult.user;
           let channels = await getChannelsUsingCursor(token);
           console.log('1');

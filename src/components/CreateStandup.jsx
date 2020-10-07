@@ -127,6 +127,7 @@ class CreateStandup extends Component {
   }
   handleFormSubmit = (e) => {
     e.preventDefault();
+    // const token = this.props.slackUser.access_token;
     this.setState({ isLoading: true }, async () => {
       const { selectedChannels, message, standupName, questions, selectedTimezone } = this.state;
       const creator_slack_id = this.props.slackUser.id;
@@ -138,6 +139,7 @@ class CreateStandup extends Component {
         name: standupName.trim(),
         questions: questions.filter((ques) => ques.text).map((ques) => ques.text),
         timezone: selectedTimezone.length ? selectedTimezone[0].id.split(' ')[1] : "",
+
       };
       let res1 = await executeOperation(
         dataToSend,

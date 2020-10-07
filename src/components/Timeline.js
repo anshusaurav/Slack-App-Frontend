@@ -308,7 +308,7 @@ class Timeline extends Component {
                                                                 <input
                                                                     data-question-id={question.id}
                                                                     data-question-index={index}
-                                                                    onChange={this.toggleQuestion}
+                                                                    // onChange={this.toggleQuestion}
                                                                     checked={checkQuestons[index]}
                                                                     type="checkbox"
                                                                     className="form-checkbox h-4 w-4 text-teal-500 

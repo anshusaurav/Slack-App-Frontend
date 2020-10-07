@@ -34,8 +34,8 @@ class StandupSidebar extends React.Component {
                             </Link>
                         </div>
                         <div className="p-0 m-0">
-                            <button className="mt-4 text-gray-600 font-bold text-base 
-                            border-solid border border-gray-400 rounded-1 px-2 py-2">New Standup</button>
+                            <Link to="/dashboard/create" className="mt-4 text-gray-600 font-bold text-base 
+                            border-solid border border-gray-400 rounded-1 px-2 py-2">New Standup</Link>
                         </div>
                         {
                             standups && standups.map((standup, index) => (
