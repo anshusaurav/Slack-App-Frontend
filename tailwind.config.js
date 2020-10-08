@@ -42,7 +42,8 @@ module.exports = {
       },
       borderRadius: {
         'circle': '50%',
-        '1': '1rem'
+        '1': '1rem',
+        '100': '100px'
       },
       boxShadow: {
         newtype: '0 0 8px 0 rgba(0,0,0,.16)'

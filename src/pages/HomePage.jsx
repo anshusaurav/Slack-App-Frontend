@@ -11,14 +11,14 @@ export default class HomePage extends Component {
 
 
       <div className="bg-gray-100 px-4 py-5 text-blue-700 w-screen 
-            h-screen flex items-center justify-center" >
+            h-screen flex items-center justify-center"style={{ backgroundImage: "url('/images/space-objects-seamless-vector-pattern-repeat-background.jpg')" }} >
         <div
           style={{ boxShadow: "9px -2px 43px -8px rgba(0,0,0,1)" }}
           className="mx-auto flex flex-col justify-center items-center 
-                px-32  bg-white py-16"
+                px-12  bg-blue-600 py-20"
         >
-          <h1 className="text-3xl text-white font-bold font-sans">
-            Pup Bot
+          <h1 className="text-4xl text-center text-white font-bold font-sans tracking-wide">
+            PupBot
                 </h1>
           <img
             src="/images/bot.png"
@@ -26,10 +26,12 @@ export default class HomePage extends Component {
             className="rounded-full my-12"
             width="180px"
           />
-          <a href="https://slack.com/oauth/v2/authorize?client_id=401428056419.1387902464068&scope=channels:read,groups:read,mpim:read,im:read&user_scope=channels:read">
-            <img alt="Add to Slack" height="40" width="139"
-              src="https://platform.slack-edge.com/img/add_to_slack.png"
-              srcSet="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
+          <a href="https://slack.com/oauth/v2/authorize?client_id=401428056419.1387902464068&scope=channels:read,groups:read,mpim:read,im:read&user_scope=channels:read"
+            className="flex justify-center items-center py-6 px-24 bg-white border border-2 
+            border-white text-xl font-bold text-gray-700 rounded-100 h-16 cursor-pointer focus:outline-none hover:shadow-xl hover:text-gray-800">
+            <img src="/images/slack-logo-icon.png" className="w-8 h-8 align-middle border-none mr-2" alt="Slack Logo" />
+            Add to Slack
+          </a>
         </div>
       </div>
 

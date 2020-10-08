@@ -18,15 +18,12 @@ class MyStandups extends React.Component {
     }
   }
   fetchStandups = async () => {
-    console.log(this.props);
     const { slackUser, channels, members, channelMembers } = this.props;
     const creator_slack_id = slackUser.id;
     let res1 = await executeOperation(
       { creator_slack_id },
       GET_STANDUPS
     );
-    console.log(res1);
-    // console.log(localStorage)
     const standups = res1.data.standup;
     let channelsMap = new Map();
     channels.forEach(channel => {
@@ -55,7 +52,6 @@ class MyStandups extends React.Component {
   render() {
     const { standups, channelsMap, channelsIDmembersMap } = this.state;
     const { toggleLoggedIn, slackUser, userProfile } = this.props;
-    // console.log('Render: ', this.state);
     return (
       <>
         <Sidebar toggleLoggedIn={toggleLoggedIn}
@@ -120,7 +116,9 @@ class MyStandups extends React.Component {
                                     + (imgI === 0 ? "" : "-ml-4")}
                                     src={member.profile.image_72}
                                     alt=""
-                                    title={member.profile.real_name} />
+                                    title={member.profile.real_name}
+                                    key={imgI}
+                                  />
 
                                 )
                               })

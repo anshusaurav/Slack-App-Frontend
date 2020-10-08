@@ -39,11 +39,9 @@ class Insights extends Component {
         const v2 = channelsIDmembersMap.get(standup.channel)
             .map(e => e).length || 1;
         return [{ date: 0, value: v1 }, { date: 1, value: v2 }]
-        // return (srObj && srObj.responses.filter(response => response.question_id === questionId)) || [];
     }
     fetchStandupRuns = async () => {
         const { standup_id } = this.props;
-        // console.log('dasd', standup_id)
         let res1 = await executeOperation(
             { standup_id },
             GET_STANDUP_RESPONSES
@@ -82,9 +80,8 @@ class Insights extends Component {
     }
     render() {
         const { questions, standupRuns,
-            currentStandupIndex, memberProfileMap } = this.state;
+            currentStandupIndex } = this.state;
         const { membersMap } = this.props;
-        // console.log(memberProfileMap)
         return (
             <>
                 {

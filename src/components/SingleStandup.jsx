@@ -25,7 +25,7 @@ class SingleStandup extends React.Component {
     }
     fetchStandup = async () => {
         const standup_id = this.props.match.params.id;
-        const { slackUser, channels, members, channelMembers } = this.props;
+        const { channels, members, channelMembers } = this.props;
         let res1 = await executeOperation(
             { standup_id },
             GET_SINGLE_STANDUP
@@ -133,8 +133,10 @@ class SingleStandup extends React.Component {
                                                                 <img className={"inline-block h-12 w-12 border-white border-4 rounded-full text-white shadow-solid "
                                                                     + (imgI === 0 ? "" : "-ml-4")}
                                                                     src={member.profile.image_72}
-                                                                    alt=""
-                                                                    title={member.profile.real_name} />
+                                                                    alt={member.profile.real_name}
+                                                                    title={member.profile.real_name}
+                                                                    key={imgI}
+                                                                />
 
                                                             )
                                                         })

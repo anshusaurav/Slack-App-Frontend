@@ -16,8 +16,8 @@ export default class MiniCalendar extends Component {
     render() {
         const { activeDays } = this.state;
         return (
-            <svg class="punch-card" width="392" height="196">
-                <g class="punch-card__xAxis">
+            <svg className="punch-card" width="392" height="196">
+                <g className="punch-card__xAxis">
                     {
                         dayArr.map((day, index) => (
                             <text className="relative font-extrabold text-gray-400 text-base"
@@ -31,8 +31,8 @@ export default class MiniCalendar extends Component {
 
                 </g>
 
-                <g class="punch-card__data">
-                    <g class="punch-card__data-row">
+                <g className="punch-card__data">
+                    <g className="punch-card__data-row">
                         <g>
                             <circle cy="59" cx="88" style={{ fill: activeDays.includes('Mon') ? '#6ec3c7' : 'eee' }} r="16">
                             </circle>

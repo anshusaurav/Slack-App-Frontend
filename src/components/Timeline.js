@@ -298,7 +298,7 @@ class Timeline extends Component {
                                                     <h2 className="leading-6 font-bold text-xl  mb-4 text-gray-700">
                                                         Participants
                                                 </h2>
-                                                    <div class="flex items-center">
+                                                    <div className="flex items-center">
                                                         <label htmlFor="remember_me"
                                                             className="mr-2 block text-sm leading-5 text-gray-900">
                                                             All
@@ -347,7 +347,7 @@ class Timeline extends Component {
                                                     <h2 className="leading-6 font-bold text-xl mb-4 text-gray-700">
                                                         Questions
                                                 </h2>
-                                                    <div class="flex items-center">
+                                                    <div className="flex items-center">
                                                         <label htmlFor="remember_me" className="mr-2 block 
                                                     text-sm leading-5 text-gray-900">
                                                             All
