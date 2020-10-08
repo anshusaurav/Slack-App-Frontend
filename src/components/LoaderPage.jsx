@@ -15,7 +15,7 @@ class LoaderPage extends React.Component {
           position: "fixed",
           zIndex: 99,
         }}>
-        <Loader type="Puff" color="#00BFFF" height={100} width={100} />
+        <Loader type="Audio" color="#00BFFF" height={100} width={100} />
       </div>
     )
   }

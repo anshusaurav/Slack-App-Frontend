@@ -23,12 +23,14 @@ class App extends React.Component {
     userProfile: null,
     isLoggedIn: false,
     isProcessing: false,
+    token: null
   };
 
   fetchUserAndChannels = async () => {
 
     if (
       localStorage.getItem('slackUser') &&
+      localStorage.getItem('token') &&
       localStorage.getItem('channels') &&
       localStorage.getItem('members') &&
       localStorage.getItem('userProfile') &&
@@ -36,6 +38,7 @@ class App extends React.Component {
     ) {
       this.setState({
         slackUser: JSON.parse(localStorage.getItem('slackUser')),
+        token: JSON.parse(localStorage.getItem('token')),
         channels: JSON.parse(localStorage.getItem('channels')),
         members: JSON.parse(localStorage.getItem('members')),
         userProfile: JSON.parse(localStorage.getItem('userProfile')),
@@ -47,71 +50,79 @@ class App extends React.Component {
     else {
       // this.setState({ isProcessing: true })
       const currentURL = document.location.search;
-      const code = await currentURL.slice(6, -7);
-      console.log(code);
 
+      const code = currentURL.slice(6, -7);
+      if (!code)
+        return;
+      console.log('Code:', code)
       try {
-        // this.setState({ isProcessing: true });
-        console.log('-1')
-        const result = await new WebClient().oauth.v2.access({
-          code,
-          client_id: process.env.REACT_APP_CLIENT_ID,
-          client_secret: process.env.REACT_APP_CLIENT_SECRET,
+        this.setState({ isProcessing: true }, async () => {
+          const result = await new WebClient().oauth.v2.access({
+            code,
+            client_id: process.env.REACT_APP_CLIENT_ID,
+            client_secret: process.env.REACT_APP_CLIENT_SECRET,
+          });
+          // this.setState({ isProcessing: true })
+          // console.log('0')
+          // localStorage.setItem('code', code);
+          if (result.ok) {
+            console.log('Result:', result)
+            const slackUser = result.authed_user;
+            const token = result.access_token;
+            const user = result.authed_user.id;
+            const userProfileResult = await new WebClient().users.info({
+              token,
+              user
+            });
+            // console.log('KILL', userProfileResult)
+            const userProfile = userProfileResult.user;
+            let channels = await getChannelsUsingCursor(token);
+            // console.log('1');
+            channels = channels.filter(channel => !channel.is_archived)
+            const channelMapRequests = channels
+              .map(channel => getAllMembersUsingCursor(token, channel.id));
+            const channelMapResults = await Promise.all(channelMapRequests);
+            // console.log('w');
+            // console.log('dasdasdwqeqweqw', channelMapResults);
+            const channelMembers = channels.map((channel, index) => (
+              { id: channel.id, members: channelMapResults[index].filter(member => !member.is_bot) }
+            ))
+            // console.log('3');
+            let membersArr = [];
+
+            channelMapResults.forEach(channelMapResult => {
+              membersArr = membersArr.concat(channelMapResult)
+            })
+            membersArr = remove_duplicates(membersArr);
+            const MemberRequests = membersArr
+              .map(user => getMemberInfo(token, user));
+            // console.log('4');
+
+            const members = await Promise.all(MemberRequests);
+
+            // console.log(members, channels, channelMembers)
+            this.setState({
+              slackUser, userProfile, members, channelMembers,
+              channels, token, isLoggedIn: true, isProcessing: false
+            }, () => {
+              console.log('Setteed state');
+              localStorage.setItem('slackUser', JSON.stringify(slackUser))
+              localStorage.setItem('userProfile', JSON.stringify(userProfile))
+              localStorage.setItem('token', JSON.stringify(token))
+              localStorage.setItem('members', JSON.stringify(members))
+              localStorage.setItem('channels', JSON.stringify(channels))
+              localStorage.setItem('channelMembers', JSON.stringify(channelMembers))
+
+            });
+
+
+          }
         });
-        console.log('0')
-        localStorage.setItem('code', code);
-        if (result.ok) {
-          const slackUser = result.authed_user;
-          const token = result.access_token;
-          const user = result.authed_user.id;
-          const userProfileResult = await new WebClient().users.info({
-            token,
-            user
-          });
-          console.log('KILL', userProfileResult)
-          const userProfile = userProfileResult.user;
-          let channels = await getChannelsUsingCursor(token);
-          console.log('1');
-          channels = channels.filter(channel => !channel.is_archived)
-          const channelMapRequests = channels
-            .map(channel => getAllMembersUsingCursor(token, channel.id));
-          const channelMapResults = await Promise.all(channelMapRequests);
-          console.log('w');
-          console.log('dasdasdwqeqweqw', channelMapResults);
-          const channelMembers = channels.map((channel, index) => (
-            { id: channel.id, members: channelMapResults[index].filter(member => !member.is_bot) }
-          ))
-          console.log('3');
-          let membersArr = [];
+        // console.log('-1')
 
-          channelMapResults.forEach(channelMapResult => {
-            membersArr = membersArr.concat(channelMapResult)
-          })
-          membersArr = remove_duplicates(membersArr);
-          const MemberRequests = membersArr
-            .map(user => getMemberInfo(token, user));
-          console.log('4');
-
-          const members = await Promise.all(MemberRequests);
-
-          console.log(members, channels, channelMembers)
-          this.setState({
-            slackUser, userProfile, members, channelMembers,
-            channels, isLoggedIn: true, isProcessing: false
-          }, () => {
-            console.log('Setteed state');
-            localStorage.setItem('slackUser', JSON.stringify(slackUser))
-            localStorage.setItem('userProfile', JSON.stringify(userProfile))
-            localStorage.setItem('members', JSON.stringify(members))
-            localStorage.setItem('channels', JSON.stringify(channels))
-            localStorage.setItem('channelMembers', JSON.stringify(channelMembers))
-
-          });
-
-
-        }
       } catch (err) {
-        console.log(err);
+        console.log('HERE', err);
+        return;
       }
     }
   };
@@ -139,9 +150,12 @@ class App extends React.Component {
               userProfile={userProfile}
               toggleLoggedIn={this.toggleLoggedIn}
             />
-          ) : (isProcessing && !isLoggedIn ? (<LoaderPage />) : (
-            <HomePage isLoggedIn={isLoggedIn} />)
-            )}
+          ) : (
+              isProcessing ?
+                <LoaderPage /> :
+                <HomePage />
+            )
+          }
         </Route>
         <Route exact path="/dashboard">
           {
@@ -154,7 +168,11 @@ class App extends React.Component {
                 userProfile={userProfile}
                 toggleLoggedIn={this.toggleLoggedIn}
               />
-            ) : (<HomePage />)
+            ) : (
+                isProcessing ?
+                  <LoaderPage /> :
+                  <HomePage />
+              )
           }
 
         </Route>
