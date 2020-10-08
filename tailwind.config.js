@@ -14,6 +14,7 @@ module.exports = {
       maxWidth: {
         '3/4': '75%',
         '1/2': '50%',
+        '1/3': '30%',
         '16': '16rem'
       },
       minWidth: {

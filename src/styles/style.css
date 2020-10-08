@@ -4,3 +4,15 @@ body {
   line-height: 1.5rem;
   -webkit-font-smoothing: antialiased;
 }
+
+.nice-dates-day:before {
+  background-color: #38b2ac !important;
+  z-index: 1;
+}
+.nice-dates-day:after {
+  border: 2px solid #38b2ac !important;
+  transform: scale(0.95);
+  transition-duration: 150ms;
+  transition-property: transform, opacity;
+  z-index: 2;
+}

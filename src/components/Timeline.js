@@ -21,6 +21,7 @@ class Timeline extends Component {
             selectedDatesMap: new Map(),
             selectAllQuestions: true,
             selectAllMembers: true,
+            selectedStanduprunsMap: new Map(),
         }
     }
 
@@ -61,7 +62,6 @@ class Timeline extends Component {
 
     fetchStandupRuns = async () => {
         const { standup_id } = this.props;
-        // console.log('dasd', standup_id)
         let res1 = await executeOperation(
             { standup_id },
             GET_STANDUP_RESPONSES
@@ -70,7 +70,6 @@ class Timeline extends Component {
             { channel: res1.data.standup_by_pk.channel },
             GET_CHANNEL_MEMBERS
         );
-        // console.log(res2.data.getMembers);
         this.setState({
             standupRuns: res1.data.standup_by_pk.standup_runs
                 .map(standup_run => {
@@ -79,6 +78,11 @@ class Timeline extends Component {
                         responses: standup_run.responses
                     }
                 }),
+            selectedStanduprunsMap: new Map(res1.data.standup_by_pk.standup_runs
+                .map(standup_run => (
+                    [standup_run.id, true]
+                )
+                )),
             questions: res1.data.standup_by_pk.questions,
             selectedQuestionsMap: new Map(res1.data.standup_by_pk.questions
                 .map(question => (
@@ -86,22 +90,6 @@ class Timeline extends Component {
                 )))
 
         }, () => {
-            // let memberProfileMap = new Map();
-            // let memberProfiles = [];
-            // // console.log(res2);
-            // const { ids, images, real_names } = res2.data.getMembers;
-
-            // ids.forEach((id, index) => {
-            //     memberProfileMap.set(id, {
-            //         id, image: images[index],
-            //         real_name: real_names[index]
-            //     });
-            //     memberProfiles.push({
-            //         id, image: images[index],
-            //         real_name: real_names[index]
-            //     });
-            // })
-            // this.setState({ memberProfileMap, memberProfiles })
             const { ids, images, real_names } = res2.data.getMembers;
             this.setState({
                 memberProfiles: ids
@@ -124,7 +112,8 @@ class Timeline extends Component {
         if (!questionId)
             return;
         let selectedQuestionsMap = new Map(this.state.selectedQuestionsMap);
-        selectedQuestionsMap.set(questionId, !this.state.selectedQuestionsMap.get(questionId))
+        selectedQuestionsMap.set(questionId,
+            !this.state.selectedQuestionsMap.get(questionId))
         this.setState({ selectedQuestionsMap })
     }
 
@@ -135,7 +124,10 @@ class Timeline extends Component {
                 [question.id, !selectAllQuestions]
             ))
         );
-        this.setState({ selectedQuestionsMap, selectAllQuestions: !selectAllQuestions })
+        this.setState({
+            selectedQuestionsMap,
+            selectAllQuestions: !selectAllQuestions
+        })
     }
 
     toggleMember = (event) => {
@@ -143,9 +135,8 @@ class Timeline extends Component {
         if (!memberId)
             return;
         let selectedMembersMap = new Map(this.state.selectedMembersMap);
-        console.log(this.state.selectedMembersMap);
-        console.log(memberId, this.state.selectedMembersMap.get(memberId))
-        selectedMembersMap.set(memberId, !this.state.selectedMembersMap.get(memberId))
+        selectedMembersMap.set(memberId,
+            !this.state.selectedMembersMap.get(memberId))
         this.setState({ selectedMembersMap })
     }
     toggleAllMember = (event) => {
@@ -155,38 +146,11 @@ class Timeline extends Component {
                 [member.id, !selectAllMembers]
             ))
         );
-        this.setState({ selectedMembersMap, selectAllMembers: !selectAllMembers })
+        this.setState({
+            selectedMembersMap,
+            selectAllMembers: !selectAllMembers
+        })
     }
-    // toggleQuestion = (event) => {
-    //     const questionId = event.target.dataset.questionId;
-    //     if (!questionId)
-    //         return;
-    //     let selectedQuestions = this.state.selectedQuestions;
-    //     const { questions } = this.state;
-    //     console.log(questionId);
-
-    //     let zInd = 0;
-    //     questions.forEach((question, index) => {
-    //         if (question.id === questionId)
-    //             zInd = index;
-    //     })
-
-    //     if (selectedQuestions.includes(questionId)) {
-    //         let z = selectedQuestions.indexOf(questionId)
-    //         this.setState({
-    //             selectedQuestions: selectedQuestions.splice(z, 1), checkQuestions: this.state.checkQuestions.map((q, ind) => {
-    //                 return ind === z ? q : false
-    //             })
-    //         })
-    //     }
-    //     else {
-    //         this.setState({
-    //             selectedQuestions: selectedQuestions.concat([questionId]), checkQuestions: this.state.checkQuestions.map((q, ind) => {
-    //                 return ind === zInd ? q : true
-    //             })
-    //         });
-    //     }
-    // }
 
     componentDidMount() {
         this.fetchStandupRuns();
@@ -214,13 +178,12 @@ class Timeline extends Component {
                                                     <div className="rounded-lg mb-2 mt-6"
                                                         key={standupRun.id}>
                                                         <div className="relative m-0 p-0 clear-both text-center leading-4  
-                                                text-gray-700 text-base font-bold">
+                                                                text-gray-700 text-base font-bold">
                                                             <div className="absolute top-1 m-0 left-0 right-0 border-t border-gray"></div>
                                                             <div className="bg-white inline-block relative px-4 py-1 mx-auto mt-1">
                                                                 {
                                                                     moment(standupRun.created_at || Date.now()).format("dddd") +
                                                                     ", " +
-
                                                                     moment(standupRun.created_at || Date.now()).format("LL")
                                                                 }
                                                             </div>
@@ -284,7 +247,7 @@ class Timeline extends Component {
 
 
                                     </div>
-                                    <div className="flex-auto p-4 px-3" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
+                                    <div className="flex-auto p-4 px-3 w-1/3 md:max-w-1/3" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
                                         <div className=" rounded-lg p-6 mb-8">
                                             <h2 className="leading-6 font-bold text-xl mb-4 text-gray-700">
                                                 Date Range
@@ -321,7 +284,8 @@ class Timeline extends Component {
                                                                         title={memberProfile.real_name}
                                                                         src={memberProfile.image} />
                                                                 </div>
-                                                                <div className="flex-auto flex-wrap font-bold text-gray-600">
+                                                                <div className={`flex-auto flex-wrap font-bold  truncate pr-2 
+                                                                ${selectedMembersMap.get(memberProfile.id) ? 'text-gray-600' : 'line-through text-gray-400'}`}>
                                                                     {"@" + memberProfile.real_name}
                                                                 </div>
                                                                 <div className="flex items-center">
@@ -366,7 +330,8 @@ class Timeline extends Component {
                                                         questions.map((question, index) => (
                                                             <div className="flex items-center text-sm mb-2"
                                                                 key={question.id}>
-                                                                <div className="flex-auto flex-wrap font-bold text-gray-600">
+                                                                <div className={`flex-auto flex-wrap font-bold  truncate pr-2 
+                                                                ${selectedQuestionsMap.get(question.id) ? 'text-gray-600' : 'line-through text-gray-400'}`}>
                                                                     <GoPrimitiveDot
                                                                         className="inline-block mb-1 mr-2"
                                                                         style={{ color: stc(question.body) }} />

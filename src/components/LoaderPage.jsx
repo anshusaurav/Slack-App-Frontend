@@ -15,7 +15,7 @@ class LoaderPage extends React.Component {
           position: "fixed",
           zIndex: 99,
         }}>
-        <Loader type="Audio" color="#00BFFF"
+        <Loader type="Grid" color="#00BFFF"
           height={100} width={100} />
       </div>
     )
@@ -51,7 +51,7 @@ class AllStandupsLoader extends React.Component {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "rgb(238, 238, 238)",
+          backgroundColor: "rgb(250, 250, 250)",
           zIndex: "0",
           width: "100%",
           height: "100vh"
@@ -71,7 +71,7 @@ class InsightsLoader extends React.Component {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "rgb(238, 238, 238)",
+          backgroundColor: "#fff",
           zIndex: "0",
           width: "100%",
           height: "60vh"

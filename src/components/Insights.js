@@ -201,7 +201,7 @@ class Insights extends Component {
                                                 <RiCloudOffLine className="w-full h-20 text-2xl text-bold m-1 text-gray-500 select-none text-center" />
                                                 <div>
                                                     <h3 className=" w-full font-bold text-center text-gray-700">No data to display yet!</h3>
-                                                    <p className="w-full text-center">Insights will kick in as soon as there is some activity in this standup</p>
+                                                    <p className="w-full text-center text-gray-600">Insights will kick in as soon as there is some activity in this standup</p>
                                                 </div>
                                             </div>
 
