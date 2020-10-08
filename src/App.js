@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { WebClient } from "@slack/web-api";
 import HomePage from "./pages/HomePage";
 import Dashboard from "./pages/Dashboard";
-import CreateStandup from "./components/CreateStandup";
-import SingleStandup from "./components/SingleStandup"
-import EditStandup from "./components/EditStandup"
+import CreateStandup from "./pages/CreateStandup";
+import SingleStandup from "./pages/SingleStandup"
+import EditStandup from "./pages/EditStandup"
 import { LoaderPage } from "./components/LoaderPage"
 import {
   getChannelsUsingCursor, getAllMembersUsingCursor,

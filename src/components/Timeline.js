@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { GoPrimitiveDot } from "react-icons/go"
 import NiceDatePicker from "./DatePicker"
 import moment from "moment";
-import { GET_STANDUP_RESPONSES, GET_CHANNEL_MEMBERS } from "./../graphql/queries"
+import { GET_STANDUP_RESPONSES } from "./../graphql/queries"
 import { executeOperation } from "./../graphql/helpers"
 import { InsightsLoader } from "./LoaderPage"
 import stc from 'string-to-color';
@@ -66,10 +66,10 @@ class Timeline extends Component {
             { standup_id },
             GET_STANDUP_RESPONSES
         );
-        let res2 = await executeOperation(
-            { channel: res1.data.standup_by_pk.channel },
-            GET_CHANNEL_MEMBERS
-        );
+
+        const { channel } = res1.data.standup_by_pk;
+        const { channelsIDmembersMap } = this.props;
+
         this.setState({
             standupRuns: res1.data.standup_by_pk.standup_runs
                 .map(standup_run => {
@@ -90,18 +90,12 @@ class Timeline extends Component {
                 )))
 
         }, () => {
-            const { ids, images, real_names } = res2.data.getMembers;
             this.setState({
-                memberProfiles: ids
-                    .map((id, index) => (
-                        {
-                            id,
-                            image: images[index],
-                            real_name: real_names[index]
-                        }
-                    )),
-                selectedMembersMap: new Map(ids.map((id, index) => (
-                    [id, true]
+                memberProfiles: channelsIDmembersMap.get(channel).map(member => (
+                    member
+                )),
+                selectedMembersMap: new Map(channelsIDmembersMap.get(channel).map(member => (
+                    [member.id, true]
                 )))
             })
         })
@@ -199,7 +193,7 @@ class Timeline extends Component {
                                                                                 <img className="w-16 h-16 m-0 rounded-circle"
                                                                                     alt={memberProfile.real_name}
                                                                                     title={memberProfile.real_name}
-                                                                                    src={memberProfile.image} />
+                                                                                    src={memberProfile.profile.image_72} />
                                                                             </div>
                                                                             <div className="w-full ml-2">
                                                                                 <span className="leading-6 font-bold text-xl  
@@ -282,7 +276,7 @@ class Timeline extends Component {
                                                                     <img className="w-8 h-8 m-0 rounded-circle"
                                                                         alt={memberProfile.real_name}
                                                                         title={memberProfile.real_name}
-                                                                        src={memberProfile.image} />
+                                                                        src={memberProfile.profile.image_72} />
                                                                 </div>
                                                                 <div className={`flex-auto flex-wrap font-bold  truncate pr-2 
                                                                 ${selectedMembersMap.get(memberProfile.id) ? 'text-gray-600' : 'line-through text-gray-400'}`}>

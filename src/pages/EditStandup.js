@@ -5,9 +5,9 @@ import { HiOutlinePause, HiOutlinePlay } from "react-icons/hi"
 import { RiDeleteBin4Line } from "react-icons/ri"
 import { GET_SINGLE_STANDUP, PAUSE_STANDUP, UNPAUSE_STANDUP } from "./../graphql/queries"
 import { executeOperation } from "./../graphql/helpers"
-import Sidebar from "./Sidebar"
+import Sidebar from "../components/Sidebar"
 
-import { MainSectionLoader } from "./LoaderPage"
+import { MainSectionLoader } from "../components/LoaderPage"
 
 class EditStandup extends Component {
 
@@ -86,7 +86,7 @@ class EditStandup extends Component {
                                             <span className="text-gray-700 font-medium text-sm">
                                                 <span className="text-gray-700 font-medium text-sm">
                                                     <Link to="/dashboard">Dashboard</Link>/
-                                                <Link to={`/dashboard/${standup.id}`}>{standup.name || ''}</Link>/Edit
+                                                <Link to={`/standups/${standup.id}`}>{standup.name || ''}</Link>/Edit
 
                                             </span>
                                             </span>

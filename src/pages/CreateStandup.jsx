@@ -5,9 +5,8 @@ import { v4 as uuid } from "uuid";
 import { INSERT_STANDUP } from "./../graphql/queries"
 import { executeOperation, } from "./../graphql/helpers"
 import { timeZoneList } from "./../slack/timezones"
-import Sidebar from "./Sidebar"
+import Sidebar from "../components/Sidebar"
 import Loader from "react-loader-spinner";
-// import { INSERT_STANDUP } from "../graphql/queries";
 import { NavLink, withRouter } from "react-router-dom";
 
 const days = [
