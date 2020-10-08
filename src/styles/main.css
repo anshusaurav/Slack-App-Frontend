@@ -16105,6 +16105,13 @@ video {
   left: 44px;
 }
 
+.inset-50 {
+  top: 0.50rem;
+  right: 0.50rem;
+  bottom: 0.50rem;
+  left: 0.50rem;
+}
+
 .inset-auto {
   top: auto;
   right: auto;
@@ -16204,6 +16211,16 @@ video {
 .inset-x-44 {
   right: 44px;
   left: 44px;
+}
+
+.inset-y-50 {
+  top: 0.50rem;
+  bottom: 0.50rem;
+}
+
+.inset-x-50 {
+  right: 0.50rem;
+  left: 0.50rem;
 }
 
 .inset-y-auto {
@@ -16362,6 +16379,22 @@ video {
 
 .left-44 {
   left: 44px;
+}
+
+.top-50 {
+  top: 0.50rem;
+}
+
+.right-50 {
+  right: 0.50rem;
+}
+
+.bottom-50 {
+  bottom: 0.50rem;
+}
+
+.left-50 {
+  left: 0.50rem;
 }
 
 .top-auto {
@@ -19343,6 +19376,10 @@ video {
 
 .grid-cols-none {
   grid-template-columns: none;
+}
+
+.grid-cols-timeline {
+  grid-template-columns: 2fr 1fr;
 }
 
 .col-auto {
@@ -37071,6 +37108,13 @@ video {
     left: 44px;
   }
 
+  .sm\:inset-50 {
+    top: 0.50rem;
+    right: 0.50rem;
+    bottom: 0.50rem;
+    left: 0.50rem;
+  }
+
   .sm\:inset-auto {
     top: auto;
     right: auto;
@@ -37170,6 +37214,16 @@ video {
   .sm\:inset-x-44 {
     right: 44px;
     left: 44px;
+  }
+
+  .sm\:inset-y-50 {
+    top: 0.50rem;
+    bottom: 0.50rem;
+  }
+
+  .sm\:inset-x-50 {
+    right: 0.50rem;
+    left: 0.50rem;
   }
 
   .sm\:inset-y-auto {
@@ -37328,6 +37382,22 @@ video {
 
   .sm\:left-44 {
     left: 44px;
+  }
+
+  .sm\:top-50 {
+    top: 0.50rem;
+  }
+
+  .sm\:right-50 {
+    right: 0.50rem;
+  }
+
+  .sm\:bottom-50 {
+    bottom: 0.50rem;
+  }
+
+  .sm\:left-50 {
+    left: 0.50rem;
   }
 
   .sm\:top-auto {
@@ -40309,6 +40379,10 @@ video {
 
   .sm\:grid-cols-none {
     grid-template-columns: none;
+  }
+
+  .sm\:grid-cols-timeline {
+    grid-template-columns: 2fr 1fr;
   }
 
   .sm\:col-auto {
@@ -57946,6 +58020,13 @@ video {
     left: 44px;
   }
 
+  .md\:inset-50 {
+    top: 0.50rem;
+    right: 0.50rem;
+    bottom: 0.50rem;
+    left: 0.50rem;
+  }
+
   .md\:inset-auto {
     top: auto;
     right: auto;
@@ -58045,6 +58126,16 @@ video {
   .md\:inset-x-44 {
     right: 44px;
     left: 44px;
+  }
+
+  .md\:inset-y-50 {
+    top: 0.50rem;
+    bottom: 0.50rem;
+  }
+
+  .md\:inset-x-50 {
+    right: 0.50rem;
+    left: 0.50rem;
   }
 
   .md\:inset-y-auto {
@@ -58203,6 +58294,22 @@ video {
 
   .md\:left-44 {
     left: 44px;
+  }
+
+  .md\:top-50 {
+    top: 0.50rem;
+  }
+
+  .md\:right-50 {
+    right: 0.50rem;
+  }
+
+  .md\:bottom-50 {
+    bottom: 0.50rem;
+  }
+
+  .md\:left-50 {
+    left: 0.50rem;
   }
 
   .md\:top-auto {
@@ -61184,6 +61291,10 @@ video {
 
   .md\:grid-cols-none {
     grid-template-columns: none;
+  }
+
+  .md\:grid-cols-timeline {
+    grid-template-columns: 2fr 1fr;
   }
 
   .md\:col-auto {
@@ -78821,6 +78932,13 @@ video {
     left: 44px;
   }
 
+  .lg\:inset-50 {
+    top: 0.50rem;
+    right: 0.50rem;
+    bottom: 0.50rem;
+    left: 0.50rem;
+  }
+
   .lg\:inset-auto {
     top: auto;
     right: auto;
@@ -78920,6 +79038,16 @@ video {
   .lg\:inset-x-44 {
     right: 44px;
     left: 44px;
+  }
+
+  .lg\:inset-y-50 {
+    top: 0.50rem;
+    bottom: 0.50rem;
+  }
+
+  .lg\:inset-x-50 {
+    right: 0.50rem;
+    left: 0.50rem;
   }
 
   .lg\:inset-y-auto {
@@ -79078,6 +79206,22 @@ video {
 
   .lg\:left-44 {
     left: 44px;
+  }
+
+  .lg\:top-50 {
+    top: 0.50rem;
+  }
+
+  .lg\:right-50 {
+    right: 0.50rem;
+  }
+
+  .lg\:bottom-50 {
+    bottom: 0.50rem;
+  }
+
+  .lg\:left-50 {
+    left: 0.50rem;
   }
 
   .lg\:top-auto {
@@ -82059,6 +82203,10 @@ video {
 
   .lg\:grid-cols-none {
     grid-template-columns: none;
+  }
+
+  .lg\:grid-cols-timeline {
+    grid-template-columns: 2fr 1fr;
   }
 
   .lg\:col-auto {
@@ -99696,6 +99844,13 @@ video {
     left: 44px;
   }
 
+  .xl\:inset-50 {
+    top: 0.50rem;
+    right: 0.50rem;
+    bottom: 0.50rem;
+    left: 0.50rem;
+  }
+
   .xl\:inset-auto {
     top: auto;
     right: auto;
@@ -99795,6 +99950,16 @@ video {
   .xl\:inset-x-44 {
     right: 44px;
     left: 44px;
+  }
+
+  .xl\:inset-y-50 {
+    top: 0.50rem;
+    bottom: 0.50rem;
+  }
+
+  .xl\:inset-x-50 {
+    right: 0.50rem;
+    left: 0.50rem;
   }
 
   .xl\:inset-y-auto {
@@ -99953,6 +100118,22 @@ video {
 
   .xl\:left-44 {
     left: 44px;
+  }
+
+  .xl\:top-50 {
+    top: 0.50rem;
+  }
+
+  .xl\:right-50 {
+    right: 0.50rem;
+  }
+
+  .xl\:bottom-50 {
+    bottom: 0.50rem;
+  }
+
+  .xl\:left-50 {
+    left: 0.50rem;
   }
 
   .xl\:top-auto {
@@ -102934,6 +103115,10 @@ video {
 
   .xl\:grid-cols-none {
     grid-template-columns: none;
+  }
+
+  .xl\:grid-cols-timeline {
+    grid-template-columns: 2fr 1fr;
   }
 
   .xl\:col-auto {

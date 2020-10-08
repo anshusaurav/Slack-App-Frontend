@@ -7,9 +7,10 @@ module.exports = {
 
   plugins: [],
   theme: {
-
-
     extend: {
+      gridTemplateColumns: {
+        'timeline': '2fr 1fr',
+      },
       maxWidth: {
         '3/4': '75%',
         '1/2': '50%',
@@ -32,7 +33,8 @@ module.exports = {
         '7': '7rem',
         '8': '8rem',
         '12': '12rem',
-        '-192': '-192px'
+        '-192': '-192px',
+        '50': '0.50rem'
       },
       flex: {
         '2': '1 0 auto',

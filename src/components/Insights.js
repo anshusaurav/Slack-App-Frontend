@@ -51,12 +51,14 @@ class Insights extends Component {
 
         this.setState({
             standup: res1.data.standup_by_pk,
-            standupRuns: res1.data.standup_by_pk.standup_runs.map(standup_run => {
-                return {
-                    id: standup_run.id, created_at: standup_run.created_at,
-                    responses: standup_run.responses
-                }
-            }),
+            standupRuns: res1.data.standup_by_pk
+                .standup_runs
+                .map(standup_run => {
+                    return {
+                        id: standup_run.id, created_at: standup_run.created_at,
+                        responses: standup_run.responses
+                    }
+                }),
             questions: res1.data.standup_by_pk.questions
         });
     }
@@ -82,7 +84,7 @@ class Insights extends Component {
         const { questions, standupRuns,
             currentStandupIndex, memberProfileMap } = this.state;
         const { membersMap } = this.props;
-        console.log(memberProfileMap)
+        // console.log(memberProfileMap)
         return (
             <>
                 {

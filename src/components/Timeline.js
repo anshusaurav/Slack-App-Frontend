@@ -14,12 +14,13 @@ class Timeline extends Component {
             memberProfileMap: new Map(),
             memberProfiles: null,
             standupRuns: null,
-            questionsMap: new Map(),
             questions: null,
             currentStandupIndex: 0,
-            allChecked: true,
-            selectedQuestions: null,
-            checkQuestions: null,
+            selectedQuestionsMap: new Map(),
+            selectedMembersMap: new Map(),
+            selectedDatesMap: new Map(),
+            selectAllQuestions: true,
+            selectAllMembers: true,
         }
     }
 
@@ -55,7 +56,6 @@ class Timeline extends Component {
         const res = (srObj && srObj.responses
             .filter(response => response.slackuser_id === slackUserId &&
                 response.question_id === questionId)) || [];
-        // console.log('))', standupRunId, questionId, slackUserId, res);
         return res;
     }
 
@@ -80,28 +80,82 @@ class Timeline extends Component {
                     }
                 }),
             questions: res1.data.standup_by_pk.questions,
-            selectedQuestions: res1.data.standup_by_pk.questions
-                .map(question => question.id),
-            checkQuestons: Array(res1.data.standup_by_pk.questions.length)
-                .fill(true)
-        }, () => {
-            let memberProfileMap = new Map();
-            let memberProfiles = [];
-            // console.log(res2);
-            const { ids, images, real_names } = res2.data.getMembers;
+            selectedQuestionsMap: new Map(res1.data.standup_by_pk.questions
+                .map(question => (
+                    [question.id, true]
+                )))
 
-            ids.forEach((id, index) => {
-                memberProfileMap.set(id, {
-                    id, image: images[index],
-                    real_name: real_names[index]
-                });
-                memberProfiles.push({
-                    id, image: images[index],
-                    real_name: real_names[index]
-                });
+        }, () => {
+            // let memberProfileMap = new Map();
+            // let memberProfiles = [];
+            // // console.log(res2);
+            // const { ids, images, real_names } = res2.data.getMembers;
+
+            // ids.forEach((id, index) => {
+            //     memberProfileMap.set(id, {
+            //         id, image: images[index],
+            //         real_name: real_names[index]
+            //     });
+            //     memberProfiles.push({
+            //         id, image: images[index],
+            //         real_name: real_names[index]
+            //     });
+            // })
+            // this.setState({ memberProfileMap, memberProfiles })
+            const { ids, images, real_names } = res2.data.getMembers;
+            this.setState({
+                memberProfiles: ids
+                    .map((id, index) => (
+                        {
+                            id,
+                            image: images[index],
+                            real_name: real_names[index]
+                        }
+                    )),
+                selectedMembersMap: new Map(ids.map((id, index) => (
+                    [id, true]
+                )))
             })
-            this.setState({ memberProfileMap, memberProfiles })
-        });
+        })
+    }
+    toggleQuestion = (event) => {
+
+        const questionId = event.target.dataset.questionId;
+        if (!questionId)
+            return;
+        let selectedQuestionsMap = new Map(this.state.selectedQuestionsMap);
+        selectedQuestionsMap.set(questionId, !this.state.selectedQuestionsMap.get(questionId))
+        this.setState({ selectedQuestionsMap })
+    }
+
+    toggleAllQuestion = (event) => {
+        const { questions, selectAllQuestions } = this.state;
+        let selectedQuestionsMap = new Map(questions
+            .map(question => (
+                [question.id, !selectAllQuestions]
+            ))
+        );
+        this.setState({ selectedQuestionsMap, selectAllQuestions: !selectAllQuestions })
+    }
+
+    toggleMember = (event) => {
+        const memberId = event.target.dataset.memberId;
+        if (!memberId)
+            return;
+        let selectedMembersMap = new Map(this.state.selectedMembersMap);
+        console.log(this.state.selectedMembersMap);
+        console.log(memberId, this.state.selectedMembersMap.get(memberId))
+        selectedMembersMap.set(memberId, !this.state.selectedMembersMap.get(memberId))
+        this.setState({ selectedMembersMap })
+    }
+    toggleAllMember = (event) => {
+        const { memberProfiles, selectAllMembers } = this.state;
+        let selectedMembersMap = new Map(memberProfiles
+            .map(member => (
+                [member.id, !selectAllMembers]
+            ))
+        );
+        this.setState({ selectedMembersMap, selectAllMembers: !selectAllMembers })
     }
     // toggleQuestion = (event) => {
     //     const questionId = event.target.dataset.questionId;
@@ -139,193 +193,206 @@ class Timeline extends Component {
     }
     render() {
         const { questions, memberProfileMap, memberProfiles, standupRuns,
-            selectedQuestions, checkQuestons } = this.state;
+            selectedQuestionsMap, selectAllQuestions, selectedMembersMap
+            , selectAllMembers } = this.state;
 
         return (
             <>
                 {
-                    standupRuns && memberProfiles && memberProfileMap && questions ? (
-                        <div className="bg-white animate-fadesunnyin">
-                            <div className="flex flex-wrap space-x-3 mt-4">
-                                <div className="flex-auto p-4 px-3 min-w-3/5">
+                    standupRuns && memberProfiles
+                        && memberProfileMap
+                        && questions && selectedQuestionsMap &&
+                        selectedMembersMap ? (
+                            <div className="bg-white animate-fadesunnyin">
+                                <div className="flex flex-wrap">
+                                    <div className="flex-auto p-4 px-3">
 
-                                    {
-                                        standupRuns.filter(standupRun => standupRun.responses.length !== 0).map(standupRun => (
-                                            <div className="rounded-lg my-2" key={standupRun.id}>
-                                                <div className="relative m-0 p-0 clear-both text-center leading-4  
+                                        {
+                                            standupRuns
+                                                .filter(standupRun => standupRun.responses.length !== 0)
+                                                .map(standupRun => (
+                                                    <div className="rounded-lg mb-2 mt-6"
+                                                        key={standupRun.id}>
+                                                        <div className="relative m-0 p-0 clear-both text-center leading-4  
                                                 text-gray-700 text-base font-bold">
+                                                            <div className="absolute top-1 m-0 left-0 right-0 border-t border-gray"></div>
+                                                            <div className="bg-white inline-block relative px-4 py-1 mx-auto mt-1">
+                                                                {
+                                                                    moment(standupRun.created_at || Date.now()).format("dddd") +
+                                                                    ", " +
 
-                                                    <div className="bg-white inline-block relative px-4 py-1 mx-auto mt-1">
+                                                                    moment(standupRun.created_at || Date.now()).format("LL")
+                                                                }
+                                                            </div>
+                                                        </div>
                                                         {
-                                                            moment(standupRun.created_at || Date.now()).format("dddd") +
-                                                            ", " +
+                                                            memberProfiles
+                                                                .filter(memberProfile => this.isResponseSubmitted(standupRun.id, memberProfile.id)
+                                                                    && selectedMembersMap.get(memberProfile.id))
+                                                                .map(memberProfile => (
+                                                                    <div className="mb-2" key={memberProfile.id}>
+                                                                        <div className="flex py-4 items-center">
+                                                                            <div className="flex flex-2">
+                                                                                <img className="w-16 h-16 m-0 rounded-circle"
+                                                                                    alt={memberProfile.real_name}
+                                                                                    title={memberProfile.real_name}
+                                                                                    src={memberProfile.image} />
+                                                                            </div>
+                                                                            <div className="w-full ml-2">
+                                                                                <span className="leading-6 font-bold text-xl  
+                                                                        text-gray-700">{memberProfile.real_name}
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="pr-10 pl-12">
+                                                                            <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
+                                                                                {
+                                                                                    questions
+                                                                                        .filter(question => selectedQuestionsMap.get(question.id)).map(question => (
+                                                                                            <div className="relative my-4 px-3" key={question.index}>
+                                                                                                <div className="absolute left-0 w-1 h-full rounded"
+                                                                                                    style={{ backgroundColor: stc(question.body) }} >
 
-                                                            moment(standupRun.created_at || Date.now()).format("LL")
+                                                                                                </div>
+                                                                                                <div className="w-full ml-2">
+                                                                                                    <h4 className="leading-6 font-bold text-lg  text-gray-700">
+                                                                                                        {question.body}
+                                                                                                    </h4>
+                                                                                                    <p className="text-lg text-gray-600">
+                                                                                                        {this.getResponseSubmittedForQuestion(standupRun.id,
+                                                                                                            question.id, memberProfile.id).length ?
+                                                                                                            this.getResponseSubmittedForQuestion(standupRun.id, question.id, memberProfile.id)[0].body :
+                                                                                                            'No response submitted'}
+                                                                                                    </p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        )
+                                                                                        )
+                                                                                }
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                )
+                                                                )
                                                         }
+
+                                                    </div>
+                                                ))
+                                        }
+
+
+
+                                    </div>
+                                    <div className="flex-auto p-4 px-3" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
+                                        <div className=" rounded-lg p-6 mb-8">
+                                            <h2 className="leading-6 font-bold text-xl mb-4 text-gray-700">
+                                                Date Range
+                                        </h2>
+                                            <div className="flex flex-col mb-8">
+                                                <NiceDatePicker />
+                                            </div>
+
+                                            <div className="mb-8">
+                                                <div className="flex items-baseline justify-between">
+                                                    <h2 className="leading-6 font-bold text-xl  mb-4 text-gray-700">
+                                                        Participants
+                                                </h2>
+                                                    <div class="flex items-center">
+                                                        <label htmlFor="remember_me"
+                                                            className="mr-2 block text-sm leading-5 text-gray-900">
+                                                            All
+                                                    </label>
+                                                        <input
+                                                            checked={selectAllMembers}
+                                                            onChange={this.toggleAllMember}
+                                                            type="checkbox"
+                                                            className="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
+
                                                     </div>
                                                 </div>
-                                                {
-                                                    memberProfiles
-                                                        .filter(memberProfile => this.isResponseSubmitted(standupRun.id, memberProfile.id))
-                                                        .map(memberProfile => (
-                                                            <div className="mb-2" key={memberProfile.id}>
-                                                                <div className="flex py-4 items-center">
-                                                                    <div className="flex flex-2">
-                                                                        <img className="w-16 h-16 m-0 rounded-circle"
-                                                                            alt={memberProfile.real_name}
-                                                                            title={memberProfile.real_name}
-                                                                            src={memberProfile.image} />
-                                                                    </div>
-                                                                    <div className="w-full ml-2">
-                                                                        <span className="leading-6 font-bold text-xl  
-                                                                        text-gray-700">{memberProfile.real_name}
-                                                                        </span>
-                                                                    </div>
+                                                <div className="flex flex-col">
+                                                    {
+                                                        memberProfiles.map(memberProfile => (
+                                                            <div className="flex items-center text-sm mb-2" key={memberProfile.id}>
+                                                                <div className="mr-2 flex-3">
+                                                                    <img className="w-8 h-8 m-0 rounded-circle"
+                                                                        alt={memberProfile.real_name}
+                                                                        title={memberProfile.real_name}
+                                                                        src={memberProfile.image} />
                                                                 </div>
-                                                                <div className="pr-10 pl-12">
-                                                                    <div className="pr-6 relative h-full" style={{ maxHeight: 457 }}>
-                                                                        {
-                                                                            questions.filter(question => selectedQuestions.includes(question.id)).map(question => (
-                                                                                <div className="relative my-4 px-3" key={question.index}>
-                                                                                    <div className="absolute left-0 w-1 h-full rounded"
-                                                                                        style={{ backgroundColor: stc(question.body) }} >
+                                                                <div className="flex-auto flex-wrap font-bold text-gray-600">
+                                                                    {"@" + memberProfile.real_name}
+                                                                </div>
+                                                                <div className="flex items-center">
 
-                                                                                    </div>
-                                                                                    <div className="w-full ml-2">
-                                                                                        <h4 className="leading-6 font-bold text-lg  text-gray-700">
-                                                                                            {question.body}
-                                                                                        </h4>
-                                                                                        <p className="text-lg text-gray-600">
-                                                                                            {this.getResponseSubmittedForQuestion(standupRun.id,
-                                                                                                question.id, memberProfile.id).length ?
-                                                                                                this.getResponseSubmittedForQuestion(standupRun.id, question.id, memberProfile.id)[0].body :
-                                                                                                'No response submitted'}
-                                                                                        </p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            )
-                                                                            )
-                                                                        }
+                                                                    <input
+                                                                        data-member-id={memberProfile.id}
+                                                                        checked={selectedMembersMap.get(memberProfile.id)}
+                                                                        onChange={this.toggleMember}
+                                                                        type="checkbox"
+                                                                        className="form-checkbox h-4 w-4 text-teal-500 
+                                                                    transition duration-150 ease-in-out" />
 
-                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        )
-                                                        )
-                                                }
-
-                                            </div>
-                                        ))
-                                    }
-
-
-
-                                </div>
-                                <div className="flex-auto p-4 px-3" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
-                                    <div className=" rounded-lg p-6 mb-8">
-                                        <h2 className="leading-6 font-bold text-xl mb-4 text-gray-700">
-                                            Date Range
-                                        </h2>
-                                        <div className="flex flex-col mb-8">
-                                            <NiceDatePicker />
-                                        </div>
-
-                                        <div className="mb-8">
-                                            <div className="flex items-baseline justify-between">
-                                                <h2 className="leading-6 font-bold text-xl  mb-4 text-gray-700">
-                                                    Participants
-                                                </h2>
-                                                <div class="flex items-center">
-                                                    <label htmlFor="remember_me" className="mr-2 block text-sm leading-5 text-gray-900">
-                                                        All
-                                                    </label>
-                                                    <input
-                                                        defaultChecked={true}
-                                                        type="checkbox"
-                                                        className="form-checkbox h-4 w-4 text-teal-500 transition duration-150 ease-in-out" />
+                                                        ))
+                                                    }
 
                                                 </div>
                                             </div>
-                                            <div className="flex flex-col">
-                                                {
-                                                    memberProfiles.map(memberProfile => (
-                                                        <div className="flex items-center text-sm mb-2" key={memberProfile.id}>
-                                                            <div className="mr-2 flex-3">
-                                                                <img className="w-8 h-8 m-0 rounded-circle"
-                                                                    alt={memberProfile.real_name}
-                                                                    title={memberProfile.real_name}
-                                                                    src={memberProfile.image} />
-                                                            </div>
-                                                            <div className="flex-auto flex-wrap font-bold text-gray-600">
-                                                                {"@" + memberProfile.real_name}
-                                                            </div>
-                                                            <div className="flex items-center">
 
-                                                                <input
-                                                                    defaultChecked={true}
-                                                                    type="checkbox"
-                                                                    className="form-checkbox h-4 w-4 text-teal-500 
-                                                                    transition duration-150 ease-in-out" />
-
-                                                            </div>
-                                                        </div>
-                                                    ))
-                                                }
-
-                                            </div>
-                                        </div>
-
-                                        <div className="mb-8">
-                                            <div className="flex items-baseline justify-between">
-                                                <h2 className="leading-6 font-bold text-xl mb-4 text-gray-700">
-                                                    Questions
+                                            <div className="mb-8">
+                                                <div className="flex items-baseline justify-between">
+                                                    <h2 className="leading-6 font-bold text-xl mb-4 text-gray-700">
+                                                        Questions
                                                 </h2>
-                                                <div class="flex items-center">
-                                                    <label htmlFor="remember_me" className="mr-2 block 
+                                                    <div class="flex items-center">
+                                                        <label htmlFor="remember_me" className="mr-2 block 
                                                     text-sm leading-5 text-gray-900">
-                                                        All
+                                                            All
                                                     </label>
-                                                    <input
-                                                        type="checkbox"
-                                                        defaultChecked={true}
-                                                        className="form-checkbox h-4 w-4 text-teal-500 transition 
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={selectAllQuestions}
+                                                            onChange={this.toggleAllQuestion}
+                                                            className="form-checkbox h-4 w-4 text-teal-500 transition 
                                                         duration-150 ease-in-out" />
 
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    {
+                                                        questions.map((question, index) => (
+                                                            <div className="flex items-center text-sm mb-2"
+                                                                key={question.id}>
+                                                                <div className="flex-auto flex-wrap font-bold text-gray-600">
+                                                                    <GoPrimitiveDot
+                                                                        className="inline-block mb-1 mr-2"
+                                                                        style={{ color: stc(question.body) }} />
+                                                                    {question.body}
+                                                                </div>
+                                                                <div className="flex items-center">
+                                                                    <input
+                                                                        data-question-id={question.id}
+                                                                        onChange={this.toggleQuestion}
+                                                                        checked={selectedQuestionsMap.get(question.id)}
+                                                                        type="checkbox"
+                                                                        className="form-checkbox h-4 w-4 text-teal-500 
+                                                                    transition duration-150 ease-in-out" />
+                                                                </div>
+                                                            </div>
+                                                        ))
+                                                    }
+
                                                 </div>
                                             </div>
-                                            <div className="flex flex-col">
-                                                {
-                                                    questions.map((question, index) => (
-                                                        <div className="flex items-center text-sm mb-2"
-                                                            key={question.id}>
-                                                            <div className="flex-auto flex-wrap font-bold text-gray-600">
-                                                                <GoPrimitiveDot
-                                                                    className="inline-block mb-1 mr-2"
-                                                                    style={{ color: stc(question.body) }} />
-                                                                {question.body}
-                                                            </div>
-                                                            <div className="flex items-center">
-                                                                <input
-                                                                    data-question-id={question.id}
-                                                                    data-question-index={index}
-                                                                    // onChange={this.toggleQuestion}
-                                                                    checked={checkQuestons[index]}
-                                                                    type="checkbox"
-                                                                    className="form-checkbox h-4 w-4 text-teal-500 
-                                                                    transition duration-150 ease-in-out" />
-                                                            </div>
-                                                        </div>
-                                                    ))
-                                                }
 
-                                            </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ) : <InsightsLoader />
+                        ) : <InsightsLoader />
                 }
             </>
         )

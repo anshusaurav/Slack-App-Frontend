@@ -205,15 +205,16 @@ class CreateStandup extends Component {
                     >
                       {isLoading ? (
                         <>
-                          <Loader type="Puff"
-                            height={24} width={24}
-                            style={{ display: "inline-block", marginRight: 12 }} />
+                          <Loader type="Watch"
+                            height={20} width={20}
+                            color="#2f855a"
+                            style={{ display: "inline-block", marginRight: 16 }} />
                           Saving
                         </>
                       ) : (
                           <>
-                            <HiCheck className="inline-block
-                           text-xl m-1  cursor-pointer" />
+                            <HiCheck className="inline-block text-xl text-bold h-5 w-5
+                                                                mr-1" />
                            Save
                           </>
                         )
@@ -225,7 +226,8 @@ class CreateStandup extends Component {
                       className="border-2 px-12 py-4 rounded-full border-teal-500
                        font-medium text-teal-500 opacity-50 focus:outline-none 
                        cursor-not-allowed"
-                    ><HiCheck className="inline-block text-xl m-1  cursor-pointer" />
+                    ><HiCheck className="inline-block text-xl text-bold h-5 w-5
+                                                                mr-1"/>
                     Save
                     </button>
                   )}
