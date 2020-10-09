@@ -34,32 +34,32 @@ export default class MiniCalendar extends Component {
                 <g className="punch-card__data">
                     <g className="punch-card__data-row">
                         <g>
-                            <circle cy="59" cx="88" style={{ fill: activeDays.includes('Mon') ? '#6ec3c7' : 'eee' }} r="16">
+                            <circle cy="59" cx="88" style={{ fill: activeDays.includes('Mon') ? '#4299e1' : 'eee' }} r="16">
                             </circle>
                         </g>
                         <g>
-                            <circle cy="59" cx="136" style={{ fill: activeDays.includes('Tue') ? '#6ec3c7' : 'eee' }} r="16">
+                            <circle cy="59" cx="136" style={{ fill: activeDays.includes('Tue') ? '#4299e1' : 'eee' }} r="16">
                             </circle>
                         </g>
                         <g>
-                            <circle cy="59" cx="184" style={{ fill: activeDays.includes('Wed') ? '#6ec3c7' : 'eee' }} r="16">
+                            <circle cy="59" cx="184" style={{ fill: activeDays.includes('Wed') ? '#4299e1' : 'eee' }} r="16">
                             </circle>
                         </g>
                         <g>
-                            <circle cy="59" cx="232" style={{ fill: activeDays.includes('Thur') ? '#6ec3c7' : 'eee' }} r="16">
+                            <circle cy="59" cx="232" style={{ fill: activeDays.includes('Thur') ? '#4299e1' : 'eee' }} r="16">
 
                             </circle>
                         </g>
                         <g>
-                            <circle cy="59" cx="280" style={{ fill: activeDays.includes('Fri') ? '#6ec3c7' : 'eee' }} r="16">
+                            <circle cy="59" cx="280" style={{ fill: activeDays.includes('Fri') ? '#4299e1' : 'eee' }} r="16">
                             </circle>
                         </g>
                         <g>
-                            <circle cy="59" cx="328" style={{ fill: activeDays.includes('Sat') ? '#6ec3c7' : 'eee' }} r="16">
+                            <circle cy="59" cx="328" style={{ fill: activeDays.includes('Sat') ? '#4299e1' : 'eee' }} r="16">
                             </circle>
                         </g>
                         <g>
-                            <circle cy="59" cx="376" style={{ fill: activeDays.includes('Sun') ? '#6ec3c7' : 'eee' }} r="16">
+                            <circle cy="59" cx="376" style={{ fill: activeDays.includes('Sun') ? '#4299e1' : 'eee' }} r="16">
 
                             </circle>
                         </g>

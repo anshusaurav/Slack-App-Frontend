@@ -196,7 +196,8 @@ class Insights extends Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div></>) : (<div className="flex items-center justify-center">
+                                        </div></>) : (
+                                        <div className="flex items-center justify-center">
                                             <div className="max-w-16 flex justify-center flex-col">
                                                 <RiCloudOffLine className="w-full h-20 text-2xl text-bold m-1 text-gray-500 select-none text-center" />
                                                 <div>

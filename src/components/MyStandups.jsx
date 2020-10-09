@@ -71,7 +71,7 @@ class MyStandups extends React.Component {
               </div>
               <Link to="/dashboard/create"
                 className="border-2 px-12 py-2 rounded-full 
-                border-teal-500 font-medium hover:bg-teal-500 text-teal-500  
+                border-blue-500 font-medium hover:bg-blue-500 text-blue-500  
                 hover:text-white hover:shadow-xl">
                 <RiAddLine className="inline-block text-xl mb-1 
                 mr-2 cursor-pointer" />

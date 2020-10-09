@@ -89,7 +89,7 @@ class SingleStandup extends React.Component {
                                     </div>
                                     <Link
                                         to={`/standups/${standup.id}/edit`}
-                                        className="border-2 px-12 py-2 rounded-full border-teal-500 font-medium hover:bg-teal-500 text-teal-500  hover:text-white hover:shadow-xl"
+                                        className="border-2 px-12 py-2 rounded-full border-blue-500 font-medium hover:bg-blue-500 text-blue-500  hover:text-white hover:shadow-xl"
                                     >
                                         <HiCog className="inline-block text-xl mb-1 mr-2 cursor-pointer" />
                                         Manage
@@ -188,7 +188,7 @@ class SingleStandup extends React.Component {
                                             >
                                                 Insights
                                             </button>
-                                            {openTab === 1 && (<div className="h-1 w-auto bg-teal-500 -mt-2 rounded mx-4">
+                                            {openTab === 1 && (<div className="h-1 w-auto bg-blue-500 -mt-2 rounded mx-4">
 
                                             </div>)}
 
@@ -204,7 +204,7 @@ class SingleStandup extends React.Component {
                                                 data-toggle-id={2}
                                             >Timeline
                                             </button>
-                                            {openTab === 2 && (<div className="h-1 w-auto bg-teal-500 -mt-2 rounded mx-4">
+                                            {openTab === 2 && (<div className="h-1 w-auto bg-blue-500 -mt-2 rounded mx-4">
 
                                             </div>)}
                                         </li>

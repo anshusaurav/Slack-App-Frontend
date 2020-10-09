@@ -2,7 +2,7 @@ import React, { createRef, Component } from "react";
 import * as d3 from "d3";
 const colors = (index) => {
     if (index === 0)
-        return "#6ec3c7"
+        return "#4299e1"
     else
         return "#eee";
 }

@@ -199,8 +199,8 @@ class CreateStandup extends Component {
                   selectedChannels.length ? (
                     <button
                       type="submit"
-                      className="border-2 px-12 py-4 rounded-full border-teal-500 
-                      font-medium hover:bg-teal-500 text-teal-500  
+                      className="border-2 px-12 py-4 rounded-full border-blue-500 
+                      font-medium hover:bg-blue-500 text-blue-500  
                       hover:text-white hover:shadow-xl focus:outline-none flex items-center"
                       disabled={isLoading}
                     >
@@ -208,14 +208,14 @@ class CreateStandup extends Component {
                         <>
                           <Loader type="Watch"
                             height={20} width={20}
-                            color="#2f855a"
-                            style={{ display: "inline-block" }} />
+                            color="#3182ce"
+                            style={{ display: "inline-block", marginRight: 8 }} />
                           Saving
                         </>
                       ) : (
                           <>
                             <HiCheck className="inline-block text-xl text-bold h-5 w-5
-                                                                mr-1" />
+                                                                mr-2" />
                            Save
                           </>
                         )
@@ -224,11 +224,11 @@ class CreateStandup extends Component {
                   ) : (
                     <button
                       type="button"
-                      className="border-2 px-12 py-4 rounded-full border-teal-500
-                       font-medium text-teal-500 opacity-50 focus:outline-none 
+                      className="border-2 px-12 py-4 rounded-full border-blue-500
+                       font-medium text-blue-500 opacity-50 focus:outline-none 
                        cursor-not-allowed"
                     ><HiCheck className="inline-block text-xl text-bold h-5 w-5
-                                                                mr-1"/>
+                                                                mr-2"/>
                     Save
                     </button>
                   )}

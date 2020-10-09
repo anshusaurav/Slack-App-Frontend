@@ -6,6 +6,7 @@ import { GET_STANDUP_RESPONSES } from "./../graphql/queries"
 import { executeOperation } from "./../graphql/helpers"
 import { InsightsLoader } from "./LoaderPage"
 import stc from 'string-to-color';
+import { RiCloudOffLine } from "react-icons/ri"
 
 class Timeline extends Component {
     constructor(props) {
@@ -105,10 +106,23 @@ class Timeline extends Component {
         const questionId = event.target.dataset.questionId;
         if (!questionId)
             return;
+        const { standupRuns } = this.state;
+        const selectedStanduprunsMap = new Map(this.state.selectedStanduprunsMap);
         let selectedQuestionsMap = new Map(this.state.selectedQuestionsMap);
         selectedQuestionsMap.set(questionId,
-            !this.state.selectedQuestionsMap.get(questionId))
-        this.setState({ selectedQuestionsMap })
+            !this.state.selectedQuestionsMap.get(questionId));
+        standupRuns.forEach(standupRun => {
+            let responses = [...standupRun.responses];
+            responses = responses
+                .filter(responses => selectedQuestionsMap.get(responses.question_id))
+            if (responses.length) {
+                selectedStanduprunsMap.set(standupRun.id, true);
+            }
+            else {
+                selectedStanduprunsMap.set(standupRun.id, false);
+            }
+        })
+        this.setState({ selectedQuestionsMap, selectedStanduprunsMap })
     }
 
     toggleAllQuestion = (event) => {
@@ -118,9 +132,24 @@ class Timeline extends Component {
                 [question.id, !selectAllQuestions]
             ))
         );
+        const { standupRuns } = this.state;
+        const selectedStanduprunsMap = new Map(this.state.selectedStanduprunsMap);
+
+        standupRuns.forEach(standupRun => {
+            let responses = [...standupRun.responses];
+            responses = responses
+                .filter(responses => selectedQuestionsMap.get(responses.question_id))
+            if (responses.length) {
+                selectedStanduprunsMap.set(standupRun.id, true);
+            }
+            else {
+                selectedStanduprunsMap.set(standupRun.id, false);
+            }
+        })
         this.setState({
             selectedQuestionsMap,
-            selectAllQuestions: !selectAllQuestions
+            selectAllQuestions: !selectAllQuestions,
+            selectedStanduprunsMap
         })
     }
 
@@ -130,8 +159,21 @@ class Timeline extends Component {
             return;
         let selectedMembersMap = new Map(this.state.selectedMembersMap);
         selectedMembersMap.set(memberId,
-            !this.state.selectedMembersMap.get(memberId))
-        this.setState({ selectedMembersMap })
+            !this.state.selectedMembersMap.get(memberId));
+        const { standupRuns } = this.state;
+        const selectedStanduprunsMap = new Map(this.state.selectedStanduprunsMap);
+        standupRuns.forEach(standupRun => {
+            let responses = [...standupRun.responses];
+            responses = responses
+                .filter(responses => selectedMembersMap.get(responses.slackuser_id))
+            if (responses.length) {
+                selectedStanduprunsMap.set(standupRun.id, true);
+            }
+            else {
+                selectedStanduprunsMap.set(standupRun.id, false);
+            }
+        })
+        this.setState({ selectedMembersMap, selectedStanduprunsMap })
     }
     toggleAllMember = (event) => {
         const { memberProfiles, selectAllMembers } = this.state;
@@ -140,9 +182,25 @@ class Timeline extends Component {
                 [member.id, !selectAllMembers]
             ))
         );
+
+        const { standupRuns } = this.state;
+        const selectedStanduprunsMap = new Map(this.state.selectedStanduprunsMap);
+        standupRuns.forEach(standupRun => {
+            let responses = [...standupRun.responses];
+            responses = responses
+                .filter(responses => selectedMembersMap.get(responses.slackuser_id))
+            if (responses.length) {
+                selectedStanduprunsMap.set(standupRun.id, true);
+            }
+            else {
+                selectedStanduprunsMap.set(standupRun.id, false);
+            }
+        })
+
         this.setState({
             selectedMembersMap,
-            selectAllMembers: !selectAllMembers
+            selectAllMembers: !selectAllMembers,
+            selectedStanduprunsMap
         })
     }
 
@@ -152,7 +210,7 @@ class Timeline extends Component {
     render() {
         const { questions, memberProfileMap, memberProfiles, standupRuns,
             selectedQuestionsMap, selectAllQuestions, selectedMembersMap
-            , selectAllMembers } = this.state;
+            , selectAllMembers, selectedStanduprunsMap } = this.state;
 
         return (
             <>
@@ -164,10 +222,26 @@ class Timeline extends Component {
                             <div className="bg-white animate-fadesunnyin">
                                 <div className="flex flex-wrap">
                                     <div className="flex-auto p-4 px-3">
-
                                         {
                                             standupRuns
-                                                .filter(standupRun => standupRun.responses.length !== 0)
+                                                .filter(standupRun => standupRun.responses.length !== 0
+                                                    && selectedStanduprunsMap.get(standupRun.id)).length === 0 && (
+                                                <div className="flex items-center justify-center mt-12">
+                                                    <div className="max-w-16 flex justify-center flex-col">
+                                                        <RiCloudOffLine className="w-full h-20 text-2xl text-bold m-1 text-gray-500 select-none text-center" />
+                                                        <div>
+                                                            <h3 className=" w-full font-bold text-center text-gray-700">No data to display yet!</h3>
+                                                            <p className="w-full text-center text-gray-600">Timeline will kick in as soon as there is some activity in this standup</p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            )
+                                        }
+                                        {
+                                            standupRuns
+                                                .filter(standupRun => standupRun.responses.length !== 0
+                                                    && selectedStanduprunsMap.get(standupRun.id))
                                                 .map(standupRun => (
                                                     <div className="rounded-lg mb-2 mt-6"
                                                         key={standupRun.id}>
@@ -182,6 +256,7 @@ class Timeline extends Component {
                                                                 }
                                                             </div>
                                                         </div>
+
                                                         {
                                                             memberProfiles
                                                                 .filter(memberProfile => this.isResponseSubmitted(standupRun.id, memberProfile.id)
@@ -243,12 +318,12 @@ class Timeline extends Component {
                                     </div>
                                     <div className="flex-auto p-4 px-3 w-1/3 md:max-w-1/3" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
                                         <div className=" rounded-lg p-6 mb-8">
-                                            <h2 className="leading-6 font-bold text-xl mb-4 text-gray-700">
+                                            {/* <h2 className="leading-6 font-bold text-xl mb-4 text-gray-700">
                                                 Date Range
                                         </h2>
                                             <div className="flex flex-col mb-8">
                                                 <NiceDatePicker />
-                                            </div>
+                                            </div> */}
 
                                             <div className="mb-8">
                                                 <div className="flex items-baseline justify-between">
