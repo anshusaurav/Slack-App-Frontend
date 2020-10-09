@@ -74,9 +74,13 @@ class App extends React.Component {
 
             if (!checkWSRes.data.workspace_by_pk) {
               const createWSRes = await executeOperation({ slack_id: team, token }, CREATE_WORKSPACE);
+              if (createWSRes.errors)
+                return;
             }
             else {
               const updateWSRes = await executeOperation({ slack_id: team, token }, UPDATE_WORKSPACE);
+              if (updateWSRes.errors)
+                return;
             }
             const userProfileResult = await new WebClient().users.info({
               token,

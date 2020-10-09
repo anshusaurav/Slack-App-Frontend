@@ -40,6 +40,8 @@ class EditStandup extends Component {
                 { standup_id },
                 PAUSE_STANDUP
             );
+            if (res1.errors)
+                return;
             this.setState({ isUpdated: !this.state.isUpdated, isLoading: false })
         })
 
@@ -53,6 +55,8 @@ class EditStandup extends Component {
                 { standup_id },
                 UNPAUSE_STANDUP
             );
+            if (res1.errors)
+                return;
             this.setState({ isUpdated: !this.state.isUpdated, isLoading: false })
         })
 

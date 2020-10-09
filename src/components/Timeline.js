@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { GoPrimitiveDot } from "react-icons/go"
-import NiceDatePicker from "./DatePicker"
+// import NiceDatePicker from "./DatePicker"
 import moment from "moment";
 import { GET_STANDUP_RESPONSES } from "./../graphql/queries"
 import { executeOperation } from "./../graphql/helpers"
