@@ -13,10 +13,9 @@ export default class HomePage extends Component {
       <div className="bg-gray-100 px-4 py-5 text-blue-700 w-screen 
             h-screen flex items-center justify-center"style={{ backgroundImage: "url('/images/space-objects-seamless-vector-pattern-repeat-background.jpg')" }} >
         <div
-          style={{ boxShadow: "9px -2px 43px -8px rgba(0,0,0,1)" }}
+          style={{ boxShadow: "9px -2px 43px -8px rgba(0,0,0,1)", backgroundColor: '#0d2031d1' }}
           className="mx-auto flex flex-col justify-center items-center 
-                px-12  bg-blue-600 py-20"
-        >
+                px-12  py-20">
           <h1 className="text-4xl text-center text-white font-bold font-sans tracking-wide">
             PupBot
                 </h1>
