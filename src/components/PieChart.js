@@ -21,7 +21,7 @@ class PieChart extends Component {
             .outerRadius(props.outerRadius);
     }
     repaint = () => {
-        let num = (this.props.data[0].value / this.props.data[1].value) * 100 || 0;
+        let num = (this.props.data[0].value / (this.props.data[0].value + this.props.data[1].value)) * 100 || 0;
         num = Math.round(num);
         const svg = d3.select(this.ref.current);
         const data = this.createPie(this.props.data);

@@ -36,8 +36,8 @@ class Insights extends Component {
             .find(standupRun => standupRun.id === standupRunId);
         const v1 = remove_duplicates(srObj.responses
             .map(response => response.slackuser_id)).length || 0;
-        const v2 = channelsIDmembersMap.get(standup.channel)
-            .map(e => e).length || 1;
+        const v2 = (channelsIDmembersMap.get(standup.channel)
+            .map(e => e).length - v1) || 1;
         return [{ date: 0, value: v1 }, { date: 1, value: v2 }]
     }
     fetchStandupRuns = async () => {
