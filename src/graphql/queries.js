@@ -1,26 +1,26 @@
 //xoxb-1065528063712-1380933099575-nfdGvcjWeNDw5raigzgKqik1
 
-const FETCH_USER = `
-query findUser($slack_id: String!) {
-  user_by_pk(slack_id: $slack_id){
+const FETCH_WORKSPACE = `
+query findWorkspace($slack_id: String!) {
+  workspace_by_pk(slack_id: $slack_id){
     slack_id
     token
   }
 }
 `
 
-const CREATE_USER = `
-mutation createUser($slack_id:String!, $token: String!){
-  insert_user_one(object: {slack_id: $slack_id, token: $token}){
+const CREATE_WORKSPACE = `
+mutation createWorkspace($slack_id:String!, $token: String!){
+  insert_workspace_one(object: {slack_id: $slack_id, token: $token}){
     slack_id
     token
   }
 }
 `
 
-const UPDATE_USER = `
-mutation updateUser($slack_id: String!, $token: String!) {
-  update_user_by_pk(pk_columns: {slack_id: $slack_id}, _set: {token: $token}){
+const UPDATE_WORKSPACE = `
+mutation updateWorkspace($slack_id: String!, $token: String!) {
+  update_workspace_by_pk(pk_columns: {slack_id: $slack_id}, _set: {token: $token}){
     slack_id
     token
   }
@@ -170,7 +170,7 @@ mutation resumeStandup($standup_id: uuid!) {
 
 export {
   GET_STANDUPS, GET_CHANNEL_MEMBERS, INSERT_STANDUP, GET_SINGLE_STANDUP,
-  GET_STANDUP_RESPONSES, PAUSE_STANDUP, UNPAUSE_STANDUP, CREATE_USER, FETCH_USER,
-  UPDATE_USER
+  GET_STANDUP_RESPONSES, PAUSE_STANDUP, UNPAUSE_STANDUP, CREATE_WORKSPACE,
+  FETCH_WORKSPACE, UPDATE_WORKSPACE
 
 }

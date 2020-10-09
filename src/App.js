@@ -12,7 +12,7 @@ import {
   remove_duplicates, getMemberInfo
 } from "./slack/helpers"
 import { executeOperation } from "./graphql/helpers";
-import { FETCH_USER, CREATE_USER, UPDATE_USER } from "./graphql/queries"
+import { FETCH_WORKSPACE, CREATE_WORKSPACE, UPDATE_WORKSPACE } from "./graphql/queries"
 
 class App extends React.Component {
 
@@ -67,15 +67,16 @@ class App extends React.Component {
             const slackUser = result.authed_user;
             const token = result.access_token;
             const user = result.authed_user.id;
+            const team = result.team.id;
             //Add user is in database if not saved
-            const checkUserRes = await executeOperation({ slack_id: user }, FETCH_USER);
-            console.log(checkUserRes)
+            const checkWSRes = await executeOperation({ slack_id: team }, FETCH_WORKSPACE);
+            console.log(checkWSRes)
 
-            if (!checkUserRes.data.user_by_pk) {
-              const createUserRes = await executeOperation({ slack_id: user, token }, CREATE_USER);
+            if (!checkWSRes.data.workspace_by_pk) {
+              const createWSRes = await executeOperation({ slack_id: team, token }, CREATE_WORKSPACE);
             }
             else {
-              const updateUserRes = await executeOperation({ slack_id: user, token }, UPDATE_USER);
+              const updateWSRes = await executeOperation({ slack_id: team, token }, UPDATE_WORKSPACE);
             }
             const userProfileResult = await new WebClient().users.info({
               token,
