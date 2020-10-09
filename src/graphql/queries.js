@@ -1,3 +1,30 @@
+//xoxb-1065528063712-1380933099575-nfdGvcjWeNDw5raigzgKqik1
+
+const FETCH_USER = `
+query findUser($slack_id: String!) {
+  user_by_pk(slack_id: $slack_id){
+    slack_id
+    token
+  }
+}
+`
+
+const CREATE_USER = `
+mutation createUser($slack_id:String!, $token: String!){
+  insert_user_one(object: {slack_id: $slack_id, token: $token}){
+    slack_id
+    token
+  }
+}
+`
+
+const UPDATE_USER = `
+mutation updateUser($slack_id: String!, $token: String!) {
+  update_user_by_pk(pk_columns: {slack_id: $slack_id}, _set: {token: $token}){
+    slack_id
+    token
+  }
+}`
 
 const GET_STANDUPS = `
 query getStandups($creator_slack_id: String!){
@@ -35,6 +62,7 @@ const INSERT_STANDUP = `
     $name: String!
     $questions: [String!]!
     $timezone: String!
+    $token: String!
   ) {
     insertStandup(
       channel: $channel
@@ -44,6 +72,7 @@ const INSERT_STANDUP = `
       name: $name
       questions: $questions
       timezone: $timezone
+      token: $token
     ) {
       id
     }
@@ -141,5 +170,7 @@ mutation resumeStandup($standup_id: uuid!) {
 
 export {
   GET_STANDUPS, GET_CHANNEL_MEMBERS, INSERT_STANDUP, GET_SINGLE_STANDUP,
-  GET_STANDUP_RESPONSES, PAUSE_STANDUP, UNPAUSE_STANDUP
+  GET_STANDUP_RESPONSES, PAUSE_STANDUP, UNPAUSE_STANDUP, CREATE_USER, FETCH_USER,
+  UPDATE_USER
+
 }

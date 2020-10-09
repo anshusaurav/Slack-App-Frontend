@@ -2,6 +2,7 @@ export const executeOperation = async (variables, operation) => {
     const headers = {
         "x-hasura-admin-secret": "asdfgh"
     };
+    console.log(variables);
     const fetchResponse = await fetch(
         "https://hopeful-squirrel-40.hasura.app/v1/graphql",
         {

@@ -117,7 +117,7 @@ class CreateStandup extends Component {
     let minutes = `${cronTime.charAt(3)}${cronTime.charAt(4)}`;
     let days = `${cronDays.sort().join()}`;
     let hour = `${cronTime.charAt(0)}${cronTime.charAt(1)}`;
-    if (cronTime.includes("PM")) {
+    if (cronTime.includes("PM") && hour < 12) {
       hour = `${cronTime.charAt(0)}${cronTime.charAt(1)}`;
       hour = +hour + 12;
     }
@@ -130,6 +130,8 @@ class CreateStandup extends Component {
     this.setState({ isLoading: true }, async () => {
       const { selectedChannels, message, standupName, questions, selectedTimezone } = this.state;
       const creator_slack_id = this.props.slackUser.id;
+      const { token } = this.props;
+      // console.log(token)
       let dataToSend = {
         channel: selectedChannels.length ? selectedChannels[0].id : "",
         creator_slack_id,
@@ -138,7 +140,7 @@ class CreateStandup extends Component {
         name: standupName.trim(),
         questions: questions.filter((ques) => ques.text).map((ques) => ques.text),
         timezone: selectedTimezone.length ? selectedTimezone[0].id.split(' ')[1] : "",
-
+        token
       };
       let res1 = await executeOperation(
         dataToSend,
@@ -207,7 +209,7 @@ class CreateStandup extends Component {
                           <Loader type="Watch"
                             height={20} width={20}
                             color="#2f855a"
-                            style={{ display: "inline-block", marginRight: 16 }} />
+                            style={{ display: "inline-block" }} />
                           Saving
                         </>
                       ) : (

@@ -11,6 +11,8 @@ import {
   getChannelsUsingCursor, getAllMembersUsingCursor,
   remove_duplicates, getMemberInfo
 } from "./slack/helpers"
+import { executeOperation } from "./graphql/helpers";
+import { FETCH_USER, CREATE_USER, UPDATE_USER } from "./graphql/queries"
 
 class App extends React.Component {
 
@@ -44,17 +46,14 @@ class App extends React.Component {
         userProfile: JSON.parse(localStorage.getItem('userProfile')),
         channelMembers: JSON.parse(localStorage.getItem('channelMembers')),
         isLoggedIn: true,
-        // isProcessing: true,
       });
     }
     else {
-      // this.setState({ isProcessing: true })
       const currentURL = document.location.search;
 
       const code = currentURL.slice(6, -7);
       if (!code)
         return;
-      console.log('Code:', code)
       try {
         this.setState({ isProcessing: true }, async () => {
           const result = await new WebClient().oauth.v2.access({
@@ -62,32 +61,36 @@ class App extends React.Component {
             client_id: process.env.REACT_APP_CLIENT_ID,
             client_secret: process.env.REACT_APP_CLIENT_SECRET,
           });
-          // this.setState({ isProcessing: true })
-          // console.log('0')
-          // localStorage.setItem('code', code);
+          console.log(result)
           if (result.ok) {
             console.log('Result:', result)
             const slackUser = result.authed_user;
             const token = result.access_token;
             const user = result.authed_user.id;
+            //Add user is in database if not saved
+            const checkUserRes = await executeOperation({ slack_id: user }, FETCH_USER);
+            console.log(checkUserRes)
+
+            if (!checkUserRes.data.user_by_pk) {
+              const createUserRes = await executeOperation({ slack_id: user, token }, CREATE_USER);
+            }
+            else {
+              const updateUserRes = await executeOperation({ slack_id: user, token }, UPDATE_USER);
+            }
             const userProfileResult = await new WebClient().users.info({
               token,
               user
             });
-            // console.log('KILL', userProfileResult)
             const userProfile = userProfileResult.user;
             let channels = await getChannelsUsingCursor(token);
-            // console.log('1');
             channels = channels.filter(channel => !channel.is_archived)
             const channelMapRequests = channels
               .map(channel => getAllMembersUsingCursor(token, channel.id));
             const channelMapResults = await Promise.all(channelMapRequests);
-            // console.log('w');
-            // console.log('dasdasdwqeqweqw', channelMapResults);
+
             const channelMembers = channels.map((channel, index) => (
               { id: channel.id, members: channelMapResults[index].filter(member => !member.is_bot) }
             ))
-            // console.log('3');
             let membersArr = [];
 
             channelMapResults.forEach(channelMapResult => {
@@ -96,11 +99,9 @@ class App extends React.Component {
             membersArr = remove_duplicates(membersArr);
             const MemberRequests = membersArr
               .map(user => getMemberInfo(token, user));
-            // console.log('4');
 
             const members = await Promise.all(MemberRequests);
 
-            // console.log(members, channels, channelMembers)
             this.setState({
               slackUser, userProfile, members, channelMembers,
               channels, token, isLoggedIn: true, isProcessing: false
@@ -118,7 +119,6 @@ class App extends React.Component {
 
           }
         });
-        // console.log('-1')
 
       } catch (err) {
         console.log('HERE', err);
@@ -135,7 +135,7 @@ class App extends React.Component {
 
   render() {
     const { isLoggedIn, channels, members, channelMembers,
-      slackUser, userProfile, isProcessing } = this.state;
+      slackUser, userProfile, isProcessing, token } = this.state;
 
     return (
 
@@ -148,6 +148,7 @@ class App extends React.Component {
               channelMembers={channelMembers}
               slackUser={slackUser}
               userProfile={userProfile}
+              token={token}
               toggleLoggedIn={this.toggleLoggedIn}
             />
           ) : (
@@ -166,6 +167,7 @@ class App extends React.Component {
                 channelMembers={channelMembers}
                 slackUser={slackUser}
                 userProfile={userProfile}
+                token={token}
                 toggleLoggedIn={this.toggleLoggedIn}
               />
             ) : (
@@ -185,6 +187,7 @@ class App extends React.Component {
                 channelMembers={channelMembers}
                 slackUser={slackUser}
                 userProfile={userProfile}
+                token={token}
                 toggleLoggedIn={this.toggleLoggedIn}
               />) : (<HomePage />)
           }
@@ -198,6 +201,7 @@ class App extends React.Component {
                 channelMembers={channelMembers}
                 slackUser={slackUser}
                 userProfile={userProfile}
+                token={token}
                 toggleLoggedIn={this.toggleLoggedIn}
               />) : (<HomePage />)
           }
@@ -211,6 +215,7 @@ class App extends React.Component {
                 channelMembers={channelMembers}
                 slackUser={slackUser}
                 userProfile={userProfile}
+                token={token}
                 toggleLoggedIn={this.toggleLoggedIn} />
             ) : (<HomePage />)
           }
