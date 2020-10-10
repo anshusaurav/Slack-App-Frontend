@@ -69,12 +69,13 @@ class SingleStandup extends React.Component {
         const { openTab, standup, channelsIDmembersMap, channelsMap, membersMap } = this.state;
         const { toggleLoggedIn, slackUser, userProfile, channels, members, channelMembers } = this.props;
         return (
-            <>
+            <div className="flex flex-wrap">
+
                 <Sidebar toggleLoggedIn={toggleLoggedIn}
                     slackUser={slackUser}
                     userProfile={userProfile} />
                 {standup ? (
-                    <>
+                    <div className="flex-grow ml-24">
                         <div className="shadow-inner px-8 py-6" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
                             <div className="max-w-screen-xl mx-auto">
                                 <div className="flex justify-between items-center">
@@ -83,15 +84,15 @@ class SingleStandup extends React.Component {
                                             <Link to="/dashboard">Dashboard</Link> /
                                             {' ' + standup.name || ''}
                                         </span>
-                                        <h1 className="pt-4 text-gray-800 font-bold text-4xl">
+                                        <h1 className="pt-4 text-gray-800 font-bold text-lg md:text-4xl">
                                             {standup.name || ''}
                                         </h1>
                                     </div>
                                     <Link
                                         to={`/standups/${standup.id}/edit`}
-                                        className="border-2 px-12 py-2 rounded-full border-blue-500 font-medium hover:bg-blue-500 text-blue-500  hover:text-white hover:shadow-xl"
+                                        className="border-2 px-6 md:px-12 py-2 rounded-full border-blue-500 font-medium hover:bg-blue-500 text-blue-500  hover:text-white hover:shadow-xl"
                                     >
-                                        <HiCog className="inline-block text-xl mb-1 mr-2 cursor-pointer" />
+                                        <HiCog className="inline-block text-lg md:text-xl mb-1 mr-1 cursor-pointer" />
                                         Manage
                                     </Link>
                                 </div>
@@ -102,7 +103,7 @@ class SingleStandup extends React.Component {
                                     {getCronAsString(standup.cron_text) + " in " + standup.timezone + " timezone"}
                                 </div>
 
-                                <div className="flex flex-wrap text-lg mt-6 space-x-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 text-lg mt-4 md:mt-6 gap-4">
                                     <div className="flex-auto p-4 bg-white shadow-newtype rounded-lg">
                                         <h4 className="pb-4 font-bold text-gray-700">
                                             Questions
@@ -247,9 +248,10 @@ class SingleStandup extends React.Component {
                             </div>
 
                         </div>
-                    </>) : (<MainSectionLoader />)
+                    </div>)
+                    : (<MainSectionLoader />)
                 }
-            </>
+            </div>
         )
     }
 }

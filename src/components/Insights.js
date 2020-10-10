@@ -105,7 +105,7 @@ class Insights extends Component {
                                                             </button>
                                                         </div>)
                                                 }
-                                                <div className="mx-6 font-bold text-gray-700">
+                                                <div className="mx-0 font-bold text-gray-700">
                                                     {
                                                         /* moment("2020-10-02T13:48:00.696962+00:00").format("dddd") +
                                                         ", " + */
@@ -173,8 +173,8 @@ class Insights extends Component {
                                                 }
 
                                             </div>
-                                            <div className="flex-auto p-4 px-3">
-                                                <div className="border-solid border border-gray-400 rounded-lg p-6">
+                                            <div className="flex-auto py-4 px-0">
+                                                <div className="mr-3 md:mr-0 border-solid border border-gray-400 rounded-lg p-6">
                                                     <h2 className="leading-6 font-bold text-xl text-gray-700 mb-4">
                                                         Participation
                                                                     </h2>
@@ -191,7 +191,9 @@ class Insights extends Component {
                                                 <strong>
                                                                 {this.getDataForChart(standupRuns[currentStandupIndex].id)[0].value}
                                                             </strong> people out of <strong>
-                                                                {this.getDataForChart(standupRuns[currentStandupIndex].id)[1].value}</strong>
+                                                                {this.getDataForChart(standupRuns[currentStandupIndex].id)[0].value
+                                                                    + this.getDataForChart(standupRuns[currentStandupIndex].id)[1].value}
+                                                            </strong>
                                                         </p>
                                                     </div>
                                                 </div>

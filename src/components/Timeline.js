@@ -316,8 +316,8 @@ class Timeline extends Component {
 
 
                                     </div>
-                                    <div className="flex-auto p-4 px-3 w-1/3 md:max-w-1/3" style={{ backgroundColor: "rgb(250, 250, 250)" }}>
-                                        <div className=" rounded-lg p-6 mb-8">
+                                    <div className="flex-auto  flex p-4 px-3 w-full md:w-1/3 max-w-full " style={{ backgroundColor: "rgb(250, 250, 250)" }}>
+                                        <div className=" rounded-lg p-6 mb-8 flex-grow">
                                             {/* <h2 className="leading-6 font-bold text-xl mb-4 text-gray-700">
                                                 Date Range
                                         </h2>
