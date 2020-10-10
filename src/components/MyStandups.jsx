@@ -62,22 +62,29 @@ class MyStandups extends React.Component {
         <div className="shadow-inner py-6 x-auto min-h-screen flex-grow ml-24"
           style={{ backgroundColor: "rgb(250, 250, 250)" }}>
           <div className="max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg  xl:max-w-screen-xl mx-auto">
-            <div className="flex justify-between items-center px-8 pb-8">
+            <div className="flex justify-between items-center px-4 md:px-8 pb-8">
               <div>
                 <span className="text-gray-700 font-medium text-sm">
                   Dashboard / Home
                 </span>
-                <h1 className="pt-4 text-gray-800 font-bold text-base sm:text-2xl md:text-4xl">
+                <h1 className="pt-4 text-gray-800 font-bold text-xl sm:text-2xl md:text-4xl">
                   {"My Standups"}
                 </h1>
               </div>
               <Link to="/dashboard/create"
-                className="border-2 px-12 py-2 rounded-full 
+                className="hidden md:block border-2 px-12 py-2 rounded-full 
                 border-blue-500 font-medium hover:bg-blue-500 text-blue-500  
                 hover:text-white hover:shadow-xl">
                 <RiAddLine className="inline-block text-xl mb-1 
                 mr-2 cursor-pointer" />
                   New Standup
+              </Link>
+              <Link to="/dashboard/create"
+                className=" md:hidden border-2 px-6 py-2 rounded-full 
+                border-blue-500 font-medium hover:bg-blue-500 text-blue-500  
+                hover:text-white hover:shadow-xl flex items-center content-center">
+                <RiAddLine className="inline-block text-xl
+               cursor-pointer" />
               </Link>
             </div>
             <div className="mt-12" v-for="item in itemList">
@@ -89,14 +96,14 @@ class MyStandups extends React.Component {
                     hover:shadow-newtype flex flex-no-wrap justify-between 
                     items-center">
                       <div className="w-full lg:w-7/12 pr-2 ">
-                        <div className="flex flex-wrap items-end leading-2 md:leading-8  text-base sm:text-2xl md:text-4xl">
+                        <div className="flex flex-wrap items-end leading-2 md:leading-8  text-base sm:text-2xl md:text-4xl truncate">
                           <h4 className="pt-4  text-gray-700 font-bold">
                             {standup.name}
                           </h4>
                           {
                             standup.paused && (
                               <div className="ml-1 sm:ml-4">
-                                <span className="bg-orange-500 text-xs md:text-sm text-white font-bold px-1 py-2 rounded-lg">PAUSED</span>
+                                <span className="bg-orange-500 text-xs md:text-sm text-white font-bold px-1 py-1 md:py-2 rounded-lg">PAUSED</span>
                               </div>
                             )
                           }

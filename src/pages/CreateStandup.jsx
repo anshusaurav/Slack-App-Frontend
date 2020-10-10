@@ -181,14 +181,14 @@ class CreateStandup extends Component {
           <form onSubmit={this.handleFormSubmit} >
             <div className="bg-gray-100 px-8 py-4 mb-8">
               <div className="max-w-screen-xl mx-auto">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-end md:items-center">
                   <div>
                     <p className="text-gray-700 font-medium text-sm">
                       <NavLink to="/dashboard">Dashboard</NavLink>/Create Standup
                   </p>
                     <input
                       type="text"
-                      className="px-4 py-2 text-2xl mt-4 mb-2 outline-none border-2 
+                      className="px-4 py-2 text-lg sm:text-xl mt-4 mb-0 md:mb-2 outline-none border-2 
                     border-gray-500 rounded-lg w-full"
                       placeholder="Enter a name"
                       name="standupName"
@@ -202,9 +202,9 @@ class CreateStandup extends Component {
                     selectedChannels.length ? (
                       <button
                         type="submit"
-                        className="border-2 px-12 py-4 rounded-full border-blue-500 
+                        className="hidden md:flex border-2 px-12 py-4 rounded-full border-blue-500 
                       font-medium hover:bg-blue-500 text-blue-500  
-                      hover:text-white hover:shadow-xl focus:outline-none flex items-center"
+                      hover:text-white hover:shadow-xl focus:outline-none items-center"
                         disabled={isLoading}
                       >
                         {isLoading ? (
@@ -227,14 +227,57 @@ class CreateStandup extends Component {
                     ) : (
                       <button
                         type="button"
-                        className="border-2 px-12 py-4 rounded-full border-blue-500
+                        className="hidden md:flex border-2 px-12 py-4 rounded-full border-blue-500
                        font-medium text-blue-500 opacity-50 focus:outline-none 
                        cursor-not-allowed"
                       ><HiCheck className="inline-block text-xl text-bold h-5 w-5
                                                                 mr-2"/>
                     Save
                       </button>
-                    )}
+                    )
+
+                  }
+                  {
+                    standupName &&
+                      message &&
+                      questions[0].text &&
+                      selectedChannels.length ? (
+                        <button
+                          type="submit"
+                          className="flex md:hidden border-2 px-6 py-2 rounded-full border-blue-500 
+                      font-medium hover:bg-blue-500 text-blue-500  
+                      hover:text-white hover:shadow-xl focus:outline-none"
+                          disabled={isLoading}
+                        >
+                          {isLoading ? (
+                            <>
+                              <Loader type="Watch"
+                                height={20} width={20}
+                                color="#3182ce"
+                                style={{ display: "inline-block", marginRight: 8 }} />
+
+                            </>
+                          ) : (
+                              <>
+                                <HiCheck className="inline-block text-xl text-bold h-5 w-5
+                                                                mr-2" />
+
+                              </>
+                            )
+                          }
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="flex md:hidden border-2 px-6 py-2 rounded-full border-blue-500
+                       font-medium text-blue-500 opacity-50 focus:outline-none 
+                       cursor-not-allowed mx-2"
+                        ><HiCheck className="inline-block text-xl text-bold h-5 w-5
+                                                                mr-2"/>
+
+                        </button>
+                      )
+                  }
                 </div>
               </div>
             </div>
@@ -261,7 +304,7 @@ class CreateStandup extends Component {
                           onChange={this.handleChange}
                           onPointerLeave={(e) => this.handleTimeValidation(e)}
                           value={cronTime}
-                          className="border-2 p-2 mr-4 rounded-lg"
+                          className="border-2 p-2 mr-4 rounded-lg "
                         />
                       </div>
                       <div >
@@ -273,7 +316,7 @@ class CreateStandup extends Component {
                             return (
                               <button
                                 key={index}
-                                className="w-12 h-12 bg-blue-800 border-2 mx-1 rounded-circle 
+                                className="w-8 h-8 md:w-12 md:h-12 bg-blue-800 text-sm md:text-base border md:border-2 mx-0-5 sm:mx-1 rounded-circle 
                               text-teal-500 font-bold focus:outline-none hover:border-gray-600"
                                 onClick={() => this.handleCronDays(btn.id)}
                                 type="button"
@@ -285,7 +328,7 @@ class CreateStandup extends Component {
                             return (
                               <button
                                 key={index}
-                                className="w-12 h-12 bg-transparent border-2 mx-1 rounded-circle 
+                                className="w-8 h-8 md:w-12 md:h-12 bg-transparent text-sm md:text-base border md:border-2 mx-0-5 sm:mx-1 rounded-circle 
                               text-black font-bold focus:outline-none hover:border-gray-600"
                                 onClick={() => this.handleCronDays(btn.id)}
                                 type="button"

@@ -26,6 +26,7 @@ module.exports = {
         '24': '24rem'
       },
       inset: {
+        '0-5': '2px',
         '0': '0',
         auto: 'auto',
         '1/2': '50%',
