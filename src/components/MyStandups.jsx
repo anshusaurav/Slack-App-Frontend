@@ -67,7 +67,7 @@ class MyStandups extends React.Component {
                 <span className="text-gray-700 font-medium text-sm">
                   Dashboard / Home
                 </span>
-                <h1 className="pt-4 text-gray-800 font-bold text-2xl md:text-4xl">
+                <h1 className="pt-4 text-gray-800 font-bold text-base sm:text-2xl md:text-4xl">
                   {"My Standups"}
                 </h1>
               </div>
@@ -85,18 +85,18 @@ class MyStandups extends React.Component {
                 standups.map((standup, index) => (
                   <Link className="w-full" to={"/standups/" + standup.id} key={index}>
 
-                    <div className="mx-8 p-8 mb-4 border round-lg bg-white 
+                    <div className="mx-2 md:mx-8 p-4 md:p-8 mb-4 border round-lg bg-white 
                     hover:shadow-newtype flex flex-no-wrap justify-between 
                     items-center">
                       <div className="w-full lg:w-7/12 pr-2 ">
-                        <div className="flex flex-wrap items-end leading-8 text-2xl md:text-4xl">
+                        <div className="flex flex-wrap items-end leading-2 md:leading-8  text-base sm:text-2xl md:text-4xl">
                           <h4 className="pt-4  text-gray-700 font-bold">
                             {standup.name}
                           </h4>
                           {
                             standup.paused && (
-                              <div className="ml-4">
-                                <span className="bg-orange-500 text-sm text-white font-bold px-1 py-2 rounded-lg">PAUSED</span>
+                              <div className="ml-1 sm:ml-4">
+                                <span className="bg-orange-500 text-xs md:text-sm text-white font-bold px-1 py-2 rounded-lg">PAUSED</span>
                               </div>
                             )
                           }
@@ -114,7 +114,7 @@ class MyStandups extends React.Component {
                               .map((member, imgI) => {
                                 return (
 
-                                  <img className={"inline-block h-12 w-12 md:h-20 md:w-20 border-white border-4 rounded-full text-white shadow-solid "
+                                  <img className={"inline-block h-8 w-8 sm:h-12 sm:w-12 md:h-20 md:w-20 border-white border-4 rounded-full text-white shadow-solid "
                                     + (imgI === 0 ? "" : "-ml-4")}
                                     src={member.profile.image_72}
                                     alt=""
@@ -129,7 +129,7 @@ class MyStandups extends React.Component {
                             channelsIDmembersMap.get(standup.channel) &&
                             (channelsIDmembersMap.get(standup.channel).map(e => e).length > 8) &&
                             (
-                              <div className="-ml-4 flex  h-12 w-12 md:h-20 md:w-20 border-white border-4 
+                              <div className="-ml-4 flex  h-8 w-8 sm:h-12 sm:w-12 md:h-20 md:w-20 border-white border-4 
                               rounded-full text-grey bg-gray-300 shadow-solid items-center 
                               justify-center text-sm md:text-lg text-gray-600 font-bold">
                                 {`+${channelsIDmembersMap.get(standup.channel).map(e => e).length - 8}`}

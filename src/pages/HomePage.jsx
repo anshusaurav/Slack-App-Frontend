@@ -26,8 +26,8 @@ export default class HomePage extends Component {
             width="180px"
           />
           <a href="https://slack.com/oauth/v2/authorize?client_id=401428056419.1387902464068&scope=channels:read,chat:write,chat:write.customize,chat:write.public,im:history,users:read,users:write,channels:history&user_scope=channels:read,users:read"
-            className="flex justify-center items-center py-6 px-24 bg-white border border-2 
-            border-white text-xl font-bold text-gray-700 rounded-100 h-16 cursor-pointer focus:outline-none hover:shadow-xl hover:text-gray-800">
+            className="flex justify-center items-center py-6 px-24 bg-white border-2 
+            border-white text-lg md:text-xl font-bold text-gray-700 rounded-100 h-16 cursor-pointer focus:outline-none hover:shadow-xl hover:text-gray-800">
             <img src="/images/slack-logo-icon.png" className="w-8 h-8 align-middle border-none mr-2" alt="Slack Logo" />
             Add to Slack
           </a>
