@@ -41,7 +41,7 @@ export const getMemberInfo = async (token, user) => {
     let payload = {}
     payload.user = user;
     let res = await web.users.info({ user });
-    console.log(res);
+    // console.log(res);
     if (res.ok)
         return res.user;
 }
