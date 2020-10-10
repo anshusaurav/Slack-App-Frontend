@@ -16,10 +16,13 @@ class Sidebar extends React.Component {
         const { userProfile, toggleLoggedIn, slackUser } = this.props;
         return (
             <>
-                <nav className={`md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-no-wrap  
-                bg-white flex flex-wrap items-center justify-between relative md:w-24 z-20 ${this.state.isVisible ? "" : "shadow-2xl"}`}>
+                {/* <nav className={`md:left-0 md:block md:fixed top-0 bottom-0 h-full 
+                md:overflow-y-auto md:flex-row  
+                bg-white flex flex-wrap items-center justify-between w-24 z-20 ${this.state.isVisible ? "" : "shadow-2xl"}`}>
                     <aside className="md:flex-col md:items-center md:min-h-full md:flex-no-wrap px-0 flex flex-wrap 
-                    items-center justify-between w-full py-6">
+                    items-center justify-between py-6"> */}
+                <nav className="fixed min-h-full top-0 left-0 bottom-0 w-24 z-20 bg-white flex-shrink-0 flex-grow-0">
+                    <aside className=" flex flex-col flex-wrap justify-between h-full py-6">
                         <div className="w-full">
                             <div className="w-16 h-16 mb-8 flex items-center justify-center overflow-hidden rounded-circle mx-auto">
                                 <Link to="/dashboard">
@@ -53,9 +56,9 @@ class Sidebar extends React.Component {
                 </nav>
                 <nav onMouseEnter={e => this.setCollapseShow(true)}
                     onMouseLeave={e => this.setCollapseShow(false)}
-                    className={` transition-all duration-500 ease-in-out md:block md:fixed md:top-0 md:bottom-0 
+                    className={` transition-all duration-500 ease-in-out  fixed top-0 bottom-0 
                     bg-gray-200 md:overflow-y-auto md:flex-row md:flex-no-wrap md:overflow-hidden shadow-xl 
-                    bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10   
+                    flex flex-wrap  justify-between w-64 z-10   
                     ${this.state.isVisible ? "left-6" : "-left-192"}`}>
                     <StandupSidebar slackUser={slackUser} />
                 </nav>
