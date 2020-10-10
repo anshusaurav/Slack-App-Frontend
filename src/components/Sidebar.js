@@ -56,9 +56,9 @@ class Sidebar extends React.Component {
                 </nav>
                 <nav onMouseEnter={e => this.setCollapseShow(true)}
                     onMouseLeave={e => this.setCollapseShow(false)}
-                    className={` transition-all duration-500 ease-in-out  fixed top-0 bottom-0 
-                    bg-gray-200 md:overflow-y-auto md:flex-row md:flex-no-wrap md:overflow-hidden shadow-xl 
-                    flex flex-wrap  justify-between w-64 z-10   
+                    className={` transition-all duration-500 ease-in-out fixed top-0 bottom-0 
+                    bg-gray-200 overflow-y-auto flex-row flex-no-wrap overflow-hidden shadow-xl 
+                    flex justify-between w-64 z-10   
                     ${this.state.isVisible ? "left-6" : "-left-192"}`}>
                     <StandupSidebar slackUser={slackUser} />
                 </nav>

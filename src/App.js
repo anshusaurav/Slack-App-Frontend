@@ -13,7 +13,8 @@ import {
 } from "./slack/helpers"
 import { executeOperation } from "./graphql/helpers";
 import { FETCH_WORKSPACE, CREATE_WORKSPACE, UPDATE_WORKSPACE } from "./graphql/queries"
-
+// import LandingPage from "./pages/LandingPage";
+// import PrivacyPolicy from "./pages/PrivacyPolicy"
 class App extends React.Component {
 
 
