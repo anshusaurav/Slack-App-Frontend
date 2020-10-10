@@ -1,8 +1,8 @@
 export const executeOperation = async (variables, operation) => {
+
     const headers = {
-        "x-hasura-admin-secret": "asdfgh"
+        "x-hasura-admin-secret": process.env.REACT_APP_HASURA_SECRET
     };
-    console.log(variables);
     const fetchResponse = await fetch(
         "https://hopeful-squirrel-40.hasura.app/v1/graphql",
         {

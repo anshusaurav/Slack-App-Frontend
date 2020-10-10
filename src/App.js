@@ -29,7 +29,6 @@ class App extends React.Component {
   };
 
   fetchUserAndChannels = async () => {
-
     if (
       localStorage.getItem('slackUser') &&
       localStorage.getItem('token') &&
@@ -61,7 +60,6 @@ class App extends React.Component {
             client_id: process.env.REACT_APP_CLIENT_ID,
             client_secret: process.env.REACT_APP_CLIENT_SECRET,
           });
-          console.log(result)
           if (result.ok) {
             console.log('Result:', result)
             const slackUser = result.authed_user;
