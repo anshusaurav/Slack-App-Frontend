@@ -14,6 +14,8 @@ import {
 import { executeOperation } from "./graphql/helpers";
 import { FETCH_WORKSPACE, CREATE_WORKSPACE, UPDATE_WORKSPACE } from "./graphql/queries"
 import LandingPage from "./pages/LandingPage";
+import AboutPage from "./pages/AboutPage"
+import ContactPage from "./pages/ContactPage"
 // import PrivacyPolicy from "./pages/PrivacyPolicy"
 class App extends React.Component {
 
@@ -147,6 +149,12 @@ class App extends React.Component {
 
         <Route exact path="/">
           <LandingPage />
+        </Route>
+        <Route exact path="/about">
+          <AboutPage />
+        </Route>
+        <Route exact path="/contact">
+          <ContactPage />
         </Route>
         <Route exact path="/login">
           {isLoggedIn ? (

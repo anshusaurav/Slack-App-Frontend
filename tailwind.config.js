@@ -8,6 +8,11 @@ module.exports = {
   plugins: [],
   theme: {
     extend: {
+      lineHeight: {
+        '12': '3rem',
+        '14': '3.5rem',
+        '16': '4rem'
+      },
       gridTemplateColumns: {
         'timeline': '2fr 1fr',
       },

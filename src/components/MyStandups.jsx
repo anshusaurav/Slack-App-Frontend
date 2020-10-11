@@ -92,18 +92,18 @@ class MyStandups extends React.Component {
                 standups.map((standup, index) => (
                   <Link className="w-full" to={"/standups/" + standup.id} key={index}>
 
-                    <div className="mx-2 md:mx-8 p-4 md:p-8 mb-4 border round-lg bg-white 
+                    <div className="mx-2 md:mx-8 p-4 md:p-8 mb-4 border round-lg bg-white   
                     hover:shadow-newtype flex flex-no-wrap justify-between 
-                    items-center">
+                    items-center" style={{ opacity: `${standup.paused ? '0.7' : '1.0'}` }}>
                       <div className="w-full lg:w-7/12 pr-2 ">
-                        <div className="flex flex-wrap items-end leading-2 md:leading-8  text-base sm:text-2xl md:text-4xl truncate">
-                          <h4 className="pt-4  text-gray-700 font-bold">
+                        <div className="flex flex-wrap items-center leading-2 md:leading-8  text-base sm:text-2xl md:text-4xl truncate">
+                          <h4 className="pt-4 md:leading-14 text-gray-700 font-bold">
                             {standup.name}
                           </h4>
                           {
                             standup.paused && (
-                              <div className="ml-1 sm:ml-4">
-                                <span className="bg-orange-500 text-xs md:text-sm text-white font-bold px-1 py-1 md:py-2 rounded-lg">PAUSED</span>
+                              <div className="ml-1 sm:ml-4 flex items-center">
+                                <span className="bg-orange-500 text-xs md:text-sm text-white font-bold px-1 py-1 rounded-lg">PAUSED</span>
                               </div>
                             )
                           }

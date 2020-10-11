@@ -14,7 +14,8 @@ export default function Header() {
                 </Link>
                 <div className="block lg:hidden">
                     <button
-                        className="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-800 hover:border-teal-500 appearance-none focus:outline-none"
+                        className="flex items-center px-3 py-2 border rounded text-gray-500 
+                        border-gray-600 hover:text-gray-800 hover:border-teal-500 appearance-none focus:outline-none"
                     >
                         <svg
                             className="fill-current h-3 w-3"
@@ -29,15 +30,16 @@ export default function Header() {
                 <div className="hidden lg:block">
                     <ul className="inline-flex">
                         <li>
-                            <NavLink className="px-4 font-bold" to="/">Home</NavLink>
+                            <NavLink className="px-4 hover:text-gray-800" to="/" exact activeClassName="font-bold">
+                                Home</NavLink>
                         </li>
                         <li>
-                            <NavLink className="px-4 hover:text-gray-800" to="/about"
-                            >About</NavLink>
+                            <NavLink className="px-4 hover:text-gray-800" to="/about" exact activeClassName="font-bold">
+                                About</NavLink>
                         </li>
                         <li>
-                            <NavLink className="px-4 hover:text-gray-800" to="/contact"
-                            >Contact</NavLink>
+                            <NavLink className="px-4 hover:text-gray-800" to="/contact" exact activeClassName="font-bold">
+                                Contact</NavLink>
                         </li>
                         <li>
                             <a href="https://slack.com/oauth/v2/authorize?client_id=401428056419.1387902464068&scope=channels:read,chat:write,chat:write.customize,chat:write.public,im:history,users:read,users:write,channels:history&user_scope=channels:read,users:read"
