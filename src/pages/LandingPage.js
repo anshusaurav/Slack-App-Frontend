@@ -54,66 +54,69 @@ class LandingPage extends Component {
                     style={{ background: "linear-gradient(90deg, #667eea 0%, #764ba2 100%)" }}
                 >
                     <div className="container mx-auto px-6">
-                        <h2 className="text-4xl font-bold mb-2 text-white">
+                        <h2 className="text-4xl font-bold mb-2 leading-10 md:mb-4 text-white">
                             Automate standups, surveys, and daily reports
         </h2>
-                        <h3 className="text-2xl mb-8 text-gray-200">
+                        <h3 className="text-2xl mb-2 leading-8 text-gray-200">
                             Monitor your health vitals smartly anywhere you go.
         </h3>
                         <a href="https://slack.com/oauth/v2/authorize?client_id=401428056419.1387902464068&scope=channels:read,chat:write,chat:write.customize,chat:write.public,im:history,users:read,users:write,channels:history&user_scope=channels:read,users:read"
 
                             className="inline-flex justify-around items-center py-6 px-6 sm:px-8 md:px-24 bg-white border-2 
-            border-white text-lg md:text-xl font-bold text-gray-700 rounded-100 h-16 cursor-pointer focus:outline-none hover:shadow-xl hover:text-gray-800"
+                            border-white text-lg md:text-xl font-bold text-gray-700 rounded-100 h-16 cursor-pointer focus:outline-none hover:shadow-xl hover:text-gray-800"
                         >
                             <img src="/images/slack-logo-icon.png" className="w-8 h-8 align-middle border-none mr-4" alt="Slack Logo" />
-            Add to Slack
-        </a>
+                            Add to Slack
+                        </a>
                     </div>
                 </div>
                 <section className="container mx-auto px-6 p-10">
-                    <h2 className="text-4xl font-bold text-center text-gray-800 mb-8">
+                    <h2 className="text-4xl font-bold text-center text-gray-700 mb-8 ">
                         Features
-      </h2>
+                    </h2>
                     <div className="flex items-center flex-wrap mb-20">
                         <div className="w-full md:w-1/2">
-                            <h4 className="text-3xl text-gray-800 font-bold mb-3">
+                            <h4 className="text-3xl text-gray-700 font-bold mb-3 md:text-center">
                                 Daily Standups
-          </h4>
-                            <p className="text-gray-600 mb-8">
-                                Our Smart Health Monitoring Wristwatch is able to capture you vitals
-                                while you exercise. You can create different category of exercises
-                                and can track your vitals on the go.
-          </p>
+                            </h4>
+                            <p className="text-gray-600 mb-8 text-xl leading-8 md:text-center">
+
+                                Keep your team in the loop - with regular updates on progress
+                                and blockers.
+                                .
+                        </p>
                         </div>
                         <div className="w-full md:w-1/2">
                             <img src="/images/daily.jpg" alt="Monitoring" />
                         </div>
                     </div>
                     <div className="flex items-center flex-wrap mb-20">
-                        <div className="w-full md:w-1/2">
+                        <div className="w-full md:w-1/2 order-2 md:order-1">
                             <img src="/images/learned-new.jpg" alt="Reporting" />
                         </div>
-                        <div className="w-full md:w-1/2 pl-10">
-                            <h4 className="text-3xl text-gray-800 font-bold mb-3">
+                        <div className="w-full md:w-1/2 order-1 md:order-2">
+                            <h4 className="text-3xl text-gray-700 font-bold mb-3 md:text-center">
                                 Today I Learned
-          </h4>
-                            <p className="text-gray-600 mb-8">
-                                Our Smart Health Monitoring Wristwatch can generate a comprehensive
-                                report on your vitals depending on your settings either daily,
-                                weekly, monthly, quarterly or yearly.
-          </p>
+                            </h4>
+                            <p className="text-gray-600 mb-8 text-xl leading-8 md:text-center">
+
+                                Knowledge should be shared!
+                                Inspire others to learn something new, or just brag :P
+                                .
+                            </p>
                         </div>
                     </div>
                     <div className="flex items-center flex-wrap mb-20">
                         <div className="w-full md:w-1/2">
-                            <h4 className="text-3xl text-gray-800 font-bold mb-3">
+                            <h4 className="text-3xl text-gray-700 font-bold mb-3 md:text-center">
                                 Team Feedback
-          </h4>
-                            <p className="text-gray-600 mb-8">
-                                Our Smart Health Monitoring Wristwatch allows you to sync data
-                                across all your mobile devices whether iOS, Android or Windows OS
-                                and also to your laptop whether MacOS, GNU/Linux or Windows OS.
-          </p>
+                            </h4>
+                            <p className="text-gray-600 mb-8 text-xl leading-8 md:text-center">
+
+                                Tell your people how they’re doing - sharing feedback to keep
+                                your squad in the loop.
+                                .
+                            </p>
                         </div>
                         <div className="w-full md:w-1/2">
                             <img src="/images/feedback.jpg" alt="Syncing" />
@@ -124,10 +127,10 @@ class LandingPage extends Component {
                 <section style={{ backgroundColor: "#667eea" }}>
                     <div className="container mx-auto px-6 text-center py-20">
                         <h2 className="mb-6 text-4xl font-bold text-center text-white">
-                            Limited in Stock
+                            Limited Free Access
                         </h2>
                         <h3 className="my-4 text-2xl text-white">
-                            Get yourself the Smart Health Monitoring Wristwatch!
+                            Set daily activities to auto - it takes less than a minute.
                         </h3>
                         <a href="https://slack.com/oauth/v2/authorize?client_id=401428056419.1387902464068&scope=channels:read,chat:write,chat:write.customize,chat:write.public,im:history,users:read,users:write,channels:history&user_scope=channels:read,users:read"
 
@@ -143,6 +146,12 @@ class LandingPage extends Component {
                 <footer className="bg-gray-100">
                     <div className="container mx-auto px-6 pt-10 pb-6">
                         <div className="flex flex-wrap justify-between text-center">
+                            <div className="w-full md:w-1/4 flex justify-center">
+                                <a class="font-extrabold text-4xl lg:text-6xl flex align-center items-center pb-2" href="#">
+                                    <img src="/images/icon.png" class="w-16 h-16 align-middle border-none" alt="Slack Logo" />
+                                Pupbot
+                                </a>
+                            </div>
                             <div className="w-full md:w-1/4 ">
                                 <h5 className="uppercase mb-6 font-bold">Links</h5>
                                 <ul className="mb-4">
@@ -158,13 +167,7 @@ class LandingPage extends Component {
                                             className="hover:underline text-gray-600 hover:text-orange-500"
                                         >Help</Link>
                                     </li>
-                                    <li className="mt-2">
-                                        <Link
-                                            href="#"
-                                            className="hover:underline text-gray-600 hover:text-orange-500"
-                                        >Support
-                                        </Link>
-                                    </li>
+
                                 </ul>
                             </div>
                             <div className="w-full md:w-1/4">
@@ -184,38 +187,11 @@ class LandingPage extends Component {
                                     </li>
                                 </ul>
                             </div>
-                            <div className="w-full md:w-1/4  ">
-                                <h5 className="uppercase mb-6 font-bold">Social</h5>
-                                <ul className="mb-4">
-                                    <li className="mt-2">
-                                        <Link
-                                            href="#"
-                                            className="hover:underline text-gray-600 hover:text-orange-500"
-                                        >Facebook</Link>
-                                    </li>
-                                    <li className="mt-2">
-                                        <Link
-                                            href="#"
-                                            className="hover:underline text-gray-600 hover:text-orange-500"
-                                        >Linkedin</Link>
-                                    </li>
-                                    <li className="mt-2">
-                                        <Link
-                                            href="#"
-                                            className="hover:underline text-gray-600 hover:text-orange-500"
-                                        >Twitter</Link>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="w-full md:w-1/4 ">
+
+                            <div className="w-full md:w-1/4">
                                 <h5 className="uppercase mb-6 font-bold">Company</h5>
                                 <ul className="mb-4">
-                                    <li className="mt-2">
-                                        <Link
-                                            href="#"
-                                            className="hover:underline text-gray-600 hover:text-orange-500"
-                                        >Official Blog</Link>
-                                    </li>
+
                                     <li className="mt-2">
                                         <Link
                                             href="#"
