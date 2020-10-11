@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import QueueAnim from 'rc-queue-anim';
+import Typical from 'react-typical'
+import { Link, NavLink } from 'react-router-dom'
 class LandingPage extends Component {
     render() {
         return (
-
             <div
                 className="text-gray-700 bg-white"
                 style={{ fontFamily: "'Raleway', sans-serif" }}
@@ -14,9 +15,9 @@ class LandingPage extends Component {
                     >
                         <Link
                             className="font-extrabold text-2xl lg:text-4xl flex align-center items-center"
-                            href="#"
+                            to="/"
                         ><img src="/images/icon.png" className="w-12 h-12 align-middle border-none" alt="Slack Logo" />
-                            Pupbot
+                            Pup<span className="text-blue-500">bot</span>
                         </Link>
                         <div className="block lg:hidden">
                             <button
@@ -35,15 +36,22 @@ class LandingPage extends Component {
                         <div className="hidden lg:block">
                             <ul className="inline-flex">
                                 <li>
-                                    <Link className="px-4 font-bold" href="/">Home</Link>
+                                    <NavLink className="px-4 font-bold" to="/">Home</NavLink>
                                 </li>
                                 <li>
-                                    <Link className="px-4 hover:text-gray-800" href="#"
-                                    >About</Link>
+                                    <NavLink className="px-4 hover:text-gray-800" to="/about"
+                                    >About</NavLink>
                                 </li>
                                 <li>
-                                    <Link className="px-4 hover:text-gray-800" href="#"
-                                    >Contact</Link>
+                                    <NavLink className="px-4 hover:text-gray-800" to="/contact"
+                                    >Contact</NavLink>
+                                </li>
+                                <li>
+                                <a href="https://slack.com/oauth/v2/authorize?client_id=401428056419.1387902464068&scope=channels:read,chat:write,chat:write.customize,chat:write.public,im:history,users:read,users:write,channels:history&user_scope=channels:read,users:read"
+                                    className="px-6   border-2 border-gray-700 hover:border-gray-900  rounded-lg  focus:outline-none hover:text-gray-800"
+                                    >
+                                    Login
+                                </a>
                                 </li>
                             </ul>
                         </div>
@@ -51,15 +59,35 @@ class LandingPage extends Component {
                 </nav>
                 <div
                     className="py-20"
-                    style={{ background: "linear-gradient(90deg, #667eea 0%, #764ba2 100%)" }}
+                    style={{ backgroundImage: `url("${require('./../svgs/pattern-light.svg')}"), linear-gradient(90deg, #667eea 0%, #764ba2 100%)` }}
                 >
-                    <div className="container mx-auto px-6">
+                    <div className="container mx-auto px-6 text-center">
                         <h2 className="text-4xl font-bold mb-2 leading-10 md:mb-4 text-white">
                             Automate standups, surveys, and daily reports
         </h2>
                         <h3 className="text-2xl mb-2 leading-8 text-gray-200">
-                            Monitor your health vitals smartly anywhere you go.
-        </h3>
+                            Run
+                            {" "}<span className="text-teal-300">
+                                <Typical
+                                    steps={[
+                                        "standup meetings",
+                                        4000,
+                                        "employee engagement survey",
+                                        8000,
+                                        "your custom team Questionnaire",
+                                        8000,
+                                        "meeting notes",
+                                        4000,
+                                        "today I learned progress",
+                                        6000
+                                    ]}
+                                    loop={Infinity}
+                                    wrapper="b"
+                                />{" "}
+                            </span>
+                            in Slack
+
+                        </h3>
                         <a href="https://slack.com/oauth/v2/authorize?client_id=401428056419.1387902464068&scope=channels:read,chat:write,chat:write.customize,chat:write.public,im:history,users:read,users:write,channels:history&user_scope=channels:read,users:read"
 
                             className="inline-flex justify-around items-center py-6 px-6 sm:px-8 md:px-24 bg-white border-2 
@@ -68,6 +96,7 @@ class LandingPage extends Component {
                             <img src="/images/slack-logo-icon.png" className="w-8 h-8 align-middle border-none mr-4" alt="Slack Logo" />
                             Add to Slack
                         </a>
+                        <div className="text-xs mt-4 text-white"> Start your free trial today.</div>
                     </div>
                 </div>
                 <section className="container mx-auto px-6 p-10">
@@ -82,8 +111,10 @@ class LandingPage extends Component {
                             <p className="text-gray-600 mb-8 text-xl leading-8 md:text-center">
 
                                 Keep your team in the loop - with regular updates on progress
-                                and blockers.
-                                .
+                                and blockers. Geekbot automates recurring tasks. It runs daily standups,
+                                collects surveys, shares responses, and posts updates to your slack
+                                channels at a time and pace that suits.
+                                
                         </p>
                         </div>
                         <div className="w-full md:w-1/2">
@@ -101,8 +132,9 @@ class LandingPage extends Component {
                             <p className="text-gray-600 mb-8 text-xl leading-8 md:text-center">
 
                                 Knowledge should be shared!
-                                Inspire others to learn something new, or just brag :P
-                                .
+                                Inspire others to learn something new, or just brag.
+                                Now you can focus on the things that actually matter.
+                                
                             </p>
                         </div>
                     </div>
@@ -114,8 +146,9 @@ class LandingPage extends Component {
                             <p className="text-gray-600 mb-8 text-xl leading-8 md:text-center">
 
                                 Tell your people how they’re doing - sharing feedback to keep
-                                your squad in the loop.
-                                .
+                                your squad in the loop. Build a culture of communication across
+                                borders and timezones, so your people can perform at their best.
+                                
                             </p>
                         </div>
                         <div className="w-full md:w-1/2">
@@ -124,7 +157,7 @@ class LandingPage extends Component {
                     </div>
                 </section>
 
-                <section style={{ backgroundColor: "#667eea" }}>
+                <section style={{ backgroundImage: `url("${require('./../svgs/pattern-dark.svg')}"), linear-gradient(90deg,  #2f2040 0%, #394681 100%)` }}>
                     <div className="container mx-auto px-6 text-center py-20">
                         <h2 className="mb-6 text-4xl font-bold text-center text-white">
                             Limited Free Access
@@ -140,6 +173,7 @@ class LandingPage extends Component {
                             <img src="/images/slack-logo-icon.png" className="w-8 h-8 align-middle border-none mr-4" alt="Slack Logo" />
                              Add to Slack
                         </a>
+                        <div className="text-xs mt-4 text-white"> Start your free trial today.</div>
 
                     </div>
                 </section>
@@ -149,7 +183,7 @@ class LandingPage extends Component {
                             <div className="w-full md:w-1/4 flex justify-center">
                                 <a class="font-extrabold text-4xl lg:text-6xl flex align-center items-center pb-2" href="#">
                                     <img src="/images/icon.png" class="w-16 h-16 align-middle border-none" alt="Slack Logo" />
-                                Pupbot
+                                Pup<span className="text-blue-500">bot</span>
                                 </a>
                             </div>
                             <div className="w-full md:w-1/4 ">

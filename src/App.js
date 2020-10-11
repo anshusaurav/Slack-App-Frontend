@@ -144,8 +144,11 @@ class App extends React.Component {
     return (
 
       <Router>
-        <LandingPage />
-        {/* <Route exact path="/">
+
+        <Route exact path="/">
+          <LandingPage />
+        </Route>
+        <Route exact path="/login">
           {isLoggedIn ? (
             <Dashboard
               channels={channels}
@@ -224,7 +227,7 @@ class App extends React.Component {
                 toggleLoggedIn={this.toggleLoggedIn} />
             ) : (<HomePage />)
           }
-        </Route> */}
+        </Route>
       </Router>
 
     );
