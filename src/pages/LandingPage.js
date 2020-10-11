@@ -8,7 +8,7 @@ class LandingPage extends Component {
                 className="text-gray-700 bg-white"
                 style={{ fontFamily: "'Raleway', sans-serif" }}
             >
-                <nav>
+                <nav style={{ fontFamily: "'Nunito', sans-serif" }}>
                     <div
                         className="container mx-auto px-6 py-2 flex justify-between items-center"
                     >
@@ -60,13 +60,14 @@ class LandingPage extends Component {
                         <h3 className="text-2xl mb-8 text-gray-200">
                             Monitor your health vitals smartly anywhere you go.
         </h3>
-                        <button
-                            className="flex justify-around items-center py-6 px-6 sm:px-8 md:px-24 bg-white border-2 
+                        <a href="https://slack.com/oauth/v2/authorize?client_id=401428056419.1387902464068&scope=channels:read,chat:write,chat:write.customize,chat:write.public,im:history,users:read,users:write,channels:history&user_scope=channels:read,users:read"
+
+                            className="inline-flex justify-around items-center py-6 px-6 sm:px-8 md:px-24 bg-white border-2 
             border-white text-lg md:text-xl font-bold text-gray-700 rounded-100 h-16 cursor-pointer focus:outline-none hover:shadow-xl hover:text-gray-800"
                         >
                             <img src="/images/slack-logo-icon.png" className="w-8 h-8 align-middle border-none mr-4" alt="Slack Logo" />
             Add to Slack
-        </button>
+        </a>
                     </div>
                 </div>
                 <section className="container mx-auto px-6 p-10">
@@ -76,7 +77,7 @@ class LandingPage extends Component {
                     <div className="flex items-center flex-wrap mb-20">
                         <div className="w-full md:w-1/2">
                             <h4 className="text-3xl text-gray-800 font-bold mb-3">
-                                Exercise Metrics
+                                Daily Standups
           </h4>
                             <p className="text-gray-600 mb-8">
                                 Our Smart Health Monitoring Wristwatch is able to capture you vitals
@@ -85,16 +86,16 @@ class LandingPage extends Component {
           </p>
                         </div>
                         <div className="w-full md:w-1/2">
-                            <img src="assets/health.svg" alt="Monitoring" />
+                            <img src="/images/daily.jpg" alt="Monitoring" />
                         </div>
                     </div>
                     <div className="flex items-center flex-wrap mb-20">
                         <div className="w-full md:w-1/2">
-                            <img src="assets/report.svg" alt="Reporting" />
+                            <img src="/images/learned-new.jpg" alt="Reporting" />
                         </div>
                         <div className="w-full md:w-1/2 pl-10">
                             <h4 className="text-3xl text-gray-800 font-bold mb-3">
-                                Reporting
+                                Today I Learned
           </h4>
                             <p className="text-gray-600 mb-8">
                                 Our Smart Health Monitoring Wristwatch can generate a comprehensive
@@ -106,7 +107,7 @@ class LandingPage extends Component {
                     <div className="flex items-center flex-wrap mb-20">
                         <div className="w-full md:w-1/2">
                             <h4 className="text-3xl text-gray-800 font-bold mb-3">
-                                Syncing
+                                Team Feedback
           </h4>
                             <p className="text-gray-600 mb-8">
                                 Our Smart Health Monitoring Wristwatch allows you to sync data
@@ -115,72 +116,34 @@ class LandingPage extends Component {
           </p>
                         </div>
                         <div className="w-full md:w-1/2">
-                            <img src="assets/sync.svg" alt="Syncing" />
+                            <img src="/images/feedback.jpg" alt="Syncing" />
                         </div>
                     </div>
                 </section>
-                <section className="bg-gray-100">
-                    <div className="container mx-auto px-6 py-20">
-                        <h2 className="text-4xl font-bold text-center text-gray-800 mb-8">
-                            Testimonials
-        </h2>
-                        <div className="flex flex-wrap">
-                            <div className="w-full md:w-1/3 px-2 mb-4">
-                                <div className="bg-white rounded shadow py-2">
-                                    <p className="text-gray-800 text-base px-6 mb-5">
-                                        Monitoring and tracking my health vitals anywhere I go and on
-                                        any platform I use has never been easier.
-              </p>
-                                    <p className="text-gray-500 text-xs md:text-sm px-6">
-                                        John Doe
-              </p>
-                                </div>
-                            </div>
-                            <div className="w-full md:w-1/3 px-2 mb-4">
-                                <div className="bg-white rounded shadow py-2">
-                                    <p className="text-gray-800 text-base px-6 mb-5">
-                                        As an Athlete, this is the perfect product for me. I wear my
-                                        Smart Health Monitoring Wristwatch everywhere I go, even in the
-                                        bathroom since it's waterproof.
-              </p>
-                                    <p className="text-gray-500 text-xs md:text-sm px-6">
-                                        Jane Doe
-              </p>
-                                </div>
-                            </div>
-                            <div className="w-full md:w-1/3 px-2 mb-4">
-                                <div className="bg-white rounded shadow py-2">
-                                    <p className="text-gray-800 text-base px-6 mb-5">
-                                        I don't regret buying this wearble gadget. One of the best
-                                        gadgets I own!.
-              </p>
-                                    <p className="text-gray-500 text-xs md:text-sm px-6">
-                                        James Doe
-              </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+
                 <section style={{ backgroundColor: "#667eea" }}>
                     <div className="container mx-auto px-6 text-center py-20">
                         <h2 className="mb-6 text-4xl font-bold text-center text-white">
                             Limited in Stock
-        </h2>
+                        </h2>
                         <h3 className="my-4 text-2xl text-white">
                             Get yourself the Smart Health Monitoring Wristwatch!
-        </h3>
-                        <button
-                            className="bg-white font-bold rounded-full mt-6 py-4 px-8 shadow-lg uppercase tracking-wider"
+                        </h3>
+                        <a href="https://slack.com/oauth/v2/authorize?client_id=401428056419.1387902464068&scope=channels:read,chat:write,chat:write.customize,chat:write.public,im:history,users:read,users:write,channels:history&user_scope=channels:read,users:read"
+
+                            className="inline-flex justify-around items-center py-6 px-6 sm:px-8 md:px-24 bg-white border-2 
+                            border-white text-lg md:text-xl font-bold text-gray-700 rounded-100 h-16 cursor-pointer focus:outline-none hover:shadow-xl hover:text-gray-800"
                         >
-                            Pre Order
-        </button>
+                            <img src="/images/slack-logo-icon.png" className="w-8 h-8 align-middle border-none mr-4" alt="Slack Logo" />
+                             Add to Slack
+                        </a>
+
                     </div>
                 </section>
                 <footer className="bg-gray-100">
                     <div className="container mx-auto px-6 pt-10 pb-6">
-                        <div className="flex flex-wrap">
-                            <div className="w-full md:w-1/4 text-center md:text-left ">
+                        <div className="flex flex-wrap justify-between text-center">
+                            <div className="w-full md:w-1/4 ">
                                 <h5 className="uppercase mb-6 font-bold">Links</h5>
                                 <ul className="mb-4">
                                     <li className="mt-2">
@@ -204,7 +167,7 @@ class LandingPage extends Component {
                                     </li>
                                 </ul>
                             </div>
-                            <div className="w-full md:w-1/4 text-center md:text-left ">
+                            <div className="w-full md:w-1/4">
                                 <h5 className="uppercase mb-6 font-bold">Legal</h5>
                                 <ul className="mb-4">
                                     <li className="mt-2">
@@ -221,7 +184,7 @@ class LandingPage extends Component {
                                     </li>
                                 </ul>
                             </div>
-                            <div className="w-full md:w-1/4 text-center md:text-left ">
+                            <div className="w-full md:w-1/4  ">
                                 <h5 className="uppercase mb-6 font-bold">Social</h5>
                                 <ul className="mb-4">
                                     <li className="mt-2">
@@ -244,7 +207,7 @@ class LandingPage extends Component {
                                     </li>
                                 </ul>
                             </div>
-                            <div className="w-full md:w-1/4 text-center md:text-left ">
+                            <div className="w-full md:w-1/4 ">
                                 <h5 className="uppercase mb-6 font-bold">Company</h5>
                                 <ul className="mb-4">
                                     <li className="mt-2">

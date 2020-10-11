@@ -13,7 +13,7 @@ import {
 } from "./slack/helpers"
 import { executeOperation } from "./graphql/helpers";
 import { FETCH_WORKSPACE, CREATE_WORKSPACE, UPDATE_WORKSPACE } from "./graphql/queries"
-// import LandingPage from "./pages/LandingPage";
+import LandingPage from "./pages/LandingPage";
 // import PrivacyPolicy from "./pages/PrivacyPolicy"
 class App extends React.Component {
 
@@ -144,7 +144,8 @@ class App extends React.Component {
     return (
 
       <Router>
-        <Route exact path="/">
+        <LandingPage />
+        {/* <Route exact path="/">
           {isLoggedIn ? (
             <Dashboard
               channels={channels}
@@ -223,7 +224,7 @@ class App extends React.Component {
                 toggleLoggedIn={this.toggleLoggedIn} />
             ) : (<HomePage />)
           }
-        </Route>
+        </Route> */}
       </Router>
 
     );
