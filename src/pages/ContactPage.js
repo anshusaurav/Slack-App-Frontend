@@ -26,7 +26,7 @@ class ContactPage extends Component {
                                 </div>
                                 <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
                                     <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm">EMAIL</h2>
-                                    <a class="text-blue-500 leading-relaxed">anshu.saurav@gmail.com</a>
+                                    <a class="text-blue-500 leading-relaxed" href="mailto:anshu.saurav@gmail.com">anshu.saurav@gmail.com</a>
                                     <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mt-4">PHONE</h2>
                                     <p class="leading-relaxed">+91-9667694292</p>
                                 </div>
