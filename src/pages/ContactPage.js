@@ -4,7 +4,20 @@ import Footer from '../components/Footer';
 import ContactHero from "../components/ContactHero";
 import SingupSection from '../components/SingupSection';
 class ContactPage extends Component {
+    state = {
+        email: '',
+        name: '',
+        message: '',
+
+    }
+    handleChange = ({ target: { name, value } }) => {
+        this.setState({ [name]: value });
+    };
+    submitMessage = (event) => {
+        event.preventDefault();
+    }
     render() {
+        const { name, email, message } = this.state;
         return (
             <div
                 className="text-gray-700 bg-white"
@@ -32,15 +45,16 @@ class ContactPage extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
+                        <form onSubmit={this.submitMessage} class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
                             <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Feedback/Queries</h2>
                             <p class="leading-relaxed mb-5 text-gray-600">We're here to answer your questions about pupbot. Ask us anything.</p>
-                            <input class="bg-white rounded border border-gray-400 focus:outline-none focus:border-blue-500 text-base px-4 py-2 mb-4" placeholder="Name" type="text" />
-                            <input class="bg-white rounded border border-gray-400 focus:outline-none focus:border-blue-500 text-base px-4 py-2 mb-4" placeholder="Email" type="email" />
-                            <textarea class="bg-white rounded border border-gray-400 focus:outline-none h-32 focus:border-blue-500 text-base px-4 py-2 mb-4 resize-none" placeholder="Message"></textarea>
+
+                            <input onChange={this.handleChange} name="name" value={name} class="bg-white rounded border border-gray-400 focus:outline-none focus:border-blue-500 text-base px-4 py-2 mb-4" placeholder="Name" type="text" />
+                            <input onChange={this.handleChange} name="email" value={email} class="bg-white rounded border border-gray-400 focus:outline-none focus:border-blue-500 text-base px-4 py-2 mb-4" placeholder="Email" type="email" />
+                            <textarea onChange={this.handleChange} name="message" value={message} class="bg-white rounded border border-gray-400 focus:outline-none h-32 focus:border-blue-500 text-base px-4 py-2 mb-4 resize-none" placeholder="Message"></textarea>
                             <button class="text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-lg">Send us a message</button>
 
-                        </div>
+                        </form>
                     </div>
                 </section>
 
