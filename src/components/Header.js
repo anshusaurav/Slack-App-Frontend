@@ -44,12 +44,6 @@ export default function Header() {
                                             static
                                             className="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
                                         >
-                                            <div className="px-4 py-3">
-                                                <p className="text-sm font-medium leading-5 text-gray-900 truncate">
-                                                    Login
-                                                </p>
-                                            </div>
-
                                             <div className="py-1 text-center">
                                                 <Menu.Item>
                                                     {({ active }) => (
@@ -100,6 +94,13 @@ export default function Header() {
                                                 </Menu.Item>
 
                                             </div>
+                                            <div className="">
+                                                <a href="https://slack.com/oauth/v2/authorize?client_id=401428056419.1387902464068&scope=channels:read,chat:write,chat:write.customize,chat:write.public,im:history,users:read,users:write,channels:history&user_scope=channels:read,users:read" className="text-sm w-full flex   px-4 py-2 font-medium leading-5 text-gray-900 truncate">
+                                                    Login
+                                                </a>
+                                            </div>
+
+
                                         </Menu.Items>
                                     </Transition>
                                 </>
