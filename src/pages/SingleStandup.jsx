@@ -62,7 +62,9 @@ class SingleStandup extends React.Component {
         this.fetchStandup();
     }
     componentDidUpdate(prevProps, prevState) {
-
+        if (this.props.match.params.id !== prevProps.match.params.id) {
+            this.fetchStandup();
+        }
     }
 
     render() {
