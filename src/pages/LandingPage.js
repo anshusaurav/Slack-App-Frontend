@@ -72,12 +72,12 @@ class LandingPage extends Component {
                         </p>
                         </div>
                         <div className="w-full md:w-1/2">
-                            <img src="/images/daily.jpg" alt="Monitoring" />
+                            <img src="/images/daily.svg" alt="Monitoring" />
                         </div>
                     </div>
                     <div className="flex items-center flex-wrap mb-20">
                         <div className="w-full md:w-1/2 order-2 md:order-1">
-                            <img src="/images/learned-new.jpg" alt="Reporting" />
+                            <img src="/images/learned-new.svg" alt="Reporting" />
                         </div>
                         <div className="w-full md:w-1/2 order-1 md:order-2">
                             <h4 className="text-3xl text-gray-700 font-bold mb-3 md:text-center">
@@ -106,7 +106,7 @@ class LandingPage extends Component {
                             </p>
                         </div>
                         <div className="w-full md:w-1/2">
-                            <img src="/images/feedback.jpg" alt="Syncing" />
+                            <img src="/images/feedback.svg" alt="Syncing" />
                         </div>
                     </div>
                 </section>

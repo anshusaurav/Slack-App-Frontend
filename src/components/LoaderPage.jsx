@@ -15,7 +15,7 @@ class LoaderPage extends React.Component {
           position: "fixed",
           zIndex: 99,
         }}>
-        <Loader type="Grid" color="#00BFFF"
+        <Loader type="Circles" color="#00BFFF"
           height={100} width={100} />
       </div>
     )
@@ -30,7 +30,7 @@ class SuspenseLoader extends React.Component {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#eee",
+          backgroundColor: "#282c34",
           height: "100vh",
           width: "100vw",
           position: "fixed",
