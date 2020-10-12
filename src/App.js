@@ -1,21 +1,32 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { WebClient } from "@slack/web-api";
-import HomePage from "./pages/HomePage";
-import Dashboard from "./pages/Dashboard";
-import CreateStandup from "./pages/CreateStandup";
-import SingleStandup from "./pages/SingleStandup"
-import EditStandup from "./pages/EditStandup"
-import { LoaderPage } from "./components/LoaderPage"
 import {
   getChannelsUsingCursor, getAllMembersUsingCursor,
   remove_duplicates, getMemberInfo
 } from "./slack/helpers"
 import { executeOperation } from "./graphql/helpers";
 import { FETCH_WORKSPACE, CREATE_WORKSPACE, UPDATE_WORKSPACE } from "./graphql/queries"
-import LandingPage from "./pages/LandingPage";
-import AboutPage from "./pages/AboutPage"
-import ContactPage from "./pages/ContactPage"
+import { LoaderPage, SuspenseLoader } from "./components/LoaderPage"
+
+const HomePage = lazy(() => import("./pages/HomePage"));
+const Dashboard = lazy(() => import("./pages/Dashboard"))
+const CreateStandup = lazy(() => import("./pages/CreateStandup"));
+const SingleStandup = lazy(() => import("./pages/SingleStandup"))
+const EditStandup = lazy(() => import("./pages/EditStandup"))
+const LandingPage = lazy(() => import("./pages/LandingPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"))
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+
+// import Dashboard from "./pages/Dashboard";
+// import CreateStandup from "./pages/CreateStandup";
+// import SingleStandup from "./pages/SingleStandup"
+// import EditStandup from "./pages/EditStandup"
+// 
+
+// import LandingPage from "./pages/LandingPage";
+// import AboutPage from "./pages/AboutPage"
+// import ContactPage from "./pages/ContactPage"
 // import PrivacyPolicy from "./pages/PrivacyPolicy"
 class App extends React.Component {
 
@@ -146,37 +157,18 @@ class App extends React.Component {
     return (
 
       <Router>
-
-        <Route exact path="/">
-          <LandingPage />
-        </Route>
-        <Route exact path="/about">
-          <AboutPage />
-        </Route>
-        <Route exact path="/contact">
-          <ContactPage />
-        </Route>
-        <Route exact path="/login">
-          {isLoggedIn ? (
-            <Dashboard
-              channels={channels}
-              members={members}
-              channelMembers={channelMembers}
-              slackUser={slackUser}
-              userProfile={userProfile}
-              token={token}
-              toggleLoggedIn={this.toggleLoggedIn}
-            />
-          ) : (
-              isProcessing ?
-                <LoaderPage /> :
-                <HomePage />
-            )
-          }
-        </Route>
-        <Route exact path="/dashboard">
-          {
-            isLoggedIn ? (
+        <Suspense fallback={<SuspenseLoader />}>
+          <Route exact path="/">
+            <LandingPage />
+          </Route>
+          <Route exact path="/about">
+            <AboutPage />
+          </Route>
+          <Route exact path="/contact">
+            <ContactPage />
+          </Route>
+          <Route exact path="/login">
+            {isLoggedIn ? (
               <Dashboard
                 channels={channels}
                 members={members}
@@ -191,51 +183,71 @@ class App extends React.Component {
                   <LoaderPage /> :
                   <HomePage />
               )
-          }
+            }
+          </Route>
+          <Route exact path="/dashboard">
+            {
+              isLoggedIn ? (
+                <Dashboard
+                  channels={channels}
+                  members={members}
+                  channelMembers={channelMembers}
+                  slackUser={slackUser}
+                  userProfile={userProfile}
+                  token={token}
+                  toggleLoggedIn={this.toggleLoggedIn}
+                />
+              ) : (
+                  isProcessing ?
+                    <LoaderPage /> :
+                    <HomePage />
+                )
+            }
 
-        </Route>
-        <Route exact path="/dashboard/create">
-          {
-            isLoggedIn ? (
-              <CreateStandup
-                channels={channels}
-                members={members}
-                channelMembers={channelMembers}
-                slackUser={slackUser}
-                userProfile={userProfile}
-                token={token}
-                toggleLoggedIn={this.toggleLoggedIn}
-              />) : (<HomePage />)
-          }
-        </Route>
-        <Route exact path='/standups/:id'>
-          {
-            isLoggedIn ? (
-              <SingleStandup
-                channels={channels}
-                members={members}
-                channelMembers={channelMembers}
-                slackUser={slackUser}
-                userProfile={userProfile}
-                token={token}
-                toggleLoggedIn={this.toggleLoggedIn}
-              />) : (<HomePage />)
-          }
-        </Route>
-        <Route exact path='/standups/:id/edit'>
-          {
-            isLoggedIn ? (
-              <EditStandup
-                channels={channels}
-                members={members}
-                channelMembers={channelMembers}
-                slackUser={slackUser}
-                userProfile={userProfile}
-                token={token}
-                toggleLoggedIn={this.toggleLoggedIn} />
-            ) : (<HomePage />)
-          }
-        </Route>
+          </Route>
+          <Route exact path="/dashboard/create">
+            {
+              isLoggedIn ? (
+                <CreateStandup
+                  channels={channels}
+                  members={members}
+                  channelMembers={channelMembers}
+                  slackUser={slackUser}
+                  userProfile={userProfile}
+                  token={token}
+                  toggleLoggedIn={this.toggleLoggedIn}
+                />) : (<HomePage />)
+            }
+          </Route>
+          <Route exact path='/standups/:id'>
+            {
+              isLoggedIn ? (
+                <SingleStandup
+                  channels={channels}
+                  members={members}
+                  channelMembers={channelMembers}
+                  slackUser={slackUser}
+                  userProfile={userProfile}
+                  token={token}
+                  toggleLoggedIn={this.toggleLoggedIn}
+                />) : (<HomePage />)
+            }
+          </Route>
+          <Route exact path='/standups/:id/edit'>
+            {
+              isLoggedIn ? (
+                <EditStandup
+                  channels={channels}
+                  members={members}
+                  channelMembers={channelMembers}
+                  slackUser={slackUser}
+                  userProfile={userProfile}
+                  token={token}
+                  toggleLoggedIn={this.toggleLoggedIn} />
+              ) : (<HomePage />)
+            }
+          </Route>
+        </Suspense>
       </Router>
 
     );

@@ -22,6 +22,27 @@ class LoaderPage extends React.Component {
   }
 }
 
+class SuspenseLoader extends React.Component {
+  render() {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#eee",
+          height: "100vh",
+          width: "100vw",
+          position: "fixed",
+          zIndex: 99,
+        }}>
+        <Loader type="Circles" color="#00BFFF"
+          height={100} width={100} />
+      </div>
+    )
+  }
+}
+
 class MainSectionLoader extends React.Component {
   render() {
     return (
@@ -83,4 +104,7 @@ class InsightsLoader extends React.Component {
   }
 }
 
-export { LoaderPage, MainSectionLoader, AllStandupsLoader, InsightsLoader }
+export {
+  LoaderPage, SuspenseLoader, MainSectionLoader,
+  AllStandupsLoader, InsightsLoader
+}
