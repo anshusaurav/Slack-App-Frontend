@@ -3,11 +3,15 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ContactHero from "../components/ContactHero";
 import SingupSection from '../components/SingupSection';
+import { SEND_MESSAGE } from "../graphql/queries"
+import { executeOperation } from "../graphql/helpers";
 class ContactPage extends Component {
     state = {
         email: '',
         name: '',
         message: '',
+        isSubmitting: false,
+        isReady: false,
 
     }
     handleChange = ({ target: { name, value } }) => {
@@ -15,9 +19,20 @@ class ContactPage extends Component {
     };
     submitMessage = (event) => {
         event.preventDefault();
+        this.setState({ isSubmitting: true }, async () => {
+            const { name, email, message } = this.state;
+            const res = await executeOperation({
+                name, email, message
+            }, SEND_MESSAGE)
+            if (res.errors)
+                return;
+            this.setState({ name: '', email: '', message: '', isSubmitting: false });
+        })
+
     }
+
     render() {
-        const { name, email, message } = this.state;
+        const { name, email, message, isSubmitting } = this.state;
         return (
             <div
                 className="text-gray-700 bg-white"
@@ -35,7 +50,7 @@ class ContactPage extends Component {
                             <div class="bg-white relative flex flex-wrap py-6">
                                 <div class="lg:w-1/2 px-6">
                                     <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm">ADDRESS</h2>
-                                    <p class="leading-relaxed">Aly Campus, ward no 15, Thehr, Kangra</p>
+                                    <p class="leading-relaxed">Alt-Campus, ward no 15, Thehr, Kangra</p>
                                 </div>
                                 <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
                                     <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm">EMAIL</h2>
@@ -49,10 +64,16 @@ class ContactPage extends Component {
                             <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Feedback/Queries</h2>
                             <p class="leading-relaxed mb-5 text-gray-600">We're here to answer your questions about pupbot. Ask us anything.</p>
 
-                            <input onChange={this.handleChange} name="name" value={name} class="bg-white rounded border border-gray-400 focus:outline-none focus:border-blue-500 text-base px-4 py-2 mb-4" placeholder="Name" type="text" />
-                            <input onChange={this.handleChange} name="email" value={email} class="bg-white rounded border border-gray-400 focus:outline-none focus:border-blue-500 text-base px-4 py-2 mb-4" placeholder="Email" type="email" />
-                            <textarea onChange={this.handleChange} name="message" value={message} class="bg-white rounded border border-gray-400 focus:outline-none h-32 focus:border-blue-500 text-base px-4 py-2 mb-4 resize-none" placeholder="Message"></textarea>
-                            <button class="text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-lg">Send us a message</button>
+                            <input required onChange={this.handleChange}
+                                name="name"
+                                value={name}
+                                class="bg-white rounded border border-gray-400 focus:outline-none focus:border-blue-500 text-base px-4 py-2 mb-4"
+                                placeholder="Name"
+                                type="text" />
+                            <input required onChange={this.handleChange} name="email" value={email} class="bg-white rounded border border-gray-400 focus:outline-none focus:border-blue-500 text-base px-4 py-2 mb-4" placeholder="Email" type="email" />
+                            <textarea required onChange={this.handleChange} name="message" value={message} class="bg-white rounded border border-gray-400 focus:outline-none h-32 focus:border-blue-500 text-base px-4 py-2 mb-4 resize-none" placeholder="Message"></textarea>
+                            <button class="text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-lg relative">
+                                <span class={`flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1 rounded-full bg-blue-500 opacity-75 ${isSubmitting ? 'animate-ping' : 'hidden'}`}></span>Send us a message</button>
 
                         </form>
                     </div>
@@ -60,7 +81,7 @@ class ContactPage extends Component {
 
                 <SingupSection />
                 <Footer />
-            </div>
+            </div >
         )
     }
 

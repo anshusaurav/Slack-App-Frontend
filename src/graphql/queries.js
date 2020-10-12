@@ -173,9 +173,22 @@ mutation deleteStandup($standup_id: uuid!) {
   }
 }
 `
+
+const SEND_MESSAGE = `
+mutation sendMessage($email: String!, $name: String!, $message: String!) {
+  insert_message_one(object: {email: $email, message: $message, name: $name}){
+    id
+    email
+    name
+    message
+    created_at
+    updated_at
+  }
+}
+`
 export {
   GET_STANDUPS, GET_CHANNEL_MEMBERS, INSERT_STANDUP, GET_SINGLE_STANDUP,
   GET_STANDUP_RESPONSES, PAUSE_STANDUP, UNPAUSE_STANDUP, CREATE_WORKSPACE,
-  FETCH_WORKSPACE, UPDATE_WORKSPACE, DELETE_STANDUP
+  FETCH_WORKSPACE, UPDATE_WORKSPACE, DELETE_STANDUP, SEND_MESSAGE
 
 }
