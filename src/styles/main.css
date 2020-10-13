@@ -12867,6 +12867,14 @@ video {
   list-style-type: decimal;
 }
 
+.list-circle {
+  list-style-type: circle;
+}
+
+.list-roman {
+  list-style-type: upper-roman;
+}
+
 .m-0 {
   margin: 0;
 }
@@ -34000,6 +34008,14 @@ video {
     list-style-type: decimal;
   }
 
+  .sm\:list-circle {
+    list-style-type: circle;
+  }
+
+  .sm\:list-roman {
+    list-style-type: upper-roman;
+  }
+
   .sm\:m-0 {
     margin: 0;
   }
@@ -55040,6 +55056,14 @@ video {
 
   .md\:list-decimal {
     list-style-type: decimal;
+  }
+
+  .md\:list-circle {
+    list-style-type: circle;
+  }
+
+  .md\:list-roman {
+    list-style-type: upper-roman;
   }
 
   .md\:m-0 {
@@ -76084,6 +76108,14 @@ video {
     list-style-type: decimal;
   }
 
+  .lg\:list-circle {
+    list-style-type: circle;
+  }
+
+  .lg\:list-roman {
+    list-style-type: upper-roman;
+  }
+
   .lg\:m-0 {
     margin: 0;
   }
@@ -97124,6 +97156,14 @@ video {
 
   .xl\:list-decimal {
     list-style-type: decimal;
+  }
+
+  .xl\:list-circle {
+    list-style-type: circle;
+  }
+
+  .xl\:list-roman {
+    list-style-type: upper-roman;
   }
 
   .xl\:m-0 {
