@@ -1,7 +1,7 @@
 
 import React from 'react'
 
-export default function SingupSection() {
+export default function SignupSection() {
     return (
         <section style={{ backgroundImage: `url("${require('./../svgs/pattern-dark.svg')}"), linear-gradient(90deg,  #2f2040 0%, #394681 100%)` }}>
             <div className="container mx-auto px-6 text-center py-20">

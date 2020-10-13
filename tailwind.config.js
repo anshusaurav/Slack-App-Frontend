@@ -8,6 +8,11 @@ module.exports = {
   plugins: [],
   theme: {
     extend: {
+      listStyleType: {
+        none: 'none',
+        circle: 'circle',
+        roman: 'upper-roman',
+      },
       lineHeight: {
         '12': '3rem',
         '14': '3.5rem',

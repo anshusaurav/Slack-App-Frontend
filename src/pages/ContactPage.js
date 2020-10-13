@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ContactHero from "../components/ContactHero";
-import SingupSection from '../components/SingupSection';
+import SignupSection from '../components/SignupSection';
 import { SEND_MESSAGE } from "../graphql/queries"
 import { executeOperation } from "../graphql/helpers";
 class ContactPage extends Component {
@@ -79,9 +79,9 @@ class ContactPage extends Component {
                     </div>
                 </section>
 
-                <SingupSection />
+                <SignupSection />
                 <Footer />
-            </div >
+            </div>
         )
     }
 

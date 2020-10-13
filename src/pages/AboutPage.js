@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import SingupSection from '../components/SingupSection';
+import SignupSection from '../components/SignupSection';
 import AboutHero from '../components/AboutHero'
 class AboutPage extends Component {
     render() {
@@ -184,7 +184,7 @@ class AboutPage extends Component {
                         </div>
                     </div>
                 </section>
-                <SingupSection />
+                <SignupSection />
                 <Footer />
             </div >
         )

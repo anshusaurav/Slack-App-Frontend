@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Typical from 'react-typical'
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import SingupSection from '../components/SingupSection';
+import SignupSection from '../components/SignupSection';
 class LandingPage extends Component {
     render() {
         return (
@@ -111,7 +111,7 @@ class LandingPage extends Component {
                     </div>
                 </section>
 
-                <SingupSection/>
+                <SignupSection/>
                 <Footer/>
             </div>
         )
