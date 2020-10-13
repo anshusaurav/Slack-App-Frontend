@@ -23,7 +23,7 @@ export default function Footer() {
                             </li>
                             <li className="mt-2">
                                 <Link
-                                    href="#"
+                                    to="/contact"
                                     className="hover:underline text-gray-600 hover:text-orange-500"
                                 >Help</Link>
                             </li>
@@ -35,7 +35,7 @@ export default function Footer() {
                         <ul className="mb-4">
                             <li className="mt-2">
                                 <Link
-                                    href="#"
+                                    to="/terms"
                                     className="hover:underline text-gray-600 hover:text-orange-500"
                                 >Terms</Link>
                             </li>
