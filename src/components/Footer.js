@@ -54,13 +54,13 @@ export default function Footer() {
 
                             <li className="mt-2">
                                 <Link
-                                    href="#"
+                                    to="/about"
                                     className="hover:underline text-gray-600 hover:text-orange-500"
                                 >About Us</Link>
                             </li>
                             <li className="mt-2">
                                 <Link
-                                    href="#"
+                                    href="/contact"
                                     className="hover:underline text-gray-600 hover:text-orange-500"
                                 >Contact</Link>
                             </li>

@@ -5,6 +5,11 @@ import FAQHero from "../components/FAQHero";
 import SignupSection from '../components/SignupSection';
 class FAQPage extends Component {
     render() {
+        // let langs = ["Ruby", "ES6", "Scala"]
+        // return (<div>
+        //     {langs.map(it => <p>{it}</p>)}
+        // </div>)
+
         return (
             <div
                 className="text-gray-700 bg-white"
@@ -22,9 +27,9 @@ class FAQPage extends Component {
                             <h2 className="text-base leading-relaxed font-bold title-font mb-4 text-gray-900">What will Pupbot do as soon as it is time for a meeting?</h2>
                             <p className="leading-relaxed text-base mb-6">As soon as it is time for a meeting Pupbot will send a direct message to all the participants in the standup.</p>
                             <h2 className="text-base leading-relaxed font-bold title-font mb-4 text-gray-900">What if i don’t have anything to answer to a question?</h2>
-                            <p className="leading-relaxed text-base mb-6">Simply answer with the word <code>nothing</code>, <code>nope</code>, <code>none</code>, no or <code>-</code> and Geekbot will omit this answer from your report. This way your broadcast channel will not be full of unnecessary information.</p>
+                            <p className="leading-relaxed text-base mb-6">Simply answer with the word <code>nothing</code>, <code>nope</code>, <code>none</code>, no or <code>-</code> and Pupbot will omit this answer from your report. This way your broadcast channel will not be full of unnecessary information.</p>
                             <h2 className="text-base leading-relaxed font-bold title-font mb-4 text-gray-900">What happens if i don’t answer at all?</h2>
-                            <p className="leading-relaxed text-base mb-6">The current standup eventually expires and you can no longer report for that day. Geekbot will just ask again the next time you have a scheduled standup meeting.</p>
+                            <p className="leading-relaxed text-base mb-6">The current standup eventually expires and you can no longer report for that day. Pupbot will just ask again the next time you have a scheduled standup meeting.</p>
                             <h2 className="text-base leading-relaxed font-bold title-font mb-4 text-gray-900">How can i edit my posted report?</h2>
                             <p className="leading-relaxed text-base mb-6">This Feature will be available soon. Right now you can't edit your response</p>
                             <h2 className="text-base leading-relaxed font-bold title-font mb-4 text-gray-900">Where can the reports be published?</h2>
