@@ -20,6 +20,8 @@ const ContactPage = lazy(() => import("./pages/ContactPage"));
 
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsPage = lazy(() => import("./pages/TermsPage"))
+const FAQPage = lazy(() => import("./pages/FAQPage"))
+
 
 // import Dashboard from "./pages/Dashboard";
 // import CreateStandup from "./pages/CreateStandup";
@@ -175,6 +177,9 @@ class App extends React.Component {
           </Route>
           <Route exact path="/terms">
             <TermsPage />
+          </Route>
+          <Route exact path="/faq">
+            <FAQPage />
           </Route>
           <Route exact path="/login">
             {isLoggedIn ? (

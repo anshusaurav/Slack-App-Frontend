@@ -17,7 +17,7 @@ export default function Footer() {
                         <ul className="mb-4">
                             <li className="mt-2">
                                 <Link
-                                    href="#"
+                                    to="/faq"
                                     className="hover:underline text-gray-600 hover:text-orange-500"
                                 >FAQ</Link>
                             </li>
